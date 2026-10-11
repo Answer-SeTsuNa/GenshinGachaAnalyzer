@@ -1,0 +1,10 @@
+<UserControl x:Class="GenshinGachaAnalyzer.WPF.Controls.RecordTable" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+  <Grid Margin="18"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="280"/></Grid.ColumnDefinitions><TextBlock Text="▤ 抽卡记录" FontSize="18" FontWeight="SemiBold" VerticalAlignment="Center"/><TextBox Grid.Column="1" Text="{Binding Search, UpdateSourceTrigger=PropertyChanged, Delay=250}" Tag="搜索名称或日期" AutomationProperties.Name="搜索当前卡池的记录"/></Grid>
+  <DataGrid Grid.Row="1" ItemsSource="{Binding Rows}" Height="360" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+   <DataGrid.RowStyle><Style TargetType="DataGridRow"><Setter Property="Foreground" Value="{Binding QualityColor}"/></Style></DataGrid.RowStyle>
+   <DataGrid.Columns><DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="*"/><DataGridTextColumn Header="星级" Binding="{Binding RankText}" Width="75"/><DataGridTextColumn Header="类型" Binding="{Binding Kind}" Width="75"/><DataGridTextColumn Header="时间（UTC+8）" Binding="{Binding TimeText}" Width="180"/><DataGridTextColumn Header="来源" Binding="{Binding Source}" Width="100"/><DataGridTextColumn Header="记录 ID" Binding="{Binding RecordId}" Width="170"/></DataGrid.Columns>
+  </DataGrid>
+  <Grid Grid.Row="2" Margin="18"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><Button Content="← 上一页" Command="{Binding PreviousCommand}"/><TextBlock Grid.Column="1" Text="{Binding PageText}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Muted}" FontSize="12"/><Button Grid.Column="2" Content="下一页 →" Command="{Binding NextCommand}"/></Grid>
+ </Grid>
+</UserControl>

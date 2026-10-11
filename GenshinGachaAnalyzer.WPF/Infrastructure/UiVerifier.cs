@@ -1,0 +1,506 @@
+using System.Diagnostics;
+using System.Net.Http;
+using System.Text.Json.Nodes;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using GenshinGachaAnalyzer.Core.Models;
+using GenshinGachaAnalyzer.Core.Services;
+using GenshinGachaAnalyzer.WPF.ViewModels;
+using GenshinGachaAnalyzer.WPF.Views;
+using LiveChartsCore.SkiaSharpView;
+
+namespace GenshinGachaAnalyzer.WPF.Infrastructure;
+
+/// <summary>开发验证：渲染真实 WPF 页面，检查 Binding 错误；测试资料必须通过同一 UIGF 导入服务。</summary>
+internal static class UiVerifier
+{
+    public static async Task RunAsync(MainWindow window, MainViewModel shell, DatabaseService database, string output, string? fixture)
+    {
+        using var listener = new TextWriterTraceListener(Path.Combine(output, "bindings.log"));
+        PresentationTraceSources.DataBindingSource.Listeners.Add(listener);
+        PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
+        try
+        {
+            int decoded = await Task.Run(() =>
+            {
+                int count = 0;
+                foreach (var file in Directory.EnumerateFiles(Path.Combine(AppContext.BaseDirectory, "Resources", "Banners")))
+                {
+                    var image = new BitmapImage(); image.BeginInit(); image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.DecodePixelWidth = 32; image.UriSource = new Uri(file); image.EndInit(); image.Freeze();
+                    if (image.PixelHeight < 1) throw new InvalidOperationException("卡池图片解码失败：" + Path.GetFileName(file));
+                    count++;
+                }
+                return count;
+            });
+            if (decoded != shell.Catalog.Events.Select(e => e.BannerFile).Distinct().Count())
+                throw new InvalidOperationException("本地卡池图片数量不完整。");
+            File.WriteAllText(Path.Combine(output, "banner-assets.txt"), $"完整解码验证通过：{decoded} 张本地卡池图片。\n");
+            int itemIcons = await Task.Run(() =>
+            {
+                int count = 0;
+                foreach (var file in Directory.EnumerateFiles(Path.Combine(AppContext.BaseDirectory, "Resources", "Items"), "*.png"))
+                {
+                    var image = new BitmapImage(); image.BeginInit(); image.CacheOption = BitmapCacheOption.OnLoad;
+                    image.DecodePixelWidth = 32; image.UriSource = new Uri(file); image.EndInit(); image.Freeze();
+                    if (image.PixelHeight < 1) throw new InvalidOperationException("物品图片解码失败：" + Path.GetFileName(file));
+                    count++;
+                }
+                return count;
+            });
+            File.WriteAllText(Path.Combine(output, "item-assets.txt"), $"完整解码验证通过：{itemIcons} 张本地角色 / 武器图片。\n");
+            shell.SelectedDisplayScale = shell.DisplayScales.Single(s => s.Value == "1");
+            window.Width = 1640; window.Height = 1020;
+            shell.SelectedTheme = shell.Themes.Single(t => t.Value == "Light");
+            await RenderAsync(window, Path.Combine(output, "01-welcome.png"));
+            if (fixture is not null)
+            {
+                var service = new UigfService();
+                // 第二个合成账号移除标准允许省略的元数据，重现用户的最小 UIGF 文件。
+                // 修改的仅是隔离目录内的测试 JSON，仍通过正式预检与入库服务。
+                var input = JsonNode.Parse(await File.ReadAllTextAsync(Path.GetFullPath(fixture)))!;
+                if (input["hk4e"] is JsonArray inputAccounts && inputAccounts.Count >= 2)
+                    foreach (var entry in inputAccounts[1]!["list"]!.AsArray())
+                    {
+                        entry!.AsObject().Remove("rank_type"); entry.AsObject().Remove("name"); entry.AsObject().Remove("item_type");
+                    }
+                string minimalFixture = Path.Combine(output, "synthetic-missing-metadata.json");
+                await File.WriteAllTextAsync(minimalFixture, input.ToJsonString());
+                var import = await service.PreflightAsync(minimalFixture);
+                database.Insert(import.Records, import.Accounts);
+                await shell.InitializeAsync();
+                await RenderAsync(window, Path.Combine(output, "02-dashboard.png"));
+                foreach (var card in Descendants<Controls.PoolCard>(window))
+                {
+                    if (card.DataContext is not PoolViewModel pool) continue;
+                    var metrics = (Grid)card.FindName("MetricsPanel");
+                    var average = (Border)card.FindName("AverageTile");
+                    var upAverage = (Border)card.FindName("UpAverageTile");
+                    var extrema = (Grid)card.FindName("ExtremaColumn");
+                    if (extrema.TranslatePoint(new Point(), metrics).X <= average.TranslatePoint(new Point(), metrics).X)
+                        throw new InvalidOperationException("最欧最非未位于平均抽数右侧。");
+                    if (upAverage.IsVisible != pool.Analysis.UpAverage.HasValue)
+                        throw new InvalidOperationException("缺少 UP 平均抽数时仍显示占位。");
+                }
+                // 用实际渲染控件检查低抽数等比例填充，防止头像遮挡或模板阈值回归。
+                var progress = new Controls.ProportionalProgress { Width = 270, Height = 40, Maximum = 90 };
+                progress.Measure(new Size(270, 40)); progress.Arrange(new Rect(0, 0, 270, 40));
+                foreach (int count in new[] { 1, 5, 10, 20, 80, 90 })
+                {
+                    progress.Value = count;
+                    if (Math.Abs(progress.FillWidth - count * 3) > .001)
+                        throw new InvalidOperationException("五星背景进度未按抽数线性填充。");
+                }
+                File.WriteAllText(Path.Combine(output, "overview-layout.txt"), "最欧最非位于均值右侧；无 UP 均值隐藏；1/5/10/20/80/90 抽的填充宽度均等比例。\n");
+                if (shell.CurrentPage is DashboardViewModel proportions)
+                {
+                    proportions.RatioCommand.Execute(null);
+                    if (!proportions.IsRatioOpen || Math.Abs(proportions.Shares.Sum(s => s.Percent) - 100) > .001)
+                        throw new InvalidOperationException("五星比例面板分母或开关错误。");
+                    await RenderAsync(window, Path.Combine(output, "02-five-star-ratio.png"));
+                    proportions.CloseRatioCommand.Execute(null);
+                }
+                var detailButtons = Descendants<Button>(window).Where(b => b.Content?.ToString() == "查看详细  →").ToArray();
+                if (detailButtons.Length != 4 || detailButtons.Any(b => b.Command is null || b.CommandParameter is not PoolViewModel))
+                    throw new InvalidOperationException("仪表盘查看详细命令绑定缺失。");
+                detailButtons[0].Command!.Execute(detailButtons[0].CommandParameter);
+                if (shell.CurrentPage is not DetailViewModel) throw new InvalidOperationException("仪表盘详情导航失败。");
+                foreach (var pool in PoolCatalog.MainPools)
+                {
+                    shell.ShowDetail(pool);
+                    await RenderAsync(window, Path.Combine(output, $"03-detail-{pool.Type}.png"));
+                    if (shell.CurrentPage is DetailViewModel detail)
+                    {
+                        if (detail.RecordsTable.Rows.Count != Math.Min(50, detail.Pool.Analysis.Total))
+                            throw new InvalidOperationException("详情原始记录表格未限制每页 50 条。");
+                        if (detail.RecordsTable.Rows.Any(r => r.Record.Uid != shell.SelectedAccount?.Uid || r.Record.PoolType != pool.Type))
+                            throw new InvalidOperationException("详情表格混入其他 UID 或卡池记录。");
+                        if (pool.Type == "301")
+                        {
+                            var table = Descendants<Controls.RecordTable>(window).First(t => t.IsVisible);
+                            table.BringIntoView();
+                            await RenderAsync(window, Path.Combine(output, "03-detail-original-table.png"));
+                            detail.RecordsTable.NextCommand.Execute(null);
+                            if (detail.Pool.Analysis.Total > 50 && !detail.RecordsTable.PageText.StartsWith("第 2"))
+                                throw new InvalidOperationException("详情表格下一页未生效。");
+                            detail.RecordsTable.PreviousCommand.Execute(null);
+                        }
+                        var axis = detail.YAxes[0];
+                        if (!axis.ForceStepToMin || axis.MinStep < 1 || axis.MaxLimit / axis.MinStep > 8)
+                            throw new InvalidOperationException("直方图 Y 轴刻度过密。");
+                        var many = new PoolViewModel(detail.Pool.Analysis with { Golds = Enumerable.Repeat(detail.Pool.Analysis.Golds.First(), 200).ToArray() });
+                        if (many.GridGoldItems.Count != 40) throw new InvalidOperationException("出金网格未限制初次创建的物品卡数。");
+                        many.LoadMoreGrid();
+                        if (many.GridGoldItems.Count != 80) throw new InvalidOperationException("出金网格分批加载失败。");
+                        detail.SelectBin(0);
+                        if (detail.Timeline.Any(g => g.Pulls is < 1 or > 10)) throw new InvalidOperationException("图表区间筛选失败。");
+                    }
+                }
+                var preview = new ImportPreviewWindow { DataContext = new ImportPreviewViewModel(import), ShowInTaskbar = false, ShowActivated = false };
+                preview.Show(); await RenderAsync(preview, Path.Combine(output, "04-import-preview.png")); preview.Close();
+                var export = new ExportWindow { DataContext = new ExportSelectionViewModel(database.GetAccounts()), ShowInTaskbar = false, ShowActivated = false };
+                export.Show(); await RenderAsync(export, Path.Combine(output, "05-export.png")); export.Close();
+                var original = import.Records[0];
+                var conflictReport = database.Insert([original with { Name = "合成冲突名称" }]);
+                if (conflictReport.Details.Count != 1 || conflictReport.LogPath is null)
+                    throw new InvalidOperationException("未生成可读的冲突详情日志。");
+                var result = new WriteResultWindow { DataContext = new WriteResultViewModel(conflictReport), ShowInTaskbar = false, ShowActivated = false };
+                result.Show(); await RenderAsync(result, Path.Combine(output, "05-result.png")); result.Close();
+                var addAccount = new AddAccountWindow { ShowInTaskbar = false, ShowActivated = false };
+                addAccount.Show(); await RenderAsync(addAccount, Path.Combine(output, "05-add-account.png")); addAccount.Close();
+                var clearModel = new ClearAccountViewModel(import.Accounts[0].Uid, import.Records.Count);
+                if (clearModel.CanConfirm) throw new InvalidOperationException("清空确认不能默认通过。");
+                clearModel.Confirmation = import.Accounts[0].Uid;
+                if (!clearModel.CanConfirm) throw new InvalidOperationException("完整 UID 确认失败。");
+                var clear = new ClearAccountWindow { DataContext = clearModel, ShowInTaskbar = false, ShowActivated = false };
+                clear.Show(); await RenderAsync(clear, Path.Combine(output, "05-clear-account.png")); clear.Close();
+                shell.ShowDashboard(); await shell.NavigationReady;
+                if (shell.CurrentPage is DashboardViewModel dashboard) foreach (var pool in dashboard.Pools) pool.IsGridLayout = true;
+                await RenderAsync(window, Path.Combine(output, "06-overview-grid.png"));
+                if (shell.CurrentPage is DashboardViewModel anchoring)
+                {
+                    var pool = anchoring.Pools[0]; pool.AnchorCommand.Execute("min");
+                    await RenderAsync(window, Path.Combine(output, "06-grid-anchor.png"));
+                    if (pool.AnchorTarget is null || !pool.AnchorTarget.IsHighlighted || !pool.GridGoldItems.Contains(pool.AnchorTarget)) throw new InvalidOperationException("网格定位与高亮失败。");
+                    pool.IsUpCycle = true;
+                    if (pool.GoldItems.Any(g => shell.Catalog.IsCurrentUp(g.Entry.Record) == false)) throw new InvalidOperationException("合并模式仍包含已知非 UP。");
+                    await RenderAsync(window, Path.Combine(output, "06-up-cycle.png")); pool.IsUpCycle = false;
+                }
+                if (Descendants<Controls.PoolCard>(window).Any(card => card.ActualWidth > window.ActualWidth / 2))
+                    throw new InvalidOperationException("网格显示把单个卡池撑宽，四列宽度约束失败。");
+                if (shell.CurrentPage is DashboardViewModel collapsed) foreach (var pool in collapsed.Pools) pool.IsExpanded = false;
+                await RenderAsync(window, Path.Combine(output, "06-overview-collapsed.png"));
+                if (shell.CurrentPage is DashboardViewModel expanded) foreach (var pool in expanded.Pools) pool.IsExpanded = true;
+                await RenderAsync(window, Path.Combine(output, "06-expanded.png"));
+                if (SystemParameters.ClientAreaAnimation && shell.CurrentPage is DashboardViewModel motion)
+                {
+                    var reveal = Descendants<Controls.AnimatedReveal>(window).First();
+                    await ObserveIntermediateAsync(reveal, Controls.AnimatedReveal.RevealProperty, () => motion.Pools[0].IsExpanded = false);
+                    await Task.Delay(300);
+                    if (reveal.Reveal > .001) throw new InvalidOperationException("收起动画未完成。");
+                    motion.Pools[0].IsExpanded = true;
+                }
+                window.Width = 1180; window.Height = 800;
+                await RenderAsync(window, Path.Combine(output, "06-small-window.png"));
+                window.Height = 650;
+                await RenderAsync(window, Path.Combine(output, "06-low-height-window.png"));
+                window.Width = 1640; window.Height = 1020;
+                foreach (string page in new[] { "历史", "角色", "武器", "复刻日历", "我的" })
+                {
+                    var timer = Stopwatch.StartNew();
+                    shell.ShowSection(page); await shell.NavigationReady;
+                    if (shell.CurrentPage is CountdownViewModel readyCountdown) await readyCountdown.Ready;
+                    await RenderAsync(window, Path.Combine(output, $"08-{page}.png"));
+                    if (page == "复刻日历")
+                    {
+                        File.WriteAllText(Path.Combine(output, "countdown-performance.txt"), $"首次打开并渲染：{timer.Elapsed.TotalMilliseconds:F0} ms\n");
+                        if (timer.Elapsed > TimeSpan.FromSeconds(5)) throw new InvalidOperationException("复刻日历首帧耗时超过 5 秒。");
+                        int realized = Descendants<ListBoxItem>(window).Count();
+                        int count = ((CountdownViewModel)shell.CurrentPage!).Sections.Sum(s => s.Items.Count);
+                        if (count > 50 && realized >= count) throw new InvalidOperationException("复刻日历列表未虚拟化，创建了全部条目。");
+                    }
+                    if (shell.CurrentPage is HistoryViewModel history)
+                    {
+                        if (history.Groups.SelectMany(g => g.Group.Records).Any(r => r.PoolType == "200")) throw new InvalidOperationException("历史混入常驻祈愿。");
+                        if (!history.Groups.Any(g => g.Group.Event is not null && g.Group.Records.Count == 0)) throw new InvalidOperationException("历史未显示无本地记录的排期。");
+                        history.TimelineMode = false;
+                        if (history.Groups.Any(g => g.Group.Records.Count == 0)) throw new InvalidOperationException("抽卡足迹包含无记录卡池。");
+                        await RenderAsync(window, Path.Combine(output, "08-history-footprints.png"));
+                        history.TimelineMode = true;
+                        history.Search = "10000046";
+                        if (history.Groups.Count != 0) throw new InvalidOperationException("历史仍支持物品 ID 查询。");
+                        history.Search = "";
+                        history.SelectedGroup = history.Groups.FirstOrDefault(g => g.Group.Event is not null && g.Group.Records.Any(r => r.RankType == "5")) ?? history.SelectedGroup;
+                        await RenderAsync(window, Path.Combine(output, "08-history-period.png"));
+                        int initial = history.Groups.Sum(g => g.Group.Records.Count);
+                        history.ShowSummary = false;
+                        if (history.Groups.Sum(g => g.Group.Records.Count) != initial) throw new InvalidOperationException("历史筛选丢失记录。");
+                        var paged = history.Groups.FirstOrDefault(g => g.Group.Records.Count > HistoryViewModel.PageSize);
+                        if (paged is not null)
+                        {
+                            history.SelectedGroup = paged; var firstId = history.Records[0].RecordId;
+                            if (history.Records.Count != HistoryViewModel.PageSize) throw new InvalidOperationException("历史首分页大小错误。");
+                            history.NextPageCommand.Execute(null);
+                            if (history.PageIndex != 2 || history.Records[0].RecordId == firstId || history.Records.Count > HistoryViewModel.PageSize) throw new InvalidOperationException("历史分页失败。");
+                            history.PreviousPageCommand.Execute(null);
+                            if (history.PageIndex != 1 || history.Records[0].RecordId != firstId) throw new InvalidOperationException("返回历史首页丢失记录。");
+                        }
+                        // 将右侧滚动至原始记录，检查分页与星级颜色的实际展示。
+                        var right = Descendants<ScrollViewer>(window).FirstOrDefault(v => v.Content is StackPanel && v.ScrollableHeight > 0);
+                        right?.ScrollToBottom();
+                        await RenderAsync(window, Path.Combine(output, "08-history-records.png"));
+                        history.SelectedEra = history.Eras.Single(e => e.Value == "2");
+                        if (history.Groups.Any(g => g.Group.Event?.Version.Split('.')[0] != "2")) throw new InvalidOperationException("大版本筛选失败。");
+                        await RenderAsync(window, Path.Combine(output, "08-history-era-inazuma.png")); history.SelectedEra = history.Eras[0];
+                    }
+                    if (shell.CurrentPage is CollectionViewModel collection && collection.Sections.FirstOrDefault()?.Items.FirstOrDefault() is { } item)
+                    {
+                        collection.SelectItemCommand.Execute(item);
+                        if (!collection.HasSelection || collection.SelectedRecords.Any(r => r.Item.Id != item.Id)) throw new InvalidOperationException("物品明细选择失败。");
+                        await RenderAsync(window, Path.Combine(output, $"08-{page}-selected.png"));
+                        collection.Search = item.Id;
+                        if (collection.HasItems) throw new InvalidOperationException("物品汇总仍支持 ID 查询。");
+                        collection.Search = "";
+                    }
+                    if (shell.CurrentPage is CountdownViewModel countdown && countdown.Sections.SelectMany(s => s.Items).FirstOrDefault(i => i.Name == "胡桃") is { } up)
+                    {
+                        countdown.SelectItemCommand.Execute(up);
+                        if (countdown.Histories.Count != 5 || !countdown.HistoryTitle.Contains("5 次")) throw new InvalidOperationException("胡桃 UP 排期没有完整展示五次。");
+                        await RenderAsync(window, Path.Combine(output, "08-countdown-selected.png"));
+                    }
+                }
+                // 缓存页面也必须播放可见的中间帧。
+                shell.ShowSection("历史"); await shell.NavigationReady;
+                var active = Descendants<Controls.TransitionPresenter>(window).Single().Children.OfType<ContentPresenter>().Single(p => p.Visibility == Visibility.Visible);
+                await ObserveIntermediateAsync(active, UIElement.OpacityProperty, () => window.UpdateLayout());
+                await RenderAsync(window, Path.Combine(output, "09-page-transition.png"));
+                shell.ShowDashboard(); await shell.NavigationReady; shell.SelectedDisplayScale = shell.DisplayScales.Single(s => s.Value == "1.5");
+                window.Width = 2800; window.Height = 1600;
+                await RenderAsync(window, Path.Combine(output, "09-large-screen-150-percent.png"));
+                shell.SelectedDisplayScale = shell.DisplayScales.Single(s => s.Value == "1");
+                window.Width = 1640; window.Height = 1020;
+                shell.SelectedTheme = shell.Themes.Single(t => t.Value == "Dark");
+                shell.ShowDashboard(); await shell.NavigationReady; await RenderAsync(window, Path.Combine(output, "09-night-overview.png"));
+                shell.ShowDetail(PoolCatalog.MainPools[0]); await RenderAsync(window, Path.Combine(output, "09-night-chart.png"));
+                shell.ShowSection("历史"); await RenderAsync(window, Path.Combine(output, "09-night-history.png"));
+                shell.ShowSection("复刻日历"); await RenderAsync(window, Path.Combine(output, "09-night-countdown.png"));
+                shell.SettingsCommand.Execute(null); await RenderAsync(window, Path.Combine(output, "09-night-settings.png"));
+                shell.SelectedTheme = shell.Themes.Single(t => t.Value == "Light");
+                shell.ShowSection("我的"); await shell.NavigationReady;
+                if (shell.CurrentPage is PersonalViewModel footprint)
+                {
+                    footprint.ExcludeStandard = false;
+                    if (((ColumnSeries<int>)footprint.Series[0]).Values!.Sum() != shell.CurrentRecords.Count)
+                        throw new InvalidOperationException("月度足迹包含常驻时与账号记录总数不一致。");
+                    await RenderAsync(window, Path.Combine(output, "11-months-with-standard.png"));
+                    footprint.ExcludeStandard = true;
+                    if (((ColumnSeries<int>)footprint.Series[0]).Values!.Sum() != shell.CurrentRecords.Count(r => r.PoolType is "301" or "302" or "500"))
+                        throw new InvalidOperationException("月度足迹过滤常驻未生效。");
+                }
+                if (shell.Styles.Count != 6 || shell.Styles.Any(s => s.Key == "Puppet" || s.Name.Contains('·')))
+                    throw new InvalidOperationException("已移除主题或主题旧名称仍在显示。");
+                var expectedElements = new Dictionary<string, string> { ["Ayaka"] = "cryo", ["Klee"] = "pyro", ["Zhongli"] = "geo", ["Furina"] = "hydro", ["Varesa"] = "electro" };
+                foreach (var style in shell.Styles)
+                {
+                    shell.SelectedStyle = style;
+                    if (style.Key == "Gear")
+                    {
+                        if (Application.Current.Resources["ThemeDrawing"] is not DrawingGroup pupil || !pupil.IsFrozen || pupil.Children.Count != 2 || pupil.Children.Any(c => c is not GeometryDrawing))
+                            throw new InvalidOperationException("木偶未使用独立眼内齿轮矢量纹饰。");
+                        var contour = ((GeometryDrawing)pupil.Children[1]).Geometry;
+                        if (contour.FillContains(new Point(160, 160)) || !contour.FillContains(new Point(160, 40)) || Math.Abs(pupil.Bounds.Width - pupil.Bounds.Height) > .01)
+                            throw new InvalidOperationException("木偶齿轮中心孔、齿尖或正圆比例有误。");
+                    }
+                    else
+                    {
+                    var icon = Services.ThemeArtwork.IconFor(style.Key);
+                    if (Services.ThemeArtwork.ElementFor(style.Key) != expectedElements[style.Key] || !icon.IsFrozen || icon.PixelWidth != 84 || icon.PixelHeight != 84)
+                        throw new InvalidOperationException("元素图标映射、共享缓存或原图尺寸有误。");
+                    if (Application.Current.Resources["ThemeDrawing"] is not DrawingGroup drawing || drawing.Children.Single() is not ImageDrawing originalIconDrawing || !ReferenceEquals(originalIconDrawing.ImageSource, icon))
+                        throw new InvalidOperationException("主题预览未使用官方元素原图。");
+                    }
+                    await RenderAsync(window, Path.Combine(output, $"11-theme-{style.Key}.png"));
+                    foreach (var mode in new[] { "Light", "Dark" })
+                    {
+                        shell.SelectedTheme = shell.Themes.Single(t => t.Value == mode);
+                        shell.SettingsCommand.Execute(null);
+                        await RenderAsync(window, Path.Combine(output, $"12-theme-{style.Key}-{mode}-settings.png"));
+                        shell.ShowDashboard();
+                        await RenderAsync(window, Path.Combine(output, $"13-theme-{style.Key}-{mode}-dashboard.png"));
+                        shell.SettingsCommand.Execute(null);
+                        var emblem = new Controls.ThemeEmblem { Width = 640, Height = 640 };
+                        emblem.Measure(new Size(640, 640)); emblem.Arrange(new Rect(0, 0, 640, 640));
+                        var image = new RenderTargetBitmap(640, 640, 96, 96, PixelFormats.Pbgra32); image.Render(emblem);
+                        var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(image));
+                        using var imageFile = File.Create(Path.Combine(output, $"12-emblem-{style.Key}-{mode}.png")); encoder.Save(imageFile);
+                    }
+                    shell.ShowSection("我的"); await shell.NavigationReady;
+                }
+                shell.SelectedStyle = shell.Styles[0];
+                shell.SemiTransparent = true; shell.OverlayOpacity = .45; shell.PanelOpacity = .7;
+                shell.SettingsCommand.Execute(null);
+                await RenderAsync(window, Path.Combine(output, "11-acrylic-settings.png"));
+                shell.SemiTransparent = false;
+                await RenderAsync(window, Path.Combine(output, "11-opaque-settings.png"));
+                shell.SemiTransparent = true; shell.OverlayOpacity = .72; shell.PanelOpacity = .88;
+                shell.DeveloperMode = true;
+                DiagnosticLog.Error("合成错误验证：凭据应隐藏", new InvalidOperationException("authkey=SYNTHETIC_TOKEN_TO_REDACT"));
+                if (DiagnosticLog.ReadLatest().Contains("SYNTHETIC_TOKEN_TO_REDACT")) throw new InvalidOperationException("开发者日志泄露凭据。");
+                var devLog = new DeveloperLogWindow { ShowInTaskbar = false, ShowActivated = false };
+                devLog.Show(); await RenderAsync(devLog, Path.Combine(output, "11-developer-log.png")); devLog.Close();
+                shell.DeveloperMode = false;
+                var url = new UrlWindow { ShowInTaskbar = false, ShowActivated = false }; url.Show();
+                await RenderAsync(url, Path.Combine(output, "11-url-dialog.png")); url.Close();
+                // 重新加载使缓存失效，模拟后台统计途中用户立即切至设置。
+                await shell.InitializeAsync(); shell.ShowSection("角色"); var pendingNavigation = shell.NavigationReady;
+                shell.SettingsCommand.Execute(null); await pendingNavigation;
+                if (shell.CurrentPage is not SettingsViewModel) throw new InvalidOperationException("旧导航覆盖了新页面。");
+                // 在隔离数据库重现删除后切换账号的刷新，断言图表数据与剩余原始记录均保留。
+                var accounts = database.GetAccounts();
+                if (accounts.Count >= 2)
+                {
+                    var remaining = database.GetRecords(accounts[1].Uid);
+                    var analyzer = new AnalysisService(new CatalogBannerProvider(shell.Catalog), shell.Catalog);
+                    var expected = PoolCatalog.MainPools.Select(p => analyzer.Analyze(remaining, p)).ToArray();
+                    if (expected.Sum(p => p.Golds.Count) == 0 || expected.Sum(p => p.Histogram.Sum(b => b.Count)) == 0)
+                        throw new InvalidOperationException("缺省星级的合成账号未从元数据恢复图表统计。");
+                    database.ClearAccount(accounts[0].Uid); await shell.InitializeAsync(); shell.ShowDashboard(); await shell.NavigationReady;
+                    if (shell.CurrentPage is not DashboardViewModel restored || restored.Pools.Where((p, i) => p.Analysis.Total != expected[i].Total || p.Analysis.Golds.Count != expected[i].Golds.Count || !p.Analysis.Histogram.Select(b => b.Count).SequenceEqual(expected[i].Histogram.Select(b => b.Count))).Any())
+                        throw new InvalidOperationException("删除另一个账号后图表数据丢失。");
+                    if (!remaining.SequenceEqual(database.GetRecords(accounts[1].Uid))) throw new InvalidOperationException("删除影响了其他账号记录。");
+                    await RenderAsync(window, Path.Combine(output, "10-after-clear-other-account.png"));
+                    shell.ShowDetail(PoolCatalog.MainPools[0]); await RenderAsync(window, Path.Combine(output, "10-after-clear-chart.png"));
+                }
+            }
+            shell.SettingsCommand.Execute(null);
+            await RenderAsync(window, Path.Combine(output, "07-settings.png"));
+            shell.SelectedTheme = shell.Themes[0];
+            // 合成故障库：加载失败必须显示专门页面，禁止把错误渲染成零账号引导。
+            string failureDirectory = Path.Combine(output, "synthetic-database-failure");
+            Directory.CreateDirectory(failureDirectory);
+            string failurePath = Path.Combine(failureDirectory, "gacha.db");
+            const string brokenContent = "synthetic-not-a-database";
+            await File.WriteAllTextAsync(failurePath, brokenContent);
+            using var failureClient = new HttpClient();
+            var failureShell = new MainViewModel(new DatabaseService(failurePath), new UigfService(),
+                new AnalysisService(new CatalogBannerProvider()), new GachaLogService(failureClient),
+                new SettingsService(Path.Combine(failureDirectory, "settings.json")), shell.Dialogs, null);
+            await failureShell.InitializeAsync();
+            if (!failureShell.HasError || failureShell.CurrentPage is not DatabaseUnavailableViewModel
+                || !failureShell.ArchiveText.Contains("未加载") || failureShell.ImportCommand.CanExecute(null))
+                throw new InvalidOperationException("数据库读取失败被当成空账号，或仍开放写入入口。");
+            failureShell.ShowSection("我的"); await failureShell.NavigationReady;
+            if (failureShell.CurrentPage is not DatabaseUnavailableViewModel)
+                throw new InvalidOperationException("加载失败后导航显示了虚构的空统计。");
+            window.DataContext = failureShell;
+            await RenderAsync(window, Path.Combine(output, "14-database-unavailable.png"));
+            if (await File.ReadAllTextAsync(failurePath) != brokenContent)
+                throw new InvalidOperationException("损坏的合成数据库被覆盖。");
+            // 仅在隔离目录把合成故障文件留存，再验证重试重新加载而非误走游戏获取。
+            File.Move(failurePath, failurePath + ".preserved");
+            failureShell.RetryCommand.Execute(null);
+            for (int retry = 0; failureShell.IsBusy && retry < 150; retry++) await Task.Delay(20);
+            if (failureShell.IsBusy || failureShell.HasError || failureShell.CurrentPage is DatabaseUnavailableViewModel
+                || !failureShell.ImportCommand.CanExecute(null))
+                throw new InvalidOperationException("故障解除后重试未恢复本地档案入口。");
+            window.DataContext = shell;
+            await VerifyFetchRoutingAsync(window, shell, output);
+            listener.Flush();
+            File.WriteAllText(Path.Combine(output, "ui-verification.txt"), "WPF 页面渲染、详情区间筛选、五个页签、历史筛选、物品明细、复刻日历历史与清空确认验证完成。全部档案为合成测试资料，请检查 PNG 和 bindings.log。\n");
+        }
+        finally { PresentationTraceSources.DataBindingSource.Listeners.Remove(listener); }
+    }
+    private static async Task VerifyFetchRoutingAsync(MainWindow window, MainViewModel originalShell, string output)
+    {
+        // 真实 URL 命令 + 合成 API 响应，验证 UI 在首个事务提交后自动切 UID。
+        // 单独的新数据库与设置，不连接真实账号，也不读取作者的缓存或档案。
+        foreach (string scenario in new[] { "existing", "new", "interrupted" })
+        {
+            string directory = Path.Combine(output, "synthetic-fetch-" + scenario);
+            Directory.CreateDirectory(directory);
+            var database = new DatabaseService(Path.Combine(directory, "gacha.db")); database.Initialize();
+            var original = new GachaRecord { Id = "999", Uid = "100000001", GachaType = "301", ItemId = "10000030",
+                Name = "钟离", ItemType = "角色", RankType = "5", Count = "1", Time = new DateTime(2025, 1, 1), Source = "UIGF导入" };
+            var incoming = original with { Id = "20", Uid = "200000001", ItemId = "10000131", Name = "尼可", Source = "游戏获取" };
+            database.Insert([original]);
+            if (scenario == "existing") database.Insert([incoming with { Source = "UIGF导入" }]);
+            MainViewModel? target = null; int requests = 0;
+            using var client = new HttpClient(new SyntheticFetchHandler(() =>
+            {
+                requests++;
+                if (requests > 1 && target?.SelectedAccount?.Uid != incoming.Uid)
+                    throw new InvalidOperationException("首个事务提交后未立即切到实际 UID。");
+                if (scenario == "interrupted" && requests > 1)
+                    return new(System.Net.HttpStatusCode.Forbidden);
+                string response = requests == 1 ? System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    retcode = 0, data = new { region = "cn_gf01", list = new[] { new
+                    { id = incoming.Id, uid = incoming.Uid, gacha_type = incoming.GachaType, item_id = incoming.ItemId,
+                        name = incoming.Name, item_type = incoming.ItemType, rank_type = incoming.RankType,
+                        count = "1", time = "2025-01-01 00:00:00" } } }
+                }) : "{\"retcode\":0,\"data\":{\"region\":\"cn_gf01\",\"list\":[]}}";
+                return new(System.Net.HttpStatusCode.OK) { Content = new StringContent(response) };
+            }));
+            var settings = new SettingsService(Path.Combine(directory, "settings.json"));
+            settings.Save(new(GamePath: directory));
+            target = new(database, new UigfService(), new AnalysisService(new CatalogBannerProvider()),
+                new GachaLogService(client), settings, new SyntheticFetchDialogs(), null);
+            await target.InitializeAsync();
+            if (target.SelectedAccount?.Uid != original.Uid) throw new InvalidOperationException("合成账号初始选择错误。");
+            window.DataContext = target;
+            target.FetchUrlCommand.Execute(null);
+            for (int attempt = 0; target.IsBusy && attempt < 750; attempt++) await Task.Delay(20);
+            if (target.IsBusy || target.SelectedAccount?.Uid != incoming.Uid || target.HasError != (scenario == "interrupted")
+                || database.GetAccounts().Count != 2 || database.GetRecords(original.Uid).Single() != original
+                || database.GetRecords(incoming.Uid).Count != 1)
+                throw new InvalidOperationException("自动切换 / 新建 UID 或网络中断后的账号保留验证失败：" + scenario);
+            if (await ItemIconCache.GetAsync(incoming.ItemId) is not BitmapSource image || image.PixelWidth < 1)
+                throw new InvalidOperationException("尼可的官方本地图标未能解码。");
+            await RenderAsync(window, Path.Combine(output, "15-fetch-" + scenario + ".png"));
+        }
+        window.DataContext = originalShell;
+        File.WriteAllText(Path.Combine(output, "fetch-account-routing.txt"),
+            "真实 URL 命令：自动切换已有 UID、自动创建新 UID、后续网络中断仍显示已保存的目标 UID；原账号不变；尼可官方 PNG 解码通过。仅使用合成 API / 隔离档案。\n");
+    }
+    private sealed class SyntheticFetchHandler(Func<HttpResponseMessage> respond) : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token) => Task.FromResult(respond());
+    }
+    private sealed class SyntheticFetchDialogs : Services.IAppDialogs
+    {
+        public GachaCredential? ChooseGachaUrl() => GachaLogService.TryParseCredential(
+            "https://public-operation-hk4e.mihoyo.com/gacha_info/api/getGachaLog?authkey=SYNTHETIC_TEST_ONLY&region=cn_gf01");
+        public string? ChooseImportFile() => null;
+        public string? ChooseExportFile() => null;
+        public string? ChooseGameFolder() => null;
+        public Services.DataSourceChoice ChooseDataSource() => Services.DataSourceChoice.Cancel;
+        public bool ConfirmImport(PreparedImport import) => false;
+        public IReadOnlyList<string>? SelectExportAccounts(IReadOnlyList<Account> accounts) => null;
+        public bool ConfirmClearAccount(string uid, int count) => false;
+        public void ShowWriteResult(WriteReport result) => throw new InvalidOperationException("合成 URL 获取产生意外冲突。");
+        public void Explain(string title, string message) => throw new InvalidOperationException("合成 URL 获取出现意外对话框。");
+        public void OpenPath(string path) { }
+        public void OpenLink(string url) { }
+    }
+    private static IEnumerable<T> Descendants<T>(DependencyObject parent) where T : DependencyObject
+    {
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is UIElement { IsVisible: false }) continue;
+            if (child is T match) yield return match;
+            foreach (var descendant in Descendants<T>(child)) yield return descendant;
+        }
+    }
+    private static async Task ObserveIntermediateAsync(DependencyObject target, DependencyProperty property, Action begin)
+    {
+        // 观察真实属性变化，不假定固定 60ms 时渲染线程已经提交了第一帧。
+        var descriptor = System.ComponentModel.DependencyPropertyDescriptor.FromProperty(property, target.GetType());
+        var observed = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        void Changed(object? sender, EventArgs args)
+        {
+            if (target.GetValue(property) is double value && value > 0 && value < 1) observed.TrySetResult();
+        }
+        descriptor.AddValueChanged(target, Changed);
+        try { begin(); Changed(null, EventArgs.Empty); await observed.Task.WaitAsync(TimeSpan.FromSeconds(5)); }
+        finally { descriptor.RemoveValueChanged(target, Changed); }
+    }
+    private static async Task RenderAsync(Window window, string path)
+    {
+        File.AppendAllText(Path.Combine(Path.GetDirectoryName(path)!, "ui-render-progress.log"), Path.GetFileName(path) + " navigation\n");
+        if (window.DataContext is MainViewModel shell) await shell.NavigationReady.WaitAsync(TimeSpan.FromSeconds(15));
+        // 连续图表渲染时 ApplicationIdle 可能始终无法调度；用正常优先级并限制等待。
+        await window.Dispatcher.InvokeAsync(() => window.UpdateLayout(), DispatcherPriority.Normal).Task.WaitAsync(TimeSpan.FromSeconds(15));
+        File.AppendAllText(Path.Combine(Path.GetDirectoryName(path)!, "ui-render-progress.log"), Path.GetFileName(path) + " layout ready\n");
+        await Task.Delay(450); // 等待 Skia 绘制帧，不参与产品流程。
+        var bitmap = new RenderTargetBitmap((int)window.ActualWidth, (int)window.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+        File.AppendAllText(Path.Combine(Path.GetDirectoryName(path)!, "ui-render-progress.log"), Path.GetFileName(path) + " capture\n");
+        bitmap.Render(window);
+        File.AppendAllText(Path.Combine(Path.GetDirectoryName(path)!, "ui-render-progress.log"), Path.GetFileName(path) + " captured\n");
+        var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
+        using var file = File.Create(path); encoder.Save(file);
+    }
+}

@@ -1,0 +1,2620 @@
+[
+  {
+    "Id": "10000002",
+    "Name": "神里绫华",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Ayaka"
+  },
+  {
+    "Id": "10000003",
+    "Name": "琴",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Qin"
+  },
+  {
+    "Id": "10000006",
+    "Name": "丽莎",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Lisa"
+  },
+  {
+    "Id": "10000014",
+    "Name": "芭芭拉",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Barbara"
+  },
+  {
+    "Id": "10000015",
+    "Name": "凯亚",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Kaeya"
+  },
+  {
+    "Id": "10000016",
+    "Name": "迪卢克",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Diluc"
+  },
+  {
+    "Id": "10000020",
+    "Name": "雷泽",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Razor"
+  },
+  {
+    "Id": "10000021",
+    "Name": "安柏",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Ambor"
+  },
+  {
+    "Id": "10000022",
+    "Name": "温迪",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Venti"
+  },
+  {
+    "Id": "10000023",
+    "Name": "香菱",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Xiangling"
+  },
+  {
+    "Id": "10000024",
+    "Name": "北斗",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Beidou"
+  },
+  {
+    "Id": "10000025",
+    "Name": "行秋",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Xingqiu"
+  },
+  {
+    "Id": "10000026",
+    "Name": "魈",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Xiao"
+  },
+  {
+    "Id": "10000027",
+    "Name": "凝光",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Ningguang"
+  },
+  {
+    "Id": "10000029",
+    "Name": "可莉",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Klee"
+  },
+  {
+    "Id": "10000030",
+    "Name": "钟离",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Zhongli"
+  },
+  {
+    "Id": "10000031",
+    "Name": "菲谢尔",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Fischl"
+  },
+  {
+    "Id": "10000032",
+    "Name": "班尼特",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Bennett"
+  },
+  {
+    "Id": "10000033",
+    "Name": "达达利亚",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Tartaglia"
+  },
+  {
+    "Id": "10000034",
+    "Name": "诺艾尔",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Noel"
+  },
+  {
+    "Id": "10000035",
+    "Name": "七七",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Qiqi"
+  },
+  {
+    "Id": "10000036",
+    "Name": "重云",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Chongyun"
+  },
+  {
+    "Id": "10000037",
+    "Name": "甘雨",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Ganyu"
+  },
+  {
+    "Id": "10000038",
+    "Name": "阿贝多",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Albedo"
+  },
+  {
+    "Id": "10000039",
+    "Name": "迪奥娜",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Diona"
+  },
+  {
+    "Id": "10000041",
+    "Name": "莫娜",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Mona"
+  },
+  {
+    "Id": "10000042",
+    "Name": "刻晴",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Keqing"
+  },
+  {
+    "Id": "10000043",
+    "Name": "砂糖",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Sucrose"
+  },
+  {
+    "Id": "10000044",
+    "Name": "辛焱",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Xinyan"
+  },
+  {
+    "Id": "10000045",
+    "Name": "罗莎莉亚",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Rosaria"
+  },
+  {
+    "Id": "10000046",
+    "Name": "胡桃",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Hutao"
+  },
+  {
+    "Id": "10000047",
+    "Name": "枫原万叶",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Kazuha"
+  },
+  {
+    "Id": "10000048",
+    "Name": "烟绯",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Feiyan"
+  },
+  {
+    "Id": "10000049",
+    "Name": "宵宫",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Yoimiya"
+  },
+  {
+    "Id": "10000050",
+    "Name": "托马",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Tohma"
+  },
+  {
+    "Id": "10000051",
+    "Name": "优菈",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Eula"
+  },
+  {
+    "Id": "10000052",
+    "Name": "雷电将军",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Shougun"
+  },
+  {
+    "Id": "10000053",
+    "Name": "早柚",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Sayu"
+  },
+  {
+    "Id": "10000054",
+    "Name": "珊瑚宫心海",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Kokomi"
+  },
+  {
+    "Id": "10000055",
+    "Name": "五郎",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Gorou"
+  },
+  {
+    "Id": "10000056",
+    "Name": "九条裟罗",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Sara"
+  },
+  {
+    "Id": "10000057",
+    "Name": "荒泷一斗",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Itto"
+  },
+  {
+    "Id": "10000058",
+    "Name": "八重神子",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Yae"
+  },
+  {
+    "Id": "10000059",
+    "Name": "鹿野院平藏",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Heizo"
+  },
+  {
+    "Id": "10000060",
+    "Name": "夜兰",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Yelan"
+  },
+  {
+    "Id": "10000061",
+    "Name": "绮良良",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Momoka"
+  },
+  {
+    "Id": "10000062",
+    "Name": "埃洛伊",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Aloy"
+  },
+  {
+    "Id": "10000063",
+    "Name": "申鹤",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Shenhe"
+  },
+  {
+    "Id": "10000064",
+    "Name": "云堇",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Yunjin"
+  },
+  {
+    "Id": "10000065",
+    "Name": "久岐忍",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Shinobu"
+  },
+  {
+    "Id": "10000066",
+    "Name": "神里绫人",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Ayato"
+  },
+  {
+    "Id": "10000067",
+    "Name": "柯莱",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Collei"
+  },
+  {
+    "Id": "10000068",
+    "Name": "多莉",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Dori"
+  },
+  {
+    "Id": "10000069",
+    "Name": "提纳里",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Tighnari"
+  },
+  {
+    "Id": "10000070",
+    "Name": "妮露",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Nilou"
+  },
+  {
+    "Id": "10000071",
+    "Name": "赛诺",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Cyno"
+  },
+  {
+    "Id": "10000072",
+    "Name": "坎蒂丝",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Candace"
+  },
+  {
+    "Id": "10000073",
+    "Name": "纳西妲",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Nahida"
+  },
+  {
+    "Id": "10000074",
+    "Name": "莱依拉",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Layla"
+  },
+  {
+    "Id": "10000075",
+    "Name": "流浪者",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Wanderer"
+  },
+  {
+    "Id": "10000076",
+    "Name": "珐露珊",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Faruzan"
+  },
+  {
+    "Id": "10000077",
+    "Name": "瑶瑶",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Yaoyao"
+  },
+  {
+    "Id": "10000078",
+    "Name": "艾尔海森",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Alhatham"
+  },
+  {
+    "Id": "10000079",
+    "Name": "迪希雅",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Dehya"
+  },
+  {
+    "Id": "10000080",
+    "Name": "米卡",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Mika"
+  },
+  {
+    "Id": "10000081",
+    "Name": "卡维",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Kaveh"
+  },
+  {
+    "Id": "10000082",
+    "Name": "白术",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Baizhuer"
+  },
+  {
+    "Id": "10000083",
+    "Name": "琳妮特",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Linette"
+  },
+  {
+    "Id": "10000084",
+    "Name": "林尼",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Liney"
+  },
+  {
+    "Id": "10000085",
+    "Name": "菲米尼",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Freminet"
+  },
+  {
+    "Id": "10000086",
+    "Name": "莱欧斯利",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Wriothesley"
+  },
+  {
+    "Id": "10000087",
+    "Name": "那维莱特",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Neuvillette"
+  },
+  {
+    "Id": "10000088",
+    "Name": "夏洛蒂",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Charlotte"
+  },
+  {
+    "Id": "10000089",
+    "Name": "芙宁娜",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Furina"
+  },
+  {
+    "Id": "10000090",
+    "Name": "夏沃蕾",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Chevreuse"
+  },
+  {
+    "Id": "10000091",
+    "Name": "娜维娅",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Navia"
+  },
+  {
+    "Id": "10000092",
+    "Name": "嘉明",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Gaming"
+  },
+  {
+    "Id": "10000093",
+    "Name": "闲云",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Liuyun"
+  },
+  {
+    "Id": "10000094",
+    "Name": "千织",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Chiori"
+  },
+  {
+    "Id": "10000095",
+    "Name": "希格雯",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Sigewinne"
+  },
+  {
+    "Id": "10000096",
+    "Name": "阿蕾奇诺",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Arlecchino"
+  },
+  {
+    "Id": "10000097",
+    "Name": "赛索斯",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Sethos"
+  },
+  {
+    "Id": "10000098",
+    "Name": "克洛琳德",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Clorinde"
+  },
+  {
+    "Id": "10000099",
+    "Name": "艾梅莉埃",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Emilie"
+  },
+  {
+    "Id": "10000100",
+    "Name": "卡齐娜",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Kachina"
+  },
+  {
+    "Id": "10000101",
+    "Name": "基尼奇",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Kinich"
+  },
+  {
+    "Id": "10000102",
+    "Name": "玛拉妮",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Mualani"
+  },
+  {
+    "Id": "10000103",
+    "Name": "希诺宁",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Xilonen"
+  },
+  {
+    "Id": "10000104",
+    "Name": "恰斯卡",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Chasca"
+  },
+  {
+    "Id": "10000105",
+    "Name": "欧洛伦",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Olorun"
+  },
+  {
+    "Id": "10000106",
+    "Name": "玛薇卡",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Mavuika"
+  },
+  {
+    "Id": "10000107",
+    "Name": "茜特菈莉",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Citlali"
+  },
+  {
+    "Id": "10000108",
+    "Name": "蓝砚",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Lanyan"
+  },
+  {
+    "Id": "10000109",
+    "Name": "梦见月瑞希",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Mizuki"
+  },
+  {
+    "Id": "10000110",
+    "Name": "伊安珊",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Iansan"
+  },
+  {
+    "Id": "10000111",
+    "Name": "瓦雷莎",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Varesa"
+  },
+  {
+    "Id": "10000112",
+    "Name": "爱可菲",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Escoffier"
+  },
+  {
+    "Id": "10000113",
+    "Name": "伊法",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Ifa"
+  },
+  {
+    "Id": "10000114",
+    "Name": "丝柯克",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_SkirkNew"
+  },
+  {
+    "Id": "10000115",
+    "Name": "塔利雅",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Dahlia"
+  },
+  {
+    "Id": "10000116",
+    "Name": "伊涅芙",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Ineffa"
+  },
+  {
+    "Id": "10000119",
+    "Name": "菈乌玛",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Lauma"
+  },
+  {
+    "Id": "10000120",
+    "Name": "菲林斯",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Flins"
+  },
+  {
+    "Id": "10000121",
+    "Name": "爱诺",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Aino"
+  },
+  {
+    "Id": "10000122",
+    "Name": "奈芙尔",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Nefer"
+  },
+  {
+    "Id": "10000123",
+    "Name": "杜林",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Durin"
+  },
+  {
+    "Id": "10000124",
+    "Name": "雅珂达",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Jahoda"
+  },
+  {
+    "Id": "10000125",
+    "Name": "哥伦比娅",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Columbina"
+  },
+  {
+    "Id": "10000126",
+    "Name": "兹白",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Zibai"
+  },
+  {
+    "Id": "10000127",
+    "Name": "叶洛亚",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Illuga"
+  },
+  {
+    "Id": "10000128",
+    "Name": "法尔伽",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Varka"
+  },
+  {
+    "Id": "10000129",
+    "Name": "洛恩",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Lohen"
+  },
+  {
+    "Id": "10000130",
+    "Name": "莉奈娅",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Linnea"
+  },
+  {
+    "Id": "10000131",
+    "Name": "尼可",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Nicole"
+  },
+  {
+    "Id": "10000132",
+    "Name": "布伦妮",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Prune"
+  },
+  {
+    "Id": "10000133",
+    "Name": "桑多涅",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_MarionetteNew"
+  },
+  {
+    "Id": "10000140",
+    "Name": "沃雅妮莎",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Vodyanitsa"
+  },
+  {
+    "Id": "10000143",
+    "Name": "薇斯纳",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Vesna"
+  },
+  {
+    "Id": "10000148",
+    "Name": "阿罗夏",
+    "Kind": "角色",
+    "Rank": "4",
+    "Icon": "UI_AvatarIcon_Alyosha"
+  },
+  {
+    "Id": "10000150",
+    "Name": "奥黛塔",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "UI_AvatarIcon_Odette"
+  },
+  {
+    "Id": "11101",
+    "Name": "无锋剑",
+    "Kind": "武器",
+    "Rank": "1",
+    "Icon": "UI_EquipIcon_Sword_Blunt"
+  },
+  {
+    "Id": "11201",
+    "Name": "银剑",
+    "Kind": "武器",
+    "Rank": "2",
+    "Icon": "UI_EquipIcon_Sword_Silver"
+  },
+  {
+    "Id": "11301",
+    "Name": "冷刃",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Sword_Steel"
+  },
+  {
+    "Id": "11302",
+    "Name": "黎明神剑",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Sword_Dawn"
+  },
+  {
+    "Id": "11303",
+    "Name": "旅行剑",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Sword_Traveler"
+  },
+  {
+    "Id": "11304",
+    "Name": "暗铁剑",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Sword_Darker"
+  },
+  {
+    "Id": "11305",
+    "Name": "吃虎鱼刀",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Sword_Sashimi"
+  },
+  {
+    "Id": "11306",
+    "Name": "飞天御剑",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Sword_Mitsurugi"
+  },
+  {
+    "Id": "11401",
+    "Name": "西风剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Zephyrus"
+  },
+  {
+    "Id": "11402",
+    "Name": "笛剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Troupe"
+  },
+  {
+    "Id": "11403",
+    "Name": "祭礼剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Fossil"
+  },
+  {
+    "Id": "11404",
+    "Name": "宗室长剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Theocrat"
+  },
+  {
+    "Id": "11405",
+    "Name": "匣里龙吟",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Rockkiller"
+  },
+  {
+    "Id": "11406",
+    "Name": "试作斩岩",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Proto"
+  },
+  {
+    "Id": "11407",
+    "Name": "铁蜂刺",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Exotic"
+  },
+  {
+    "Id": "11408",
+    "Name": "黑岩长剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Blackrock"
+  },
+  {
+    "Id": "11409",
+    "Name": "黑剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Bloodstained"
+  },
+  {
+    "Id": "11410",
+    "Name": "暗巷闪光",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Outlaw"
+  },
+  {
+    "Id": "11412",
+    "Name": "降临之剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Psalmus"
+  },
+  {
+    "Id": "11413",
+    "Name": "腐殖之剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Magnum"
+  },
+  {
+    "Id": "11414",
+    "Name": "天目影打刀",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Bakufu"
+  },
+  {
+    "Id": "11415",
+    "Name": "辰砂之纺锤",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Opus"
+  },
+  {
+    "Id": "11416",
+    "Name": "笼钓瓶一心",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Youtou"
+  },
+  {
+    "Id": "11417",
+    "Name": "原木刀",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Arakalari"
+  },
+  {
+    "Id": "11418",
+    "Name": "西福斯的月光",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Pleroma"
+  },
+  {
+    "Id": "11422",
+    "Name": "东花坊时雨",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Kasabouzu"
+  },
+  {
+    "Id": "11424",
+    "Name": "狼牙",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Boreas"
+  },
+  {
+    "Id": "11425",
+    "Name": "海渊终曲",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Vorpal"
+  },
+  {
+    "Id": "11426",
+    "Name": "灰河渡手",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Machination"
+  },
+  {
+    "Id": "11427",
+    "Name": "船坞长剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Mechanic"
+  },
+  {
+    "Id": "11428",
+    "Name": "水仙十字之剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Purewill"
+  },
+  {
+    "Id": "11430",
+    "Name": "弥坚骨",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Umpakati"
+  },
+  {
+    "Id": "11431",
+    "Name": "息燧之笛",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Isikhulu"
+  },
+  {
+    "Id": "11432",
+    "Name": "厄水之祸",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_SacrificialNgombe"
+  },
+  {
+    "Id": "11433",
+    "Name": "谧音吹哨",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Ilmarinen"
+  },
+  {
+    "Id": "11434",
+    "Name": "织月者的曙色",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Miekka"
+  },
+  {
+    "Id": "11435",
+    "Name": "熔猎异端之刃",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_SerpentTooth"
+  },
+  {
+    "Id": "11436",
+    "Name": "引火之源",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_GlintstoneSword"
+  },
+  {
+    "Id": "11437",
+    "Name": "新枝",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_SpikedStake"
+  },
+  {
+    "Id": "11438",
+    "Name": "银釭",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Sword_Fajian"
+  },
+  {
+    "Id": "11501",
+    "Name": "风鹰剑",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Falcon"
+  },
+  {
+    "Id": "11502",
+    "Name": "天空之刃",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Dvalin"
+  },
+  {
+    "Id": "11503",
+    "Name": "苍古自由之誓",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Widsith"
+  },
+  {
+    "Id": "11504",
+    "Name": "斫峰之刃",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Kunwu"
+  },
+  {
+    "Id": "11505",
+    "Name": "磐岩结绿",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Morax"
+  },
+  {
+    "Id": "11509",
+    "Name": "雾切之回光",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Narukami"
+  },
+  {
+    "Id": "11510",
+    "Name": "波乱月白经津",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Amenoma"
+  },
+  {
+    "Id": "11511",
+    "Name": "圣显之钥",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Deshret"
+  },
+  {
+    "Id": "11512",
+    "Name": "裁叶萃光",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Ayus"
+  },
+  {
+    "Id": "11513",
+    "Name": "静水流涌之辉",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Regalis"
+  },
+  {
+    "Id": "11514",
+    "Name": "有乐御簾切",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Needle"
+  },
+  {
+    "Id": "11515",
+    "Name": "赦罪",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Estoc"
+  },
+  {
+    "Id": "11516",
+    "Name": "岩峰巡歌",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_XochitlsTube"
+  },
+  {
+    "Id": "11517",
+    "Name": "苍耀",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_OuterSword"
+  },
+  {
+    "Id": "11518",
+    "Name": "黑蚀",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Motsognir"
+  },
+  {
+    "Id": "11519",
+    "Name": "朏魄含光",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_SilverwareSaw"
+  },
+  {
+    "Id": "11520",
+    "Name": "白湖冬羽",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Swanlake"
+  },
+  {
+    "Id": "11521",
+    "Name": "星锋剑",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_WeaponQuestSnezhnaya"
+  },
+  {
+    "Id": "11522",
+    "Name": "蝶变",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Sword_Samosvist"
+  },
+  {
+    "Id": "12101",
+    "Name": "训练大剑",
+    "Kind": "武器",
+    "Rank": "1",
+    "Icon": "UI_EquipIcon_Claymore_Aniki"
+  },
+  {
+    "Id": "12201",
+    "Name": "佣兵重剑",
+    "Kind": "武器",
+    "Rank": "2",
+    "Icon": "UI_EquipIcon_Claymore_Oyaji"
+  },
+  {
+    "Id": "12301",
+    "Name": "铁影阔剑",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Claymore_Glaive"
+  },
+  {
+    "Id": "12302",
+    "Name": "沐浴龙血的剑",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Claymore_Siegfry"
+  },
+  {
+    "Id": "12303",
+    "Name": "白铁大剑",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Claymore_Tin"
+  },
+  {
+    "Id": "12305",
+    "Name": "以理服人",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Claymore_Reasoning"
+  },
+  {
+    "Id": "12306",
+    "Name": "飞天大御剑",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Claymore_Mitsurugi"
+  },
+  {
+    "Id": "12401",
+    "Name": "西风大剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Zephyrus"
+  },
+  {
+    "Id": "12402",
+    "Name": "钟剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Troupe"
+  },
+  {
+    "Id": "12403",
+    "Name": "祭礼大剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Fossil"
+  },
+  {
+    "Id": "12404",
+    "Name": "宗室大剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Theocrat"
+  },
+  {
+    "Id": "12405",
+    "Name": "雨裁",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Perdue"
+  },
+  {
+    "Id": "12406",
+    "Name": "试作古华",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Proto"
+  },
+  {
+    "Id": "12407",
+    "Name": "白影剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Exotic"
+  },
+  {
+    "Id": "12408",
+    "Name": "黑岩斩刀",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Blackrock"
+  },
+  {
+    "Id": "12409",
+    "Name": "螭骨剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Kione"
+  },
+  {
+    "Id": "12410",
+    "Name": "千岩古剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Lapis"
+  },
+  {
+    "Id": "12411",
+    "Name": "雪葬的星银",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Dragonfell"
+  },
+  {
+    "Id": "12412",
+    "Name": "衔珠海皇",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_MillenniaTuna"
+  },
+  {
+    "Id": "12414",
+    "Name": "桂木斩长正",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Bakufu"
+  },
+  {
+    "Id": "12415",
+    "Name": "玛海菈的水色",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Pleroma"
+  },
+  {
+    "Id": "12416",
+    "Name": "恶王丸",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Maria"
+  },
+  {
+    "Id": "12417",
+    "Name": "森林王器",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Arakalari"
+  },
+  {
+    "Id": "12418",
+    "Name": "饰铁之花",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Fleurfair"
+  },
+  {
+    "Id": "12424",
+    "Name": "聊聊棒",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_BeastTamer"
+  },
+  {
+    "Id": "12425",
+    "Name": "浪影阔剑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Vorpal"
+  },
+  {
+    "Id": "12426",
+    "Name": "「究极霸王超级魔剑」",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Champion"
+  },
+  {
+    "Id": "12427",
+    "Name": "便携动力锯",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Mechanic"
+  },
+  {
+    "Id": "12430",
+    "Name": "硕果钩",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Umpakati"
+  },
+  {
+    "Id": "12431",
+    "Name": "撼地者",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Isikhulu"
+  },
+  {
+    "Id": "12432",
+    "Name": "拾慧铸熔",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Polilith"
+  },
+  {
+    "Id": "12433",
+    "Name": "万能钥匙",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_Ilmarinen"
+  },
+  {
+    "Id": "12435",
+    "Name": "金律铸影",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_EscapeWheel"
+  },
+  {
+    "Id": "12436",
+    "Name": "救赎之斩",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Claymore_GlintstoneClaymore"
+  },
+  {
+    "Id": "12501",
+    "Name": "天空之傲",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_Dvalin"
+  },
+  {
+    "Id": "12502",
+    "Name": "狼的末路",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_Wolfmound"
+  },
+  {
+    "Id": "12503",
+    "Name": "松籁响起之时",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_Widsith"
+  },
+  {
+    "Id": "12504",
+    "Name": "无工之剑",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_Kunwu"
+  },
+  {
+    "Id": "12510",
+    "Name": "赤角石溃杵",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_Itadorimaru"
+  },
+  {
+    "Id": "12511",
+    "Name": "苇海信标",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_Deshret"
+  },
+  {
+    "Id": "12512",
+    "Name": "裁断",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_GoldenVerdict"
+  },
+  {
+    "Id": "12513",
+    "Name": "山王长牙",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_EmeraldSword"
+  },
+  {
+    "Id": "12514",
+    "Name": "焚曜千阳",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_RadianceSword"
+  },
+  {
+    "Id": "12515",
+    "Name": "狼的武功歌",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_EnsisAquilonis"
+  },
+  {
+    "Id": "12516",
+    "Name": "超越之匙",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Claymore_CrystallineSword"
+  },
+  {
+    "Id": "13101",
+    "Name": "新手长枪",
+    "Kind": "武器",
+    "Rank": "1",
+    "Icon": "UI_EquipIcon_Pole_Gewalt"
+  },
+  {
+    "Id": "13201",
+    "Name": "铁尖枪",
+    "Kind": "武器",
+    "Rank": "2",
+    "Icon": "UI_EquipIcon_Pole_Rod"
+  },
+  {
+    "Id": "13301",
+    "Name": "白缨枪",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Pole_Ruby"
+  },
+  {
+    "Id": "13302",
+    "Name": "钺矛",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Pole_Halberd"
+  },
+  {
+    "Id": "13303",
+    "Name": "黑缨枪",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Pole_Noire"
+  },
+  {
+    "Id": "13401",
+    "Name": "匣里灭辰",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Stardust"
+  },
+  {
+    "Id": "13402",
+    "Name": "试作星镰",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Proto"
+  },
+  {
+    "Id": "13403",
+    "Name": "流月针",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Exotic"
+  },
+  {
+    "Id": "13404",
+    "Name": "黑岩刺枪",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Blackrock"
+  },
+  {
+    "Id": "13405",
+    "Name": "决斗之枪",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Gladiator"
+  },
+  {
+    "Id": "13406",
+    "Name": "千岩长枪",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Lapis"
+  },
+  {
+    "Id": "13407",
+    "Name": "西风长枪",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Zephyrus"
+  },
+  {
+    "Id": "13408",
+    "Name": "宗室猎枪",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Theocrat"
+  },
+  {
+    "Id": "13409",
+    "Name": "龙脊长枪",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Everfrost"
+  },
+  {
+    "Id": "13414",
+    "Name": "喜多院十文字",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Bakufu"
+  },
+  {
+    "Id": "13415",
+    "Name": "「渔获」",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Mori"
+  },
+  {
+    "Id": "13416",
+    "Name": "断浪长鳍",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Maria"
+  },
+  {
+    "Id": "13417",
+    "Name": "贯月矢",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Arakalari"
+  },
+  {
+    "Id": "13419",
+    "Name": "风信之锋",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Windvane"
+  },
+  {
+    "Id": "13424",
+    "Name": "峡湾长歌",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Shanty"
+  },
+  {
+    "Id": "13425",
+    "Name": "公义的酬报",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Vorpal"
+  },
+  {
+    "Id": "13426",
+    "Name": "沙中伟贤的对答",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Caduceus"
+  },
+  {
+    "Id": "13427",
+    "Name": "勘探钻机",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Mechanic"
+  },
+  {
+    "Id": "13430",
+    "Name": "镇山之钉",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Umpakati"
+  },
+  {
+    "Id": "13431",
+    "Name": "虹的行迹",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Isikhulu"
+  },
+  {
+    "Id": "13432",
+    "Name": "且住亭御咄",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Aoandon"
+  },
+  {
+    "Id": "13433",
+    "Name": "掘金之锹",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Ilmarinen"
+  },
+  {
+    "Id": "13434",
+    "Name": "圣祭者的辉杖",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_Krivule"
+  },
+  {
+    "Id": "13435",
+    "Name": "寒息",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_FaesCrystalle"
+  },
+  {
+    "Id": "13436",
+    "Name": "戍望谣歌",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Pole_GlintstonePolearm"
+  },
+  {
+    "Id": "13501",
+    "Name": "护摩之杖",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Homa"
+  },
+  {
+    "Id": "13502",
+    "Name": "天空之脊",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Dvalin"
+  },
+  {
+    "Id": "13504",
+    "Name": "贯虹之槊",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Kunwu"
+  },
+  {
+    "Id": "13505",
+    "Name": "和璞鸢",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Morax"
+  },
+  {
+    "Id": "13507",
+    "Name": "息灾",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Santika"
+  },
+  {
+    "Id": "13509",
+    "Name": "薙草之稻光",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Narukami"
+  },
+  {
+    "Id": "13511",
+    "Name": "赤沙之杖",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Deshret"
+  },
+  {
+    "Id": "13512",
+    "Name": "赤月之形",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_BloodMoon"
+  },
+  {
+    "Id": "13513",
+    "Name": "柔灯挽歌",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Muguet"
+  },
+  {
+    "Id": "13514",
+    "Name": "香韵奏者",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Trident"
+  },
+  {
+    "Id": "13515",
+    "Name": "支离轮光",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Perdix"
+  },
+  {
+    "Id": "13516",
+    "Name": "血染荒城",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_TummaLyhty"
+  },
+  {
+    "Id": "13517",
+    "Name": "灾悔",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Pole_Carbine"
+  },
+  {
+    "Id": "14101",
+    "Name": "学徒笔记",
+    "Kind": "武器",
+    "Rank": "1",
+    "Icon": "UI_EquipIcon_Catalyst_Apprentice"
+  },
+  {
+    "Id": "14201",
+    "Name": "口袋魔导书",
+    "Kind": "武器",
+    "Rank": "2",
+    "Icon": "UI_EquipIcon_Catalyst_Pocket"
+  },
+  {
+    "Id": "14301",
+    "Name": "魔导绪论",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Catalyst_Intro"
+  },
+  {
+    "Id": "14302",
+    "Name": "讨龙英杰谭",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Catalyst_Pulpfic"
+  },
+  {
+    "Id": "14303",
+    "Name": "异世界行记",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Catalyst_Lightnov"
+  },
+  {
+    "Id": "14304",
+    "Name": "翡玉法球",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Catalyst_Jade"
+  },
+  {
+    "Id": "14305",
+    "Name": "甲级宝珏",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Catalyst_Phoney"
+  },
+  {
+    "Id": "14401",
+    "Name": "西风秘典",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Zephyrus"
+  },
+  {
+    "Id": "14402",
+    "Name": "流浪乐章",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Troupe"
+  },
+  {
+    "Id": "14403",
+    "Name": "祭礼残章",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Fossil"
+  },
+  {
+    "Id": "14404",
+    "Name": "宗室秘法录",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Theocrat"
+  },
+  {
+    "Id": "14405",
+    "Name": "匣里日月",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Resurrection"
+  },
+  {
+    "Id": "14406",
+    "Name": "试作金珀",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Proto"
+  },
+  {
+    "Id": "14407",
+    "Name": "万国诸海图谱",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Exotic"
+  },
+  {
+    "Id": "14408",
+    "Name": "黑岩绯玉",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Blackrock"
+  },
+  {
+    "Id": "14409",
+    "Name": "昭心",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Truelens"
+  },
+  {
+    "Id": "14410",
+    "Name": "暗巷的酒与诗",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Outlaw"
+  },
+  {
+    "Id": "14412",
+    "Name": "忍冬之果",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Everfrost"
+  },
+  {
+    "Id": "14413",
+    "Name": "嘟嘟可故事集",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Ludiharpastum"
+  },
+  {
+    "Id": "14414",
+    "Name": "白辰之环",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Bakufu"
+  },
+  {
+    "Id": "14415",
+    "Name": "证誓之明瞳",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Jyanome"
+  },
+  {
+    "Id": "14416",
+    "Name": "流浪的晚星",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Pleroma"
+  },
+  {
+    "Id": "14417",
+    "Name": "盈满之实",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Arakalari"
+  },
+  {
+    "Id": "14424",
+    "Name": "遗祀玉珑",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Yue"
+  },
+  {
+    "Id": "14425",
+    "Name": "纯水流华",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Vorpal"
+  },
+  {
+    "Id": "14426",
+    "Name": "无垠蔚蓝之歌",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_DandelionPoem"
+  },
+  {
+    "Id": "14427",
+    "Name": "苍纹角杯",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_ConchSprayer"
+  },
+  {
+    "Id": "14430",
+    "Name": "乘浪的回旋",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Umpakati"
+  },
+  {
+    "Id": "14431",
+    "Name": "木棉之环",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Isikhulu"
+  },
+  {
+    "Id": "14432",
+    "Name": "天光的纺琴",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_SeeliesLute"
+  },
+  {
+    "Id": "14433",
+    "Name": "乌髓孑灯",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Ilmarinen"
+  },
+  {
+    "Id": "14434",
+    "Name": "霜辰",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_Ziedas"
+  },
+  {
+    "Id": "14435",
+    "Name": "群王局戏",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_SandMemoria"
+  },
+  {
+    "Id": "14436",
+    "Name": "寸心余响",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_GlintstoneCatalyst"
+  },
+  {
+    "Id": "14437",
+    "Name": "凝雪沉心",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Catalyst_FrostScepter"
+  },
+  {
+    "Id": "14501",
+    "Name": "天空之卷",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Dvalin"
+  },
+  {
+    "Id": "14502",
+    "Name": "四风原典",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Fourwinds"
+  },
+  {
+    "Id": "14504",
+    "Name": "尘世之锁",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Kunwu"
+  },
+  {
+    "Id": "14505",
+    "Name": "碧落之珑",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Morax"
+  },
+  {
+    "Id": "14506",
+    "Name": "不灭月华",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Kaleido"
+  },
+  {
+    "Id": "14509",
+    "Name": "神乐之真意",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Narukami"
+  },
+  {
+    "Id": "14511",
+    "Name": "千夜浮梦",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Ayus"
+  },
+  {
+    "Id": "14512",
+    "Name": "图莱杜拉的回忆",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Alaya"
+  },
+  {
+    "Id": "14513",
+    "Name": "金流监督",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Wheatley"
+  },
+  {
+    "Id": "14514",
+    "Name": "万世流涌大典",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Iudex"
+  },
+  {
+    "Id": "14515",
+    "Name": "鹤鸣余音",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_MountainGale"
+  },
+  {
+    "Id": "14516",
+    "Name": "冲浪时光",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_MechaPufferfish"
+  },
+  {
+    "Id": "14517",
+    "Name": "祭星者之望",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Figurines"
+  },
+  {
+    "Id": "14518",
+    "Name": "寝正月初晴",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_SakuraFan"
+  },
+  {
+    "Id": "14519",
+    "Name": "溢彩心念",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_VaresaTransformer"
+  },
+  {
+    "Id": "14520",
+    "Name": "纺夜天镜",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_MenulisRing"
+  },
+  {
+    "Id": "14521",
+    "Name": "真语秘匣",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Sistrum"
+  },
+  {
+    "Id": "14522",
+    "Name": "帷间夜曲",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Brisingamen"
+  },
+  {
+    "Id": "14523",
+    "Name": "尘光七谕",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_FairyGarden"
+  },
+  {
+    "Id": "14524",
+    "Name": "漩流颂歌",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Catalyst_Bludnye"
+  },
+  {
+    "Id": "15101",
+    "Name": "猎弓",
+    "Kind": "武器",
+    "Rank": "1",
+    "Icon": "UI_EquipIcon_Bow_Hunters"
+  },
+  {
+    "Id": "15201",
+    "Name": "历练的猎弓",
+    "Kind": "武器",
+    "Rank": "2",
+    "Icon": "UI_EquipIcon_Bow_Old"
+  },
+  {
+    "Id": "15301",
+    "Name": "鸦羽弓",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Bow_Crowfeather"
+  },
+  {
+    "Id": "15302",
+    "Name": "神射手之誓",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Bow_Arjuna"
+  },
+  {
+    "Id": "15303",
+    "Name": "反曲弓",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Bow_Curve"
+  },
+  {
+    "Id": "15304",
+    "Name": "弹弓",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Bow_Sling"
+  },
+  {
+    "Id": "15305",
+    "Name": "信使",
+    "Kind": "武器",
+    "Rank": "3",
+    "Icon": "UI_EquipIcon_Bow_Msg"
+  },
+  {
+    "Id": "15401",
+    "Name": "西风猎弓",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Zephyrus"
+  },
+  {
+    "Id": "15402",
+    "Name": "绝弦",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Troupe"
+  },
+  {
+    "Id": "15403",
+    "Name": "祭礼弓",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Fossil"
+  },
+  {
+    "Id": "15404",
+    "Name": "宗室长弓",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Theocrat"
+  },
+  {
+    "Id": "15405",
+    "Name": "弓藏",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Recluse"
+  },
+  {
+    "Id": "15406",
+    "Name": "试作澹月",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Proto"
+  },
+  {
+    "Id": "15407",
+    "Name": "钢轮弓",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Exotic"
+  },
+  {
+    "Id": "15408",
+    "Name": "黑岩战弓",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Blackrock"
+  },
+  {
+    "Id": "15409",
+    "Name": "苍翠猎弓",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Viridescent"
+  },
+  {
+    "Id": "15410",
+    "Name": "暗巷猎手",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Outlaw"
+  },
+  {
+    "Id": "15411",
+    "Name": "落霞",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Fallensun"
+  },
+  {
+    "Id": "15412",
+    "Name": "幽夜华尔兹",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Nachtblind"
+  },
+  {
+    "Id": "15413",
+    "Name": "风花之颂",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Fleurfair"
+  },
+  {
+    "Id": "15414",
+    "Name": "破魔之弓",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Bakufu"
+  },
+  {
+    "Id": "15415",
+    "Name": "掠食者",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Predator"
+  },
+  {
+    "Id": "15416",
+    "Name": "曚云之月",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Maria"
+  },
+  {
+    "Id": "15417",
+    "Name": "王下近侍",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Arakalari"
+  },
+  {
+    "Id": "15418",
+    "Name": "竭泽",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Fin"
+  },
+  {
+    "Id": "15419",
+    "Name": "鹮穿之喙",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Ibis"
+  },
+  {
+    "Id": "15424",
+    "Name": "烈阳之嗣",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Gurabad"
+  },
+  {
+    "Id": "15425",
+    "Name": "静谧之曲",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Vorpal"
+  },
+  {
+    "Id": "15426",
+    "Name": "筑云",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Ultimatum"
+  },
+  {
+    "Id": "15427",
+    "Name": "测距规",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Mechanic"
+  },
+  {
+    "Id": "15430",
+    "Name": "缀花之翎",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Umpakati"
+  },
+  {
+    "Id": "15431",
+    "Name": "碎链",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Isikhulu"
+  },
+  {
+    "Id": "15432",
+    "Name": "冷寂迸音",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Stinger"
+  },
+  {
+    "Id": "15433",
+    "Name": "罗网勾针",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Ilmarinen"
+  },
+  {
+    "Id": "15434",
+    "Name": "虹蛇的雨弦",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_ElegguaBow"
+  },
+  {
+    "Id": "15435",
+    "Name": "悬黎千钧",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_ShatteredMirror"
+  },
+  {
+    "Id": "15436",
+    "Name": "霜雪誓约",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_GlintstoneBow"
+  },
+  {
+    "Id": "15437",
+    "Name": "柔风游弦",
+    "Kind": "武器",
+    "Rank": "4",
+    "Icon": "UI_EquipIcon_Bow_Windtalker"
+  },
+  {
+    "Id": "15501",
+    "Name": "天空之翼",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Dvalin"
+  },
+  {
+    "Id": "15502",
+    "Name": "阿莫斯之弓",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Amos"
+  },
+  {
+    "Id": "15503",
+    "Name": "终末嗟叹之诗",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Widsith"
+  },
+  {
+    "Id": "15507",
+    "Name": "冬极白星",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Worldbane"
+  },
+  {
+    "Id": "15508",
+    "Name": "若水",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Kirin"
+  },
+  {
+    "Id": "15509",
+    "Name": "飞雷之弦振",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Narukami"
+  },
+  {
+    "Id": "15511",
+    "Name": "猎人之径",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Ayus"
+  },
+  {
+    "Id": "15512",
+    "Name": "最初的大魔术",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Pledge"
+  },
+  {
+    "Id": "15513",
+    "Name": "白雨心弦",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Arcdange"
+  },
+  {
+    "Id": "15514",
+    "Name": "星鹫赤羽",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Qoyllorsnova"
+  },
+  {
+    "Id": "15515",
+    "Name": "黎明破晓之史",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Arianna"
+  },
+  {
+    "Id": "15516",
+    "Name": "霜结的誓金枝",
+    "Kind": "武器",
+    "Rank": "5",
+    "Icon": "UI_EquipIcon_Bow_Alkonost"
+  },
+  {
+    "Id": "10000117",
+    "Name": "奇偶·男性",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "https://fastcdn.mihoyo.com/static-resource-v2/2025/10/16/af27ded694227c5c49f0f75730eecbb9_8978606435920695541.png"
+  },
+  {
+    "Id": "10000118",
+    "Name": "奇偶·女性",
+    "Kind": "角色",
+    "Rank": "5",
+    "Icon": "https://fastcdn.mihoyo.com/static-resource-v2/2025/10/16/7328f006a498626b32a1e187c0dba1ea_3540908881493819725.png"
+  }
+]

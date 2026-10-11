@@ -1,0 +1,47 @@
+[
+  {
+    "file": "cryo.png",
+    "url": "https://wiki.hoyolab.com/_nuxt/img/cryo.b810caa.png",
+    "sha256": "b78cb2181e50ea0cd070cef85bc3077aab16281d8fa142616b276e0a6ce9d4ea",
+    "width": 84,
+    "height": 84,
+    "attribution": "miHoYo / HoYoverse",
+    "retrieved": "2026-10-10"
+  },
+  {
+    "file": "pyro.png",
+    "url": "https://wiki.hoyolab.com/_nuxt/img/pyro.2267e27.png",
+    "sha256": "381de2f24f84865ceb1001bef09a590f1ed92a74fb054f02499a1d26cfe9df39",
+    "width": 84,
+    "height": 84,
+    "attribution": "miHoYo / HoYoverse",
+    "retrieved": "2026-10-10"
+  },
+  {
+    "file": "hydro.png",
+    "url": "https://wiki.hoyolab.com/_nuxt/img/hydro.3e969aa.png",
+    "sha256": "7790182c6c6683c45ecc026f3c4ed05f2e535c2d260efbe4682f08d4f9fdb3a9",
+    "width": 84,
+    "height": 84,
+    "attribution": "miHoYo / HoYoverse",
+    "retrieved": "2026-10-10"
+  },
+  {
+    "file": "electro.png",
+    "url": "https://wiki.hoyolab.com/_nuxt/img/electro.be07020.png",
+    "sha256": "17f7efe2e899df878763961a0b17850268e1c12b9378f9cee0f0d71a1c81df66",
+    "width": 84,
+    "height": 84,
+    "attribution": "miHoYo / HoYoverse",
+    "retrieved": "2026-10-10"
+  },
+  {
+    "file": "geo.png",
+    "url": "https://wiki.hoyolab.com/_nuxt/img/geo.2498e06.png",
+    "sha256": "4efda75c00754aa61286c482322fbed7e6ae10f930e3bc2be6068d2dc0af8356",
+    "width": 84,
+    "height": 84,
+    "attribution": "miHoYo / HoYoverse",
+    "retrieved": "2026-10-10"
+  }
+]

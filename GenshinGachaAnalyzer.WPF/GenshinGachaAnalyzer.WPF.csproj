@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <StartupObject>GenshinGachaAnalyzer.WPF.Program</StartupObject>
+    <AssemblyName>GenshinGachaAnalyzer</AssemblyName>
+    <ApplicationIcon>Resources/App.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../GenshinGachaAnalyzer.Core/GenshinGachaAnalyzer.Core.csproj" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.4" />
+    <Content Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Resources/Items/*.png" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Resources/Items/sources.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Resources/Quality/*.png" CopyToOutputDirectory="PreserveNewest" />
+    <Resource Include="Resources/App.ico" />
+    <Resource Include="Resources/AppIcon.png" />
+    <Resource Include="Resources/Elements/*.png" />
+    <Content Include="Resources/Elements/sources.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Resources/Banners/*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/FufuLauncher.LICENSE" Link="FufuLauncher.LICENSE" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/Snap.*.LICENSE" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/MIGRATION.md" Link="MIGRATION.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/THEME_SOURCES.md" Link="THEME_SOURCES.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/ITEM_ASSETS.md" Link="ITEM_ASSETS.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/SIGNING.md" Link="SIGNING.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/STARTUP_TROUBLESHOOTING.md" Link="STARTUP_TROUBLESHOOTING.md" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <!-- EXE 继承工作区 Low 标签会以受限权限启动。每次普通编译/发布都修正应用入口，
+       不只依赖 Build.ps1；仅影响本项目生成的 EXE，不提权、不修改数据目录。 -->
+  <Target Name="NormalizeBuildEntryIntegrity" AfterTargets="Build"
+          Condition="'$(OS)' == 'Windows_NT' and '$(DesignTimeBuild)' != 'true' and Exists('$(TargetDir)$(AssemblyName).exe')">
+    <Exec Command="icacls.exe &quot;$(TargetDir)$(AssemblyName).exe&quot; /setintegritylevel Medium" StandardOutputImportance="Low" />
+  </Target>
+  <Target Name="NormalizePublishEntryIntegrity" AfterTargets="Publish"
+          Condition="'$(OS)' == 'Windows_NT' and Exists('$(PublishDir)$(AssemblyName).exe')">
+    <Exec Command="icacls.exe &quot;$(PublishDir)$(AssemblyName).exe&quot; /setintegritylevel Medium" StandardOutputImportance="Low" />
+  </Target>
+</Project>

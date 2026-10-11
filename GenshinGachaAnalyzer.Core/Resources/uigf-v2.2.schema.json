@@ -1,0 +1,107 @@
+{
+  "properties": {
+    "info": {
+      "properties": {
+        "export_timestamp": {
+          "type": "number"
+        },
+        "export_app_version": {
+          "type": "string"
+        },
+        "export_time": {
+          "type": "string"
+        },
+        "export_app": {
+          "type": "string"
+        },
+        "uigf_version": {
+          "enum": [
+            "v2.2"
+          ],
+          "type": "string"
+        },
+        "uid": {
+          "type": "string"
+        },
+        "lang": {
+          "type": "string"
+        },
+        "region_time_zone": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "uid",
+        "uigf_version"
+      ],
+      "type": "object"
+    },
+    "list": {
+      "items": {
+        "type": "object",
+        "required": [
+          "uigf_gacha_type",
+          "gacha_type",
+          "id",
+          "time",
+          "name",
+          "item_type"
+        ],
+        "properties": {
+          "uigf_gacha_type": {
+            "type": "string",
+            "enum": [
+              "100",
+              "200",
+              "301",
+              "302",
+              "500"
+            ]
+          },
+          "gacha_type": {
+            "type": "string",
+            "enum": [
+              "100",
+              "200",
+              "301",
+              "302",
+              "400",
+              "500"
+            ]
+          },
+          "item_id": {
+            "type": "string"
+          },
+          "count": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "item_type": {
+            "type": "string"
+          },
+          "rank_type": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 19,
+            "pattern": "^[0-9]+$"
+          }
+        }
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "info",
+    "list"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,67 @@
+name: Windows build and release
+on:
+  push:
+    branches: [main, master]
+    tags: ['v0.1.*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Restore, build, test and publish
+        shell: pwsh
+        run: ./scripts/Build.ps1 -Publish
+      - name: Verify startup and WPF pages with isolated data
+        shell: pwsh
+        run: |
+          ./scripts/Verify-Startup.ps1 -OutputDirectory artifacts/startup-empty
+          ./scripts/Verify-Startup.ps1 -OutputDirectory artifacts/startup-wallpaper -WithData -ComplexAppearance
+          ./scripts/Verify-Startup.ps1 -OutputDirectory artifacts/startup-shell -ShellLaunch -WithData -ComplexAppearance
+          ./scripts/Verify-Startup.ps1 -OutputDirectory artifacts/startup-build -ShellLaunch -WithData -ExecutablePath GenshinGachaAnalyzer.WPF/bin/Release/net10.0-windows10.0.19041.0/GenshinGachaAnalyzer.exe
+          ./scripts/Verify-Ui.ps1 -Published -OutputDirectory artifacts/ui-release
+      - name: Package clean source and binary
+        shell: pwsh
+        run: ./scripts/Package.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-x64-and-source
+          path: |
+            artifacts/GenshinGachaAnalyzer-v*.zip
+            artifacts/v*-SHA256SUMS.txt
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: artifacts/TestResults/*.trx
+  release:
+    if: startsWith(github.ref, 'refs/tags/v0.1.')
+    needs: build
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-x64-and-source
+          path: release-assets
+      - name: Verify tag and create GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          [xml]$props = Get-Content Directory.Build.props
+          $version = $props.Project.PropertyGroup.Version
+          if ($env:RELEASE_TAG -ne "v$version") { throw 'Tag must match Directory.Build.props Version.' }
+          $assets = @(Get-ChildItem release-assets -File | ForEach-Object FullName)
+          gh release create $env:RELEASE_TAG @assets --verify-tag --title "木偶祈愿档案 $version" --notes-file CHANGELOG.md
+          if ($LASTEXITCODE -ne 0) { throw 'GitHub release creation failed.' }

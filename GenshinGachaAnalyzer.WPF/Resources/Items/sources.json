@@ -1,0 +1,1265 @@
+{
+  "Provider": "米游社 · 原神养成计算器",
+  "Items": [
+    {
+      "Id": "11101",
+      "Name": "无锋剑",
+      "Kind": "武器",
+      "File": "11101.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/0b590e80914fdb8e348323fff888be0c.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "6a5a52025b99d3b9f6c7443b13c4d03e951f5eebc89668d787af479bccf896d5"
+    },
+    {
+      "Id": "11201",
+      "Name": "银剑",
+      "Kind": "武器",
+      "File": "11201.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/73748953f526f339fe5ed1707c295fd9.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "f044320d5517d7a2c38881a43b61abe2c6208fec7c740f9cf8f453eb1e845493"
+    },
+    {
+      "Id": "11303",
+      "Name": "旅行剑",
+      "Kind": "武器",
+      "File": "11303.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/6b735c4a2cc309a44c5c682f81364261.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "7d7f089895a5b7bba6d4c112c8c92a4eb6f84c4570eea1718d51056278b1edf7"
+    },
+    {
+      "Id": "11304",
+      "Name": "暗铁剑",
+      "Kind": "武器",
+      "File": "11304.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/14dbdf6255569327567b6e5e9f113fd4.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "6963ef855582aa3833bd1d909a943125b74f2dff4d579c59aae84db85cdb4195"
+    },
+    {
+      "Id": "11305",
+      "Name": "吃虎鱼刀",
+      "Kind": "武器",
+      "File": "11305.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/f1a49244f7411707529b38815a9d9cb5.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "ea3eb46dd9d183c78b47d366cb55886aaf95dd6d59b7eacf31ab9d7df97e40ff"
+    },
+    {
+      "Id": "11404",
+      "Name": "宗室长剑",
+      "Kind": "武器",
+      "File": "11404.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/2b92d8da7beff401b00d680b74a7ed56.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "400f7e71e7cb6c10a35a13195609821b9c6e29c5ad8a3553791bf234ac0f1bdb"
+    },
+    {
+      "Id": "11406",
+      "Name": "试作斩岩",
+      "Kind": "武器",
+      "File": "11406.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/d859d175bb85b6add3dc3df1fb8abc5a.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "865a3a69e269ade6f7fc9ed59878b8e83d5b74ba780493d78c446283326b98b9"
+    },
+    {
+      "Id": "11407",
+      "Name": "铁蜂刺",
+      "Kind": "武器",
+      "File": "11407.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/d6627a35dc10a7c7f9d5db832e271cce.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "6f5e0de449912e8ef73acb56a4bde61ed3a324c91471cf6f3fe63240f5e3d9a2"
+    },
+    {
+      "Id": "11408",
+      "Name": "黑岩长剑",
+      "Kind": "武器",
+      "File": "11408.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/19ed42f8a9b6de92e7aaef93479dae54.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "7ad6b5a8db49e0f0c0603f6180a64e138890a196dc1109cd4155bac31fcf508c"
+    },
+    {
+      "Id": "11409",
+      "Name": "黑剑",
+      "Kind": "武器",
+      "File": "11409.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/0d45932d85272f2efe3fb18418f159d0.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "b284f665d05fb7eb22a11b2d86d3f85acc088337ddeacfc7c84e4f2a679e2bf6"
+    },
+    {
+      "Id": "11412",
+      "Name": "降临之剑",
+      "Kind": "武器",
+      "File": "11412.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/58882f57dd30072cbc3f84371d543f06.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "492cc244d51ae0229274c56ada6bf4743ce761b9c96ff95d27175fdc939ffb7e"
+    },
+    {
+      "Id": "11413",
+      "Name": "腐殖之剑",
+      "Kind": "武器",
+      "File": "11413.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/685c320aa78fc0c2e29f2e445393949a.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d93844d8233eba3f7a4506bf4563818bc2f53b9c0f83ed62cbfd02668d29d8ea"
+    },
+    {
+      "Id": "11414",
+      "Name": "天目影打刀",
+      "Kind": "武器",
+      "File": "11414.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/1aa93cbdddb0444e0eff47b3f84dc5d9.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "5f532aecccaab5eba1c58dd1be17260c02c97fd978abb78de1e801cb69e140d9"
+    },
+    {
+      "Id": "11415",
+      "Name": "辰砂之纺锤",
+      "Kind": "武器",
+      "File": "11415.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/8c150d11be0738ee0188f6f5a2a56f86.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d5780f1ee178f4a11cc825ca5916ff0345d899b5fb66e2f343585da016b29412"
+    },
+    {
+      "Id": "11416",
+      "Name": "笼钓瓶一心",
+      "Kind": "武器",
+      "File": "11416.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/d0bc1a9d160a598e7cfe669f71402662.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d88b73180500acfb14f0f2912296af7a12f3acf13ef392ddb87563a0da87e0ff"
+    },
+    {
+      "Id": "11417",
+      "Name": "原木刀",
+      "Kind": "武器",
+      "File": "11417.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/ade9757e4346ef1402c32bdde6b7a7e4.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d8f973d320ec2922637b0b11a52c395152ecef08759ea735650e206d9f5d0ecb"
+    },
+    {
+      "Id": "11422",
+      "Name": "东花坊时雨",
+      "Kind": "武器",
+      "File": "11422.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/74ef003a497f24a85e4e1e0af0793530.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "a59828af53ed6bf4ffb611edf8257f50e8c9799e6c842194dba80acfc1a06181"
+    },
+    {
+      "Id": "11424",
+      "Name": "狼牙",
+      "Kind": "武器",
+      "File": "11424.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/86a26398db607012d49be9f7e0dd0476.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "97f92608a66ab5a5c1cf34e49f6acdc00404ba0172d63ae9f0ba74995e048dc3"
+    },
+    {
+      "Id": "11425",
+      "Name": "海渊终曲",
+      "Kind": "武器",
+      "File": "11425.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/3d55aea4fa30254d868ad4fa4720c6b2.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "12051437738b4050edf879e84e85494889176e2f9c226e16cbe2b44d099cef5e"
+    },
+    {
+      "Id": "11426",
+      "Name": "灰河渡手",
+      "Kind": "武器",
+      "File": "11426.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/7ef38be38f19ff27bbba79f48b29e3c1.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "529395a78a4bb26a294b8b9c07d22c134316474c85d75e02d0fea775021f713f"
+    },
+    {
+      "Id": "11428",
+      "Name": "水仙十字之剑",
+      "Kind": "武器",
+      "File": "11428.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/7ef90872b3553d9c0f4e3452737cec2d.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "1b664896b2b2efb64b33eb22ff15e27d5b515600be06d60fe3c970f466040de5"
+    },
+    {
+      "Id": "11431",
+      "Name": "息燧之笛",
+      "Kind": "武器",
+      "File": "11431.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/4ffc901bcdb3a6c5e6c84d100af0e58d.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "57db155ae16ca8b9b07a4b1c027a99b372c3413a0d97690744aa824239037889"
+    },
+    {
+      "Id": "11432",
+      "Name": "厄水之祸",
+      "Kind": "武器",
+      "File": "11432.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/6afc33638bed2a9fbc85e2fd2147924e.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "93f8c0880c811bd944036520f65fe21c9701b161dc7e960bb54d39e7cc9b6012"
+    },
+    {
+      "Id": "11433",
+      "Name": "谧音吹哨",
+      "Kind": "武器",
+      "File": "11433.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/68c0b17a/bc9827241e82419faaab72e24d1cf1d3.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "97e5c223df7e516d9d3c52e311d557a3715a409068db929b28d53881604e3bed"
+    },
+    {
+      "Id": "11435",
+      "Name": "熔猎异端之刃",
+      "Kind": "武器",
+      "File": "11435.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/87d27550c758abfcfe4295bf1feaa7f3.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "ac8dbaef869df464668744e85b7e20a00d987f3d7364138f3f09fbe69e179730"
+    },
+    {
+      "Id": "11436",
+      "Name": "引火之源",
+      "Kind": "武器",
+      "File": "11436.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/b994ba18cd4931b61958de51b5395d67.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "7abf5e66c69cf05187d60e37ac71d2cef23e441eddd7687fc48aeb1158fd3c7a"
+    },
+    {
+      "Id": "11438",
+      "Name": "银釭",
+      "Kind": "武器",
+      "File": "11438.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6ab31686/0c2f38fc6c8afb31613c16f6f950c517.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "8331ef82ee934d994483460af7a494868a462b8ab146268c00d644e3e8898167"
+    },
+    {
+      "Id": "11521",
+      "Name": "星锋剑",
+      "Kind": "武器",
+      "File": "11521.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/8ec89cd8827583d02662704f5738efc8.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "29b81eee9912ae2897ae48f663642df9458b421c027794ebf9f8665b0e5744e7"
+    },
+    {
+      "Id": "12101",
+      "Name": "训练大剑",
+      "Kind": "武器",
+      "File": "12101.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/b1e284917f1ca8330ba929ef8f116aba.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "8af389e81ba3043f64546287a6a986dfa72a0893de09641235e88a42afb0d231"
+    },
+    {
+      "Id": "12201",
+      "Name": "佣兵重剑",
+      "Kind": "武器",
+      "File": "12201.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/165dd007459fa4897a6ddeefe3993e6a.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "fed56c056864eebb5e4507b830f14703f546b3b499fea9f163ca708b1bb8401c"
+    },
+    {
+      "Id": "12303",
+      "Name": "白铁大剑",
+      "Kind": "武器",
+      "File": "12303.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/14ff7311040e5d563ef75b28e229a7ae.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "7f6b7d38186657236f9524c31a2106732b9d825f4f3c9e792b9c5164101111bf"
+    },
+    {
+      "Id": "12306",
+      "Name": "飞天大御剑",
+      "Kind": "武器",
+      "File": "12306.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/8b59cc85afa53362080a7682e0b2284c.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "913c57d01ff38742f817494d62300e9e881f1b942c9ecec84b66b8e5954b06db"
+    },
+    {
+      "Id": "12404",
+      "Name": "宗室大剑",
+      "Kind": "武器",
+      "File": "12404.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/6c961ad33f44bd77fcab7c11a2f34f93.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "4ee400747d9144488219a91dc66b01ef66f68dc23b6693ba6faaff21fe3369c5"
+    },
+    {
+      "Id": "12406",
+      "Name": "试作古华",
+      "Kind": "武器",
+      "File": "12406.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/0365a23ab21b087a788d0d41c37bb049.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "a71fec79fdbfae0f51317edaee0e2aa9b1c3dc07b6726b67e3900ee27777bd5f"
+    },
+    {
+      "Id": "12407",
+      "Name": "白影剑",
+      "Kind": "武器",
+      "File": "12407.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/b014e2aa23e856e0cf3f802584b26862.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d0d78f201dfa93de51185928fdb39a8e2b431651037136e6c68d8ea35c452936"
+    },
+    {
+      "Id": "12408",
+      "Name": "黑岩斩刀",
+      "Kind": "武器",
+      "File": "12408.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/794c87023c6bb414a9a1ba03d52d0297.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "056087bfb82e161e126da98cc752e82d92cdbdc47f1f5e46322a3b363e7f4cd2"
+    },
+    {
+      "Id": "12409",
+      "Name": "螭骨剑",
+      "Kind": "武器",
+      "File": "12409.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/8add3ad74e3838695ee23cacbe99e776.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "00010f5e7691407fbade76cd929dc33d8255d4371d46f125b3a0aacd28898a7c"
+    },
+    {
+      "Id": "12411",
+      "Name": "雪葬的星银",
+      "Kind": "武器",
+      "File": "12411.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/15bb71d26fd594136aea9157303ab019.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "9dd434ff0a283396711784b64d56f9043226c2536b3cbf0d46763edfe368c113"
+    },
+    {
+      "Id": "12412",
+      "Name": "衔珠海皇",
+      "Kind": "武器",
+      "File": "12412.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/d6a5ab503c052d5c0814a39417cc2fee.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "99bb63bd8b9bbf786ef459a25ce35b43a1ec849c3134cc9f4130f76fffae5a14"
+    },
+    {
+      "Id": "12414",
+      "Name": "桂木斩长正",
+      "Kind": "武器",
+      "File": "12414.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/f1518eb4ebfa7cc60ff113f37e7dfa24.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "14cafa6fa8e16997c1168485f1ff5e873b6b1b52ef3415a12a6a236cba2ef4d2"
+    },
+    {
+      "Id": "12417",
+      "Name": "森林王器",
+      "Kind": "武器",
+      "File": "12417.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/3ee3cc488b17390afc4aa92d7ee2dad6.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "30687f1c5dc7a8c16d4f5d91c7cad379e4c1c91c061fc432a96a2b455572acaa"
+    },
+    {
+      "Id": "12418",
+      "Name": "饰铁之花",
+      "Kind": "武器",
+      "File": "12418.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/f9c8a43e26e2e0cfca8d757a07d4c235.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "4c9f29e3e4205b861fe5c2b442e1ef470e0294a1f63bbc99faa0146ff6c7043f"
+    },
+    {
+      "Id": "12424",
+      "Name": "聊聊棒",
+      "Kind": "武器",
+      "File": "12424.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/f6f37714a0a83e1974c458bdac72df48.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "593bdc4b9ecfdc795af82a99456b5e17f2064764b68169518bb56d4bccd75903"
+    },
+    {
+      "Id": "12425",
+      "Name": "浪影阔剑",
+      "Kind": "武器",
+      "File": "12425.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/95def815e975a9fb89e9697209de8578.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "77550361e2086c301215e6ecd9a24d7af93bd51070a39d75ba5d4de6db4f4c78"
+    },
+    {
+      "Id": "12426",
+      "Name": "「究极霸王超级魔剑」",
+      "Kind": "武器",
+      "File": "12426.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/2c73799dd587e54c75af09cf87d8576a.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "2191a6d50cdc85e77e9e500701ac441a03694e0c665289c4ba4521fa299a9a4c"
+    },
+    {
+      "Id": "12431",
+      "Name": "撼地者",
+      "Kind": "武器",
+      "File": "12431.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/5b961a68fc9a53711c1ee38504517401.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "97391eccaf978ff442c2d494a5a73c8897332c9347fcb2453fe2eade138aaaef"
+    },
+    {
+      "Id": "12432",
+      "Name": "拾慧铸熔",
+      "Kind": "武器",
+      "File": "12432.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6889608b/5662318eb81ba5f01cbaa8ef2b9b2214.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "6a0822cf3ead3ebb6c224b157858d15493fc43444cd474715e665b6779283bc8"
+    },
+    {
+      "Id": "12433",
+      "Name": "万能钥匙",
+      "Kind": "武器",
+      "File": "12433.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/68c0b17a/bf204697b55c81571860b964707430e7.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "9deeb7358a2bd08c9203bb8d05d0bcf1743f40bfdbc3b1c2b6b48cb16e95d5ae"
+    },
+    {
+      "Id": "12435",
+      "Name": "金律铸影",
+      "Kind": "武器",
+      "File": "12435.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/f3831aed5e415c960fe1b6ad8f6024e5.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "240bbb47cd63d1770da7137ca33889237d6d49e26b62cac3b7a5f67835649f6c"
+    },
+    {
+      "Id": "12436",
+      "Name": "救赎之斩",
+      "Kind": "武器",
+      "File": "12436.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/7f31b15690c0c7d5f3fc385b7ad0bf8d.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "26ee748817076242d1671e392e58536f12e5b01046188b29af1ca8e4c96cc80e"
+    },
+    {
+      "Id": "13101",
+      "Name": "新手长枪",
+      "Kind": "武器",
+      "File": "13101.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/ca0ea04c05d8994f0b7e836012e38563.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "0944c2895198a6c181b89f391d2d1fa6610f5a810876d1323fbb94aaf32b6f5c"
+    },
+    {
+      "Id": "13201",
+      "Name": "铁尖枪",
+      "Kind": "武器",
+      "File": "13201.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/d235cf9e396a50d8f673a7caf2f8d718.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "c5dcb538defeb141de756e9120502c0532c45832ec80d6e88c7cca4e6a617370"
+    },
+    {
+      "Id": "13301",
+      "Name": "白缨枪",
+      "Kind": "武器",
+      "File": "13301.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/d9d2b979b41b3a522f622d70787fe2e1.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "f345db004a37ad1e3df2acb82e95a387133ad61f0258fe28157cd81f61059a98"
+    },
+    {
+      "Id": "13302",
+      "Name": "钺矛",
+      "Kind": "武器",
+      "File": "13302.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/22ad0b31bd68659f1a160dbca09eb817.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "ec2b26229066437a14d10d492090ba72e31e1304c3e28a2b5578c2b85ee94ac3"
+    },
+    {
+      "Id": "13402",
+      "Name": "试作星镰",
+      "Kind": "武器",
+      "File": "13402.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/e9f8f53de5554bd8ed06e5783aeee3c9.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "a50aefc09a0b60b1a652821251f81e529d1b487f0f43b31f73e27e0aaad14541"
+    },
+    {
+      "Id": "13403",
+      "Name": "流月针",
+      "Kind": "武器",
+      "File": "13403.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/b96753e95648a2ddf2ece0cdcd12b758.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "705a00d00eb9ce148b49ca5e8332cdb5172fc625b93adb03e416e64a5a9e66e0"
+    },
+    {
+      "Id": "13404",
+      "Name": "黑岩刺枪",
+      "Kind": "武器",
+      "File": "13404.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/4bfccf3b0a988ed4c816889be71a7a88.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d32d49b0869d4cb859773cc27725a3bb5dce7ccc1340bdfe89ec70f5bb23f1d0"
+    },
+    {
+      "Id": "13405",
+      "Name": "决斗之枪",
+      "Kind": "武器",
+      "File": "13405.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/e28812a4dbe5207d8d88c68a53212692.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "6dc0ed6e8134d02257e1bbd100edd468195bd185b43e2ff3c20b20663bee424f"
+    },
+    {
+      "Id": "13408",
+      "Name": "宗室猎枪",
+      "Kind": "武器",
+      "File": "13408.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/212da9569426960f5b0dedba9b0d64a2.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "b54ab65bde4533529e2bc0f729b032d50a1dcfe04987bb25be960d137a16a565"
+    },
+    {
+      "Id": "13409",
+      "Name": "龙脊长枪",
+      "Kind": "武器",
+      "File": "13409.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/2f8be9e904242c2b40f3d1899ffc0694.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "df486eed6830dec3b3b9453d05e48b317c7c661fcd7dc79b8d91e9926554758c"
+    },
+    {
+      "Id": "13414",
+      "Name": "喜多院十文字",
+      "Kind": "武器",
+      "File": "13414.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/8fed2cc01d2f7f9b6c5cac8cf604bf2d.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "0c385564c1317865c3b597775704d40c16103f2b88556150f1ad2a04f875be94"
+    },
+    {
+      "Id": "13415",
+      "Name": "「渔获」",
+      "Kind": "武器",
+      "File": "13415.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/643071ffc7526446b48101f159ee0437.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "6f784d7a1804d12a04385be7b45a69811c2e5f53d0aa43a44f6a0fdc8a488640"
+    },
+    {
+      "Id": "13417",
+      "Name": "贯月矢",
+      "Kind": "武器",
+      "File": "13417.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/7091bc230ebbe5015f5c8a7418a721c0.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "25c47e702ba71b42ba638485cb42015602fe7a868c6edd6a8c4574a7be8f28e1"
+    },
+    {
+      "Id": "13419",
+      "Name": "风信之锋",
+      "Kind": "武器",
+      "File": "13419.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/0ea3522df5405f90d90505f5e36c2008.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "983feeff2b65f609377a5dd54b64d344a6cd56702860554abcd94b3bf26b6d55"
+    },
+    {
+      "Id": "13424",
+      "Name": "峡湾长歌",
+      "Kind": "武器",
+      "File": "13424.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/78b8e15bfba8cf8070335df8c29213fe.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "53c36d29efff71eb8867b5277e39a1200336e4f780322dddb7b8d446694fb77b"
+    },
+    {
+      "Id": "13425",
+      "Name": "公义的酬报",
+      "Kind": "武器",
+      "File": "13425.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/97828545a1aced0bcab8f3dbd38501b9.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "090b0738d6a7003d2d2ff90510277871709c494cd025be4ca4a5b7233bdf9853"
+    },
+    {
+      "Id": "13426",
+      "Name": "沙中伟贤的对答",
+      "Kind": "武器",
+      "File": "13426.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/004899f4640baadfa2be9d9dc0e90419.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d49c2ea2c26946298d0aa84882b8d9639f95a64824eaaa78f25557ffb37cb0b0"
+    },
+    {
+      "Id": "13431",
+      "Name": "虹的行迹",
+      "Kind": "武器",
+      "File": "13431.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/61747b9617129bbe11dcf84a93de3fe1.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "15d440741bf790a2b497a605531da64f44304afefbb74fb4237e80355ce2d992"
+    },
+    {
+      "Id": "13432",
+      "Name": "且住亭御咄",
+      "Kind": "武器",
+      "File": "13432.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/7530c502a61c663424986c74899e4b1b.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "fe3aed48ede1dc6a7b52419d9e7787d1f1c128b94074497bc253b2cd2f61d421"
+    },
+    {
+      "Id": "13433",
+      "Name": "掘金之锹",
+      "Kind": "武器",
+      "File": "13433.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/68c0b17a/5bd3fed061ae6bae4c084353c48df759.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "3bb6b6eb37dcea2e4500591c284afd5fac9547e38a52b63d3c05a821e66b215a"
+    },
+    {
+      "Id": "13435",
+      "Name": "寒息",
+      "Kind": "武器",
+      "File": "13435.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/42f9925ccf0ed36513ab375d0ccd606f.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "ed34e404d3d22b73f53741eb740c93549513ef59e7620f0396c24ab8d0459d94"
+    },
+    {
+      "Id": "13436",
+      "Name": "戍望谣歌",
+      "Kind": "武器",
+      "File": "13436.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/1c4ebc0821298a77ebd8cf5ef487b871.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "79827e67eebfe7387e279c2b8c5fb93f1d3191ec3e0635b3a428d3e07d56d961"
+    },
+    {
+      "Id": "14101",
+      "Name": "学徒笔记",
+      "Kind": "武器",
+      "File": "14101.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/852d232e46ddaacdfcb86b3f53413405.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "cddaab4c5e7550e35217c6e3826690f98831f9c610b1f9cce9b43bb8792dc9b1"
+    },
+    {
+      "Id": "14201",
+      "Name": "口袋魔导书",
+      "Kind": "武器",
+      "File": "14201.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/5edb79d30c591ca6dbb84deeb4fa64d8.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "303bf2e5b5cc944c0f4b0ee64a51ad67263364c94443cc1d4b10623d06f8609d"
+    },
+    {
+      "Id": "14303",
+      "Name": "异世界行记",
+      "Kind": "武器",
+      "File": "14303.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/209a83e1b8e802cfc56442cbe0148ef6.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "2ae7929612bf9f971d495cdb16552873669079d06e6f3936e688a74977affbdc"
+    },
+    {
+      "Id": "14305",
+      "Name": "甲级宝珏",
+      "Kind": "武器",
+      "File": "14305.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/7d0e2c53e717e887e0e60b1f56756d4d.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "b44b4042347bfd778a844eea43694759e220e058ed25cfdebdf1429eb1734d24"
+    },
+    {
+      "Id": "14404",
+      "Name": "宗室秘法录",
+      "Kind": "武器",
+      "File": "14404.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/3a69aaa3fe4b3e6d1269790434cfac8a.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "ba169938adf92a48d90943e569cae219afbac36c1c712c7dd2428ab03accebc2"
+    },
+    {
+      "Id": "14405",
+      "Name": "匣里日月",
+      "Kind": "武器",
+      "File": "14405.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/be0408e0e9d8356566c6cbad21b959d7.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "09fe2ce2ac0100e207362f99d8c5e61e58ebbc9a3deca145b5e8a728a348b0b7"
+    },
+    {
+      "Id": "14406",
+      "Name": "试作金珀",
+      "Kind": "武器",
+      "File": "14406.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/00d58c6a9f08c487851206576c962551.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "53977ee5961d1cae4dcd3401d2cdc48ff0d77af5a44cc1b2539dca7a222d350c"
+    },
+    {
+      "Id": "14407",
+      "Name": "万国诸海图谱",
+      "Kind": "武器",
+      "File": "14407.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/ad12d566dd0376457b622464e0744fe2.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "c47614f7fe8647b8d8904e6edb987e6a6953c5869d4354a24601a23a3e9fd846"
+    },
+    {
+      "Id": "14408",
+      "Name": "黑岩绯玉",
+      "Kind": "武器",
+      "File": "14408.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/5ff68cdb787d782918193236c883ece3.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "7e1f4b5105ef20d7fdc931596ee8b4bea5bc997672524984c51612788e52175c"
+    },
+    {
+      "Id": "14412",
+      "Name": "忍冬之果",
+      "Kind": "武器",
+      "File": "14412.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/39a484f89b11fda2c68f29bcca43e26c.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "922837ee4af5a7bbd40a831277b8a51fa152ba5ebc4321945f1c5876849a4e1f"
+    },
+    {
+      "Id": "14413",
+      "Name": "嘟嘟可故事集",
+      "Kind": "武器",
+      "File": "14413.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/6ec8e2657f0f24d5ed35ecbde8aa85db.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "04094b72284fefc8e0e298ef47d6bb7fb576751c0005428a84037705fc5ced74"
+    },
+    {
+      "Id": "14414",
+      "Name": "白辰之环",
+      "Kind": "武器",
+      "File": "14414.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/29ef5797e2374e7f3a6996dc02c72d83.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "1424c12439d1b3f70615b859ade5530b18a76aead549520a1aadace9d36532bc"
+    },
+    {
+      "Id": "14415",
+      "Name": "证誓之明瞳",
+      "Kind": "武器",
+      "File": "14415.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/f9308f15888ca90af00ff12c5223c1a9.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "5e604d708f7fc515deda4096f77f38bec921e0aaf462c03871a53e26c5347900"
+    },
+    {
+      "Id": "14417",
+      "Name": "盈满之实",
+      "Kind": "武器",
+      "File": "14417.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/c533c74b11161cf1b59f745b727c98cf.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "bdcb65208d96f6bf1979b905ca6744da7994eff4de69eb73906e3060f7b55f17"
+    },
+    {
+      "Id": "14424",
+      "Name": "遗祀玉珑",
+      "Kind": "武器",
+      "File": "14424.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/95e2a7c637afe59f0ec81b2da9ad49c9.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "c157d845b6bcc1e9f3aaabdc393b66c29d8d7166ea9d405c5365c0dfef57bb54"
+    },
+    {
+      "Id": "14425",
+      "Name": "纯水流华",
+      "Kind": "武器",
+      "File": "14425.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/6533155e829bb778b9ef84563a09e692.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "953c8ffdfa7a38c88dc1f060a7ea1e0c577325f960faa0ff28b6fafc8c9cc1f7"
+    },
+    {
+      "Id": "14426",
+      "Name": "无垠蔚蓝之歌",
+      "Kind": "武器",
+      "File": "14426.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/e8e43cfd0ba489f79f5fb138e2178554.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "f8686b6ed5b47930a143d0a92ef7b23a9ae19194c45e8821167ba7bbb8a1adf5"
+    },
+    {
+      "Id": "14427",
+      "Name": "苍纹角杯",
+      "Kind": "武器",
+      "File": "14427.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/92039ba9ea4140e6ffbb61713622847d.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "8e7cd797e485568e39e36e30d12f374b9f3fcfcd1e78ef7acfd4e58aa6dff64d"
+    },
+    {
+      "Id": "14431",
+      "Name": "木棉之环",
+      "Kind": "武器",
+      "File": "14431.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/59c44935ff819c319548daff2b222127.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "bbee9d92da5630358c7e9feb49c14aeb43310e954b5e8268f6ba20c3dc769cb2"
+    },
+    {
+      "Id": "14432",
+      "Name": "天光的纺琴",
+      "Kind": "武器",
+      "File": "14432.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/68c0b17a/c46b6bec8f810d6406ed662e2235ab7e.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "e5bc38684ff0f7f0c48b020681b5c22d9a86c18497c68b8e36eca100e28a8cd1"
+    },
+    {
+      "Id": "14433",
+      "Name": "乌髓孑灯",
+      "Kind": "武器",
+      "File": "14433.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/68c0b17a/77727a0468afbde82f9baf1082b9861e.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d7d4627f2517577b4b0fd8d403941d7d7f30e28c74871e248ccf8f9893c5d4bf"
+    },
+    {
+      "Id": "14435",
+      "Name": "群王局戏",
+      "Kind": "武器",
+      "File": "14435.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/741f589153ef2d22307233be14b00e12.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "75d7ea30cf09ed2e2b025e1b0987a9d2388798c08738be0f97d802efbaadafb2"
+    },
+    {
+      "Id": "14436",
+      "Name": "寸心余响",
+      "Kind": "武器",
+      "File": "14436.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/93c5de39db16c894abaf1df56b710dd5.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "165c9e5d9db28eb5515209af85d1360fa273f8209c0f19f2bac82d3f9ee0cbff"
+    },
+    {
+      "Id": "14523",
+      "Name": "尘光七谕",
+      "Kind": "武器",
+      "File": "14523.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a0cf98d/8bc74e76d3888a46a6279ba1a765978b.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "89b0f2bcb828f7c3952d16f1d8fbbc7868883dd7dae7c0654a7229fca0effce8"
+    },
+    {
+      "Id": "15101",
+      "Name": "猎弓",
+      "Kind": "武器",
+      "File": "15101.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/c75ade4a5acb5eb9aaefbed318bf75ff.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "b2c3bea48b59c16572f7a442df36b4b96180b21bfc6484b139fabd111ccf0918"
+    },
+    {
+      "Id": "15201",
+      "Name": "历练的猎弓",
+      "Kind": "武器",
+      "File": "15201.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/53d5af406088693126f3bd691680c2eb.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "3eb1bc62c1542fcfdf860ed2527ec5c43de41a9e3bfa3a82feea444dd28f40ea"
+    },
+    {
+      "Id": "15303",
+      "Name": "反曲弓",
+      "Kind": "武器",
+      "File": "15303.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/507fcc151bad5fcb3c9d61e436fd8839.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "fe0c804b6a6dc5a1beaccc588747dc9eafbc894fd2403844f1dbd7e6c0c81f72"
+    },
+    {
+      "Id": "15305",
+      "Name": "信使",
+      "Kind": "武器",
+      "File": "15305.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/0c145223319e7035b8bf17a43ad7eba2.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "f3ad955b70eb6bd3da2da02169c2511ad5b80651fdad58288e6313630755abab"
+    },
+    {
+      "Id": "15404",
+      "Name": "宗室长弓",
+      "Kind": "武器",
+      "File": "15404.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/893ae1927bea9c1b2b495e46eae472f1.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "5fe1310a8b7a84b9f9e87017933494c7de3b7364e540672f248766e7662f5e5f"
+    },
+    {
+      "Id": "15406",
+      "Name": "试作澹月",
+      "Kind": "武器",
+      "File": "15406.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/80f9f492c45ffb4376aa4e8e496ab5d5.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "8c258b4437563191fb06656ea16340163a80bca83a138cba492ced38083bd6ab"
+    },
+    {
+      "Id": "15407",
+      "Name": "钢轮弓",
+      "Kind": "武器",
+      "File": "15407.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/3f8226fbfd17d85c094e0796b3a92d8d.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "308fbdbb356f87379579c31613ced89e8c55fee4b1511f9045f85ec9f2b80e92"
+    },
+    {
+      "Id": "15408",
+      "Name": "黑岩战弓",
+      "Kind": "武器",
+      "File": "15408.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/a0ff01694b9dfd463fb074c8b4af1063.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "52f8affa409d445149323da3518ec1645ef31029454175d2fa8100af56dac217"
+    },
+    {
+      "Id": "15409",
+      "Name": "苍翠猎弓",
+      "Kind": "武器",
+      "File": "15409.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/4cb4be711bf4af4b3ca02a78cc72bd16.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "872c2b1ef78620def831b6a3cc424261eef4f3cfdff77c629869679ef95c37f0"
+    },
+    {
+      "Id": "15411",
+      "Name": "落霞",
+      "Kind": "武器",
+      "File": "15411.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/ab3de086b1a1f6a42d1b5c8ae32f3b15.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "b79a888740082cfe7035f795838dcab3479c59e1d6ba4a6af06bcb97ee794dc2"
+    },
+    {
+      "Id": "15413",
+      "Name": "风花之颂",
+      "Kind": "武器",
+      "File": "15413.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/fc907601decd02b1a63a68ebd62d00cf.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "13ff71ed13d9d29893639d536e6c72f015c66b89734507a75652c96258b5bcb3"
+    },
+    {
+      "Id": "15414",
+      "Name": "破魔之弓",
+      "Kind": "武器",
+      "File": "15414.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/0d09981aa5c965eb05df4d6fa400d7bc.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "41e6ddb3d82dce65e07b73a0a4bdf25e3b3ef28ff4e8259410c0108b443f762a"
+    },
+    {
+      "Id": "15415",
+      "Name": "掠食者",
+      "Kind": "武器",
+      "File": "15415.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/95be77123f875f3393bc2a08f5eabe20.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "990338209dc80830c0d14f43b3c0d601152f54668fbf3d4edf19abc6c7b9a6a9"
+    },
+    {
+      "Id": "15417",
+      "Name": "王下近侍",
+      "Kind": "武器",
+      "File": "15417.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/b14920a1d49af70c345e1663eac49717.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "3986b4123159a2b426a97d1b0a062fd5270a939fc13282bce2f84fbd923b3494"
+    },
+    {
+      "Id": "15418",
+      "Name": "竭泽",
+      "Kind": "武器",
+      "File": "15418.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/757dd6f75e6f4225088be09435d9d03b.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "9ebda35d729a1c26eb385b032b7a4ed479d85a8b0bc0e08c801632650a684922"
+    },
+    {
+      "Id": "15419",
+      "Name": "鹮穿之喙",
+      "Kind": "武器",
+      "File": "15419.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/6e37803f70f76be9df083b99a5af8307.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "47e7f326aab21b6e9cbaae9728c94231b35e59db48c05b72faa9bf31612a2648"
+    },
+    {
+      "Id": "15424",
+      "Name": "烈阳之嗣",
+      "Kind": "武器",
+      "File": "15424.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/656ed54983d6f96092bb307e2589f1c1.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d7beac39fcfb1d59c18fd602bb12aa0ffdae02a8ace4c2ee2949864ca6240331"
+    },
+    {
+      "Id": "15425",
+      "Name": "静谧之曲",
+      "Kind": "武器",
+      "File": "15425.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/e8e52713d73416d6bd4860e2ec7eebf0.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "9388178f7a30c738a7e8602ddd9fa8b30f0fae159b903c494bed0b9197b68811"
+    },
+    {
+      "Id": "15426",
+      "Name": "筑云",
+      "Kind": "武器",
+      "File": "15426.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/b2c9dcddaa4da988c7ee15045af8d8bc.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "3dc900a12e12ef5f05ef48c1673ea5b9448019a3a800ca841dc36070fd579feb"
+    },
+    {
+      "Id": "15431",
+      "Name": "碎链",
+      "Kind": "武器",
+      "File": "15431.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/db2a58cc67636814146192b0e748e9a6.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "98462f373e285f49fbddd41d728800aa89626a50e313a716c5b32dd5e0876a6d"
+    },
+    {
+      "Id": "15432",
+      "Name": "冷寂迸音",
+      "Kind": "武器",
+      "File": "15432.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/681a947b/74182d9654a8ed410e405ca87475812f.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "1581d446ec968317b107b328817158a73ecb97ed3cbb3e46ebc040a0c880ebdc"
+    },
+    {
+      "Id": "15433",
+      "Name": "罗网勾针",
+      "Kind": "武器",
+      "File": "15433.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/68c0b17a/8820ca86f5d001904454f08b286da125.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "735a0e9ea6389db56c39ce14f4373532a6fb57f116441ad0734bd4844e6c81d9"
+    },
+    {
+      "Id": "15434",
+      "Name": "虹蛇的雨弦",
+      "Kind": "武器",
+      "File": "15434.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/692f7d8b/430a2ee3f7bb4817d96e4179110ffb21.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "d17efc328387dd8021ac7d4e00df87bbf9880fab5a8ae34521ed0653a079ed46"
+    },
+    {
+      "Id": "15435",
+      "Name": "悬黎千钧",
+      "Kind": "武器",
+      "File": "15435.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/0f601bcd039f213598bb9d89842c982e.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "10a1984f471a91b4d9fd1688d7c9b90956a224f1d04d8f3206481bbfa023636b"
+    },
+    {
+      "Id": "15436",
+      "Name": "霜雪誓约",
+      "Kind": "武器",
+      "File": "15436.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a7ba976/2865b59789886b72f1a9a9bcf3e731de.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/weapon/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "7c41752ca668e42a3e12038ea38d1fc6965415f43f319f89a749ffc90bd2d2cf"
+    },
+    {
+      "Id": "10000062",
+      "Name": "埃洛伊",
+      "Kind": "角色",
+      "File": "10000062.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/67c7f6c8/ac42af1ac5dff78b080c5bdaa1bfbc76.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatar/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "0e2b022feed5e6f33866e2774f4d71e8ca0fa5ab99871c67db7df7cf1f635586"
+    },
+    {
+      "Id": "10000117",
+      "Name": "奇偶·男性",
+      "Kind": "角色",
+      "File": "10000117.png",
+      "Url": "https://fastcdn.mihoyo.com/static-resource-v2/2025/10/16/af27ded694227c5c49f0f75730eecbb9_8978606435920695541.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatar/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "6d708853baaba80b3c7e6ce7b671d412ce0e0b59a10893a93fbad8c5e9a75bc8"
+    },
+    {
+      "Id": "10000118",
+      "Name": "奇偶·女性",
+      "Kind": "角色",
+      "File": "10000118.png",
+      "Url": "https://fastcdn.mihoyo.com/static-resource-v2/2025/10/16/7328f006a498626b32a1e187c0dba1ea_3540908881493819725.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatar/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "880a469dacc05fe1fdf8e13f1be49599e136d9a75e6ec75f499d51c3927a92e7"
+    },
+    {
+      "Id": "10000122",
+      "Name": "奈芙尔",
+      "Kind": "角色",
+      "File": "10000122.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/68f81e8b/3599d082a372edcd04d8ba377b430180.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatar/list",
+      "RetrievedAtUtc": "2026-10-11T17:58:57.1100005+00:00",
+      "Sha256": "3de0d0b940d5fa9230878b45adcda309da1e4c139fd862b4e8f8043ab2196f0b"
+    },
+    {
+      "Id": "10000131",
+      "Name": "尼可",
+      "Kind": "角色",
+      "File": "10000131.png",
+      "Url": "https://act-webstatic.mihoyo.com/hk4e/e20200928calculate/item_icon/6a0cf98d/233e3baf9bd2c030a49b46c31173da9e.png",
+      "MetadataEndpoint": "https://api-takumi.mihoyo.com/event/e20200928calculate/v1/avatar/list",
+      "RetrievedAtUtc": "2026-10-12T01:57:37.2914679+08:00",
+      "Sha256": "09b416f82eb09fac783e1760b76e3590fba629e14834b13e8dcbd03b9eae16df"
+    }
+  ]
+}

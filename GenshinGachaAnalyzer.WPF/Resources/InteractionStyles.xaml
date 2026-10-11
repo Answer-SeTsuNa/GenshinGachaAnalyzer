@@ -1,0 +1,28 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <Style x:Key="SectionTab" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+  <Setter Property="Background" Value="{DynamicResource PanelRaised}" /><Setter Property="BorderBrush" Value="{DynamicResource Line}" /><Setter Property="Padding" Value="18,11" /><Setter Property="Margin" Value="0,0,8,0" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button"><Grid>
+   <Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1" CornerRadius="9" Padding="{TemplateBinding Padding}"><ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" /></Border>
+   <Border x:Name="Indicator" Height="3" CornerRadius="2" Background="{DynamicResource Gold}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="16,0,16,0" Opacity="0" RenderTransformOrigin=".5,.5"><Border.RenderTransform><ScaleTransform x:Name="IndicatorScale" ScaleX="0" /></Border.RenderTransform></Border>
+  </Grid><ControlTemplate.Triggers>
+   <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource Gold}" /></Trigger>
+   <DataTrigger Binding="{Binding IsSelected}" Value="True"><Setter Property="Foreground" Value="{DynamicResource SelectedText}" /><Setter Property="FontWeight" Value="SemiBold" /><Setter TargetName="Chrome" Property="Background" Value="{DynamicResource Selected}" />
+    <DataTrigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="Indicator" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.18" /><DoubleAnimation Storyboard.TargetName="IndicatorScale" Storyboard.TargetProperty="ScaleX" To="1" Duration="0:0:0.22"><DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction></DoubleAnimation></Storyboard></BeginStoryboard></DataTrigger.EnterActions>
+    <DataTrigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="Indicator" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.15" /><DoubleAnimation Storyboard.TargetName="IndicatorScale" Storyboard.TargetProperty="ScaleX" To="0" Duration="0:0:0.15" /></Storyboard></BeginStoryboard></DataTrigger.ExitActions>
+   </DataTrigger>
+  </ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+ </Style>
+ <Style x:Key="PoolExpander" TargetType="ToggleButton">
+  <Setter Property="Foreground" Value="{DynamicResource Text}" /><Setter Property="Cursor" Value="Hand" /><Setter Property="FontSize" Value="15" /><Setter Property="FontWeight" Value="SemiBold" /><Setter Property="Padding" Value="0,5" /><Setter Property="HorizontalContentAlignment" Value="Left" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton"><StackPanel Orientation="Horizontal" Background="Transparent">
+   <Border Width="26" Height="26" CornerRadius="8" Background="{DynamicResource Selected}" Margin="0,0,9,0"><Path Width="10" Height="6" Stretch="Fill" Data="M 0,0 L 5,5 L 10,0" Stroke="{DynamicResource Gold}" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" RenderTransformOrigin=".5,.5"><Path.RenderTransform><RotateTransform x:Name="Chevron" /></Path.RenderTransform></Path></Border>
+   <ContentPresenter VerticalAlignment="Center" />
+  </StackPanel><ControlTemplate.Triggers><Trigger Property="IsChecked" Value="False"><Trigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="Chevron" Storyboard.TargetProperty="Angle" To="-90" Duration="0:0:0.22" /></Storyboard></BeginStoryboard></Trigger.EnterActions><Trigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetName="Chevron" Storyboard.TargetProperty="Angle" To="0" Duration="0:0:0.22" /></Storyboard></BeginStoryboard></Trigger.ExitActions></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+ </Style>
+ <Style x:Key="LayoutToggle" TargetType="ToggleButton">
+  <Setter Property="Foreground" Value="{DynamicResource Muted}" /><Setter Property="Background" Value="{DynamicResource Panel}" /><Setter Property="Cursor" Value="Hand" /><Setter Property="Padding" Value="9,7" />
+  <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ToggleButton"><Border x:Name="Chrome" Background="{TemplateBinding Background}" BorderBrush="{DynamicResource Line}" BorderThickness="1" CornerRadius="8" Padding="{TemplateBinding Padding}"><ContentPresenter /></Border><ControlTemplate.Triggers><Trigger Property="IsChecked" Value="True"><Setter TargetName="Chrome" Property="Background" Value="{DynamicResource Selected}" /><Setter Property="Foreground" Value="{DynamicResource SelectedText}" /></Trigger><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Chrome" Property="BorderBrush" Value="{DynamicResource Gold}" /></Trigger></ControlTemplate.Triggers></ControlTemplate></Setter.Value></Setter>
+ </Style>
+ <Style x:Key="MetricTile" TargetType="Border"><Setter Property="Background" Value="{DynamicResource PanelRaised}" /><Setter Property="CornerRadius" Value="9" /><Setter Property="Padding" Value="11,10" /><Setter Property="Margin" Value="0,0,7,7" /></Style>
+ <DataTemplate x:Key="HistoryUpBadge"><StackPanel Width="36" Margin="0,0,4,3" ToolTip="{Binding Name}"><ContentControl Content="{Binding}" ContentTemplate="{StaticResource ItemPortrait}" Width="30" Height="30"/><TextBlock Text="{Binding CountText}" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,3,0,0"/></StackPanel></DataTemplate>
+</ResourceDictionary>

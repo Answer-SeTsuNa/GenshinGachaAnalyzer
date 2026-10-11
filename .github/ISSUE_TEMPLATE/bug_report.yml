@@ -1,0 +1,25 @@
+name: 报告问题
+description: 页面、统计、导入或获取异常
+title: '[Bug] '
+body:
+  - type: markdown
+    attributes:
+      value: '请开启设置中的开发者模式，查看本地日志。不要提交真实 UID、authkey、祈愿 URL 或完整个人档案。'
+  - type: input
+    id: version
+    attributes:
+      label: 软件版本与 Windows 版本
+      placeholder: 0.1.0 / Windows 11 24H2
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤、期望结果与实际结果
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: 脱敏后的错误日志或截图
+      description: runtime 日志会隐藏 URL 查询凭据；冲突日志包含个人抽卡信息，请先脱敏。

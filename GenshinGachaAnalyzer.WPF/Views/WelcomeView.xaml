@@ -1,0 +1,33 @@
+<UserControl x:Class="GenshinGachaAnalyzer.WPF.Views.WelcomeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+ <ScrollViewer VerticalScrollBarVisibility="Auto">
+  <Grid MinHeight="570">
+   <Path Data="M 0,150 L 150,0 300,150 150,300 Z M 60,150 L 150,60 240,150 150,240 Z" Stroke="#283345" StrokeThickness="1" Width="320" Height="320" Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,36,0" Opacity="0.6" IsHitTestVisible="False" />
+   <StackPanel VerticalAlignment="Center" Margin="34,30,34,30">
+    <TextBlock Text="LOCAL FIRST  /  YOUR WISHES, PRESERVED" Style="{StaticResource Eyebrow}" />
+    <TextBlock Text="每一次祈愿，&#10;都值得被记住。" FontSize="44" FontWeight="SemiBold" LineHeight="65" Margin="0,22,0,22" />
+    <TextBlock Text="为您的原神祈愿建立一份长久的本地档案。&#10;从游戏获取，或带上已有记录，从这里继续。" Style="{StaticResource MutedText}" FontSize="15" LineHeight="28" />
+    <Grid Margin="0,34,0,26" MaxWidth="830" HorizontalAlignment="Left">
+     <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="22" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+     <Border Style="{StaticResource Card}">
+      <StackPanel MinWidth="276">
+       <TextBlock Text="01  /  连接游戏" Style="{StaticResource Eyebrow}" />
+       <TextBlock Text="从游戏获取" FontSize="22" FontWeight="SemiBold" Margin="0,18,0,12" />
+       <TextBlock Text="先在国服游戏内打开一次祈愿历史。&#10;程序将读取本地缓存并获取可见记录。" Style="{StaticResource MutedText}" />
+       <Button Content="从游戏获取  →" Command="{Binding Shell.FetchCommand}" Style="{StaticResource PrimaryButton}" HorizontalAlignment="Left" Margin="0,22,0,0" />
+      </StackPanel>
+     </Border>
+     <Border Grid.Column="2" Style="{StaticResource Card}">
+      <StackPanel MinWidth="276">
+       <TextBlock Text="02  /  迁移档案" Style="{StaticResource Eyebrow}" />
+       <TextBlock Text="导入 UIGF 文件" FontSize="22" FontWeight="SemiBold" Margin="0,18,0,12" />
+       <TextBlock Text="支持 UIGF v4.2 / v4.1 / v4.0 / v3.0，&#10;以及 v2.4 / v2.3 / v2.2。&#10;先检查文件，再由您确认写入。" Style="{StaticResource MutedText}" />
+       <Button Content="选择 JSON 文件  →" Command="{Binding Shell.ImportCommand}" HorizontalAlignment="Left" Margin="0,22,0,0" />
+      </StackPanel>
+     </Border>
+    </Grid>
+    <TextBlock Text="◇  仅存本地，不上传     ◇  只增不改，保留原始记录     ◇  标准格式，自由迁移" Style="{StaticResource MutedText}" FontSize="12" />
+    <TextBlock Text="仅支持 Windows 国服客户端，不支持云原神与国际服。" Style="{StaticResource MutedText}" FontSize="12" Margin="0,10,0,0" />
+   </StackPanel>
+  </Grid>
+ </ScrollViewer>
+</UserControl>
