@@ -2,7 +2,7 @@
 
 <img src="GenshinGachaAnalyzer.WPF/Resources/AppIcon.png" width="96" alt="木偶应用图标"/>
 
-**Windows 本地祈愿档案管理器 · 0.1.14**
+**Windows 本地祈愿档案管理器 · 0.1.15**
 
 记录永久留存，使用 UIGF 自由迁移。.NET 10 LTS / WPF / MVVM / LiveCharts2 / SQLite，代码采用 MIT 协议。
 
@@ -98,7 +98,7 @@
     ./scripts/Package.ps1
     ./scripts/Verify-Installer.ps1
 
-发布输出 artifacts/publish/v0.1.14-win-x64；打包生成 EXE 安装包、二进制 ZIP、源码 ZIP 和 SHA256SUMS。首次安装包构建会下载并校验固定版本的编译工具，后续使用本地缓存。UI 和安装验证使用合成账号及新的隔离目录，拒绝实际 AppData 数据库；详见 [VERIFICATION.md](docs/VERIFICATION.md)。
+发布输出 artifacts/publish/v0.1.15-win-x64；打包生成 EXE 安装包、二进制 ZIP、源码 ZIP 和 SHA256SUMS。首次安装包构建会下载并校验固定版本的编译工具，后续使用本地缓存。UI 和安装验证使用合成账号及新的隔离目录，拒绝实际 AppData 数据库；详见 [VERIFICATION.md](docs/VERIFICATION.md)。
 
 手动构建：
 
@@ -112,7 +112,7 @@
 
 [发布指南](docs/RELEASE.md) 包含仓库准备、版本、标签和资产操作。.github/workflows/build.yml 自动执行 Windows 编译、测试和打包；推送与版本一致的 v0.1.x 标签后创建 Release。
 
-版本只维护在 Directory.Build.props。本次基线 0.1.14；默认仅递增最后一位：
+版本只维护在 Directory.Build.props。本次基线 0.1.15；默认仅递增最后一位：
 
     ./scripts/Bump-Version.ps1 -Preview
     ./scripts/Bump-Version.ps1

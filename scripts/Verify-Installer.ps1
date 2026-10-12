@@ -42,6 +42,39 @@ function Read-Registration {
     try { return @{ Version=$key.GetValue('DisplayVersion'); Location=$key.GetValue('InstallLocation') } }
     finally { $key.Dispose() }
 }
+# WScript.Shell 的快捷方式属性经过系统 ANSI 代码页；英文 CI 无法可靠读取中文路径。
+# 直接使用 IShellLinkW，验证安装器实际写入的 Unicode 目标与工作目录。
+Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+using System.Text;
+public static class InstallerShortcutReader {
+    [ComImport, Guid("00021401-0000-0000-C000-000000000046")]
+    private class ShellLink { }
+    [ComImport, Guid("000214F9-0000-0000-C000-000000000046"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    private interface IShellLinkW {
+        void GetPath([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder path, int capacity, IntPtr findData, uint flags);
+        void GetIDList(out IntPtr itemList);
+        void SetIDList(IntPtr itemList);
+        void GetDescription([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder description, int capacity);
+        void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string description);
+        void GetWorkingDirectory([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder directory, int capacity);
+    }
+    public static string[] Read(string path) {
+        object shortcut = new ShellLink();
+        try {
+            ((IPersistFile)shortcut).Load(path, 0);
+            var link = (IShellLinkW)shortcut;
+            var target = new StringBuilder(32768);
+            var directory = new StringBuilder(32768);
+            link.GetPath(target, target.Capacity, IntPtr.Zero, 4);
+            link.GetWorkingDirectory(directory, directory.Capacity);
+            return new[] { target.ToString(), directory.ToString() };
+        } finally { Marshal.FinalReleaseComObject(shortcut); }
+    }
+}
+'@
 try {
     $firstSetup = if ($PreviousInstallerPath) { [IO.Path]::GetFullPath($PreviousInstallerPath) } else { $setup }
     Invoke-InstallerProcess $firstSetup @('/SP-', '/VERYSILENT', '/SUPPRESSMSGBOXES', '/NORESTART', '/RESTARTEXITCODE=10', '/TASKS=', "/DIR=$installDirectory", "/GROUP=$groupName", "/LOG=$(Join-Path $output 'install.log')")
@@ -69,10 +102,11 @@ try {
         $fileCount++
     }
     $steps.Add("$fileCount 个运行文件、资源与许可证逐项 SHA256 校验通过。")
-    $shell = New-Object -ComObject WScript.Shell
-    $link = $shell.CreateShortcut((Join-Path $groupDirectory '木偶原神抽卡分析工具.lnk'))
+    $linkPath = Join-Path $groupDirectory '木偶原神抽卡分析工具.lnk'
+    if (!(Test-Path -LiteralPath $linkPath)) { throw "缺少开始菜单快捷方式：$linkPath" }
+    $link = [InstallerShortcutReader]::Read($linkPath)
     $exe = Join-Path $installDirectory 'GenshinGachaAnalyzer.exe'
-    if ($link.TargetPath -ne $exe -or $link.WorkingDirectory -ne $installDirectory) { throw '开始菜单快捷方式指向错误。' }
+    if ($link[0] -ne $exe -or $link[1] -ne $installDirectory) { throw "开始菜单快捷方式指向错误。目标：$($link[0])；工作目录：$($link[1])；预期：$exe" }
     if (!(Test-Path -LiteralPath (Join-Path $groupDirectory '卸载 木偶原神抽卡分析工具.lnk'))) { throw '缺少卸载快捷方式。' }
     $steps.Add('开始菜单程序与卸载快捷方式正确。')
     & (Join-Path $PSScriptRoot 'Verify-Startup.ps1') -ExecutablePath $exe -OutputDirectory (Join-Path $output 'startup') -ShellLaunch -WithData -ComplexAppearance
