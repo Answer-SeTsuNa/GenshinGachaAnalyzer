@@ -40,10 +40,12 @@ try {
     $binaryFiles = @(Get-ChildItem -LiteralPath $publishFolder -File -Recurse | ForEach-Object { [IO.Path]::GetRelativePath($publishFolder, $_.FullName) })
     $binaryArchive = Join-Path $artifactFolder "GenshinGachaAnalyzer-v$Version-win-x64.zip"
     Write-Package $binaryArchive $publishFolder $binaryFiles
+    & (Join-Path $PSScriptRoot 'Build-Installer.ps1')
+    $installer = Join-Path $artifactFolder "GenshinGachaAnalyzer-Setup-v$Version-win-x64.exe"
     # 发布校验文件仅含包名和摘要，不暴露构建机绝对路径。
-    $checksums = @($binaryArchive, $sourceArchive) | ForEach-Object { (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash.ToLowerInvariant() + '  ' + [IO.Path]::GetFileName($_) }
+    $checksums = @($installer, $binaryArchive, $sourceArchive) | ForEach-Object { (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash.ToLowerInvariant() + '  ' + [IO.Path]::GetFileName($_) }
     [IO.File]::WriteAllLines((Join-Path $artifactFolder "v$Version-SHA256SUMS.txt"), $checksums, [Text.UTF8Encoding]::new($false))
-    Get-Item -LiteralPath $sourceArchive, $binaryArchive | Select-Object Name, Length
+    Get-Item -LiteralPath $installer, $sourceArchive, $binaryArchive | Select-Object Name, Length
 } finally { Pop-Location }
 
 

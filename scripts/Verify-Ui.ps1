@@ -1,4 +1,4 @@
-param([string]$OutputDirectory, [switch]$Published)
+param([string]$OutputDirectory, [switch]$Published, [string]$ExecutablePath)
 $ErrorActionPreference = 'Stop'
 $verifyRoot = Split-Path -Parent $PSScriptRoot
 if (-not $OutputDirectory) { $OutputDirectory = Join-Path $verifyRoot ('artifacts/ui-' + (Get-Date -Format 'yyyyMMdd-HHmmss')) }
@@ -11,6 +11,7 @@ if ($Published) {
     $verifyExecutable = Join-Path $verifyRoot "artifacts/publish/v$verifyVersion-win-x64/GenshinGachaAnalyzer.exe"
 }
 $verifyFixture = Join-Path $verifyRoot 'GenshinGachaAnalyzer.Tests/Fixtures/synthetic-ui-v4.1.json'
+if ($ExecutablePath) { $verifyExecutable = [IO.Path]::GetFullPath($ExecutablePath) }
 if (-not (Test-Path -LiteralPath $verifyExecutable)) { throw '请先运行 Build.ps1。' }
 $verifyArguments = '--verify-ui "' + $verifyOutput + '" "' + $verifyFixture + '"'
 $verifyStart = [Diagnostics.ProcessStartInfo]::new($verifyExecutable)

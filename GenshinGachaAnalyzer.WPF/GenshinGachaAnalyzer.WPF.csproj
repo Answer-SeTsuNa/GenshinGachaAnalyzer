@@ -22,6 +22,7 @@
     <Content Include="Resources/Banners/*" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../THIRD_PARTY_NOTICES.md" Link="THIRD_PARTY_NOTICES.md" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../docs/FufuLauncher.LICENSE" Link="FufuLauncher.LICENSE" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/InnoSetup*.LICENSE" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../docs/Snap.*.LICENSE" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../docs/MIGRATION.md" Link="MIGRATION.md" CopyToOutputDirectory="PreserveNewest" />

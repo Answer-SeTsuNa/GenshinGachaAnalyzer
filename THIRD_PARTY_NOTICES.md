@@ -1,5 +1,8 @@
 # 第三方来源与声明
 
+- EXE 安装器使用 Inno Setup 6.7.3：https://github.com/jrsoftware/issrc/tree/is-6_7_3。Copyright (C) 1997–2026 Jordan Russell；Portions Copyright (C) 2000–2026 Martijn Laan。许可全文随附 InnoSetup.LICENSE。
+- 安装向导简体中文翻译：https://github.com/kira-96/Inno-Setup-Chinese-Simplified-Translation，固定提交 1ff90acc4ed4aee82b1cda43253243deee3daed4，MIT 全文随附 InnoSetup.ChineseSimplified.LICENSE。
+
 祈愿模块的布局、页面分工和历史 / UP 计时思路参考用户提供的 Snap.Hutao.Remastered 1.20.3。该项目使用 WinUI 3；本工具用 WPF 独立实现，使用本工具的 SQLite、UIGF 和本地统计服务。首段计数和四星进度按胡桃口径，未知星级 / 排期不补造。未移植其账号、云服务、遥测、其他游戏模块和概率预测。
 
 - 原项目：https://github.com/SnapHutaoRemasteringProject/Snap.Hutao.Remastered

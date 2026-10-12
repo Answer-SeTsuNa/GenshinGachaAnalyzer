@@ -2,13 +2,15 @@
 
 <img src="GenshinGachaAnalyzer.WPF/Resources/AppIcon.png" width="96" alt="木偶应用图标"/>
 
-**Windows 本地祈愿档案管理器 · 0.1.13**
+**Windows 本地祈愿档案管理器 · 0.1.14**
 
 记录永久留存，使用 UIGF 自由迁移。.NET 10 LTS / WPF / MVVM / LiveCharts2 / SQLite，代码采用 MIT 协议。
 
 ## 获取与运行
 
-从仓库 Releases 下载 win-x64.zip，解压整个目录后运行 GenshinGachaAnalyzer.exe。自包含版无需另装 .NET，不能只复制 EXE。支持 Windows 10 2004 及以上；原生亚克力材质需要 Windows 11 22H2 及以上，并遵循系统的透明效果设置。
+从仓库 Releases 下载 `GenshinGachaAnalyzer-Setup-v版本号-win-x64.exe`，双击中文安装向导，可选择安装目录和桌面快捷方式；安装后从桌面或开始菜单启动。默认只为当前用户安装，无需管理员权限；新版安装包覆盖升级，Windows 设置中可卸载，祈愿档案和设置会保留。
+
+也可下载 win-x64.zip 便携版，解压整个目录后运行 GenshinGachaAnalyzer.exe，不能只复制 EXE。两种版本均自带运行环境，无需另装 .NET。支持 Windows 10 2004 及以上的 x64 兼容系统；原生亚克力材质需要 Windows 11 22H2 及以上，并遵循系统的透明效果设置。安装与维护说明见 [INSTALLER.md](docs/INSTALLER.md)。
 
 只有主动获取祈愿时连接国服官方接口。不上传数据，不埋点，不建立在线账号，不支持国际服或云原神。应用首次启动会检查 HoYoPlay 注册表与常见安装目录；仍可手动选择含 YuanShen.exe 的游戏目录。
 
@@ -94,8 +96,9 @@
     ./scripts/Build.ps1 -Publish
     ./scripts/Verify-Ui.ps1 -Published
     ./scripts/Package.ps1
+    ./scripts/Verify-Installer.ps1
 
-发布输出 artifacts/publish/v0.1.13-win-x64；打包生成二进制 ZIP、源码 ZIP 和 SHA256SUMS。UI 验证使用明确标记的合成账号和新的隔离目录，拒绝实际 AppData 数据库；详见 [VERIFICATION.md](docs/VERIFICATION.md)。
+发布输出 artifacts/publish/v0.1.14-win-x64；打包生成 EXE 安装包、二进制 ZIP、源码 ZIP 和 SHA256SUMS。首次安装包构建会下载并校验固定版本的编译工具，后续使用本地缓存。UI 和安装验证使用合成账号及新的隔离目录，拒绝实际 AppData 数据库；详见 [VERIFICATION.md](docs/VERIFICATION.md)。
 
 手动构建：
 
@@ -109,7 +112,7 @@
 
 [发布指南](docs/RELEASE.md) 包含仓库准备、版本、标签和资产操作。.github/workflows/build.yml 自动执行 Windows 编译、测试和打包；推送与版本一致的 v0.1.x 标签后创建 Release。
 
-版本只维护在 Directory.Build.props。本次基线 0.1.13；默认仅递增最后一位：
+版本只维护在 Directory.Build.props。本次基线 0.1.14；默认仅递增最后一位：
 
     ./scripts/Bump-Version.ps1 -Preview
     ./scripts/Bump-Version.ps1
