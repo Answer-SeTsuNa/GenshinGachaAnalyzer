@@ -1,3 +1,67 @@
+# 0.1.20 公开发布准备验证
+
+日期：2026-10-15（Asia/Shanghai）。补全 Git 忽略、源码包排除规则、公开仓库与签名来源工作流。
+
+- 本地 Build.ps1 -Publish -InProcessTests 成功；Release 0 警告 / 0 错误，Core xUnit 164 通过 / 0 失败 / 0 跳过。
+- artifacts/startup-v0.1.20-latest：固定入口 ShellExecute 与 2,832 条合成记录启动、页面 / 主题检查通过。
+- artifacts/ui-v0.1.20：完整 UI 回归通过，94 张 PNG，绑定日志为空；更新按钮继续使用合成网络响应验证。
+- 公开前检查当前跟踪文件与所有历史对象，未发现数据库、日志、参考 / 原始资源目录、构建输出、签名私钥或常见 GitHub 令牌格式。忽略规则已验证覆盖 VS 缓存、二进制、环境配置和私钥；不读取真实 AppData 档案。
+- 远程 GitHub Actions、Release 和构建来源签名属于推送后的独立检查，应以对应运行结果和发布资产为准。本地 Windows EXE 尚无可信 Authenticode 签名，SignPath 申请不会自动赋予证书。
+
+下列为历史验证记录。
+
+# 0.1.19 交付验证
+
+日期：2026-10-14（Asia/Shanghai）。设置页版本与 GitHub 检查更新。
+
+- Build.ps1 -Publish -InProcessTests 成功，Release 0 警告 / 0 错误；Core xUnit 164 通过 / 0 失败 / 0 跳过。新增覆盖数字版本比较、三段 / 四段版本归一化、404 / 限流 / 服务异常、异常响应、预发布拒绝与 GitHub 地址约束。
+- artifacts/startup-v0.1.19-latest：固定入口 ShellExecute 启动、2,832 条合成记录、页面与主题切换通过。
+- artifacts/ui-v0.1.19：完整页面回归通过，包含合成更新响应下的新版提示、对应 GitHub 下载入口、再次检查 404 时清除旧下载状态，以及通用发布页入口。见 update-verification.txt 和 13-settings-update.png；未打开真实浏览器，未使用真实数据库。
+- 实际匿名 GET https://api.github.com/repos/Answer-SeTsuNa/GenshinGachaAnalyzer/releases/latest 返回 HTTP 404。不可据此断言已是最新版；应用显示尚无公开正式版本或私有仓库提示。用户普遍可用的自动比较需要公开可读取的发布信息；未修改仓库可见性或发布远程版本。
+
+下列为历史验证记录。
+
+# 0.1.18 交付验证
+
+日期：2026-10-14（Asia/Shanghai）。按作者指定的 FufuLauncher 参考调整背景，并减少页面切换和图片解码开销。
+
+- 标准 Build.ps1 -Publish -InProcessTests 成功；Release 0 警告 / 0 错误，Core xUnit 149 通过 / 0 失败 / 0 跳过。
+- artifacts/startup-v0.1.18-complex：ShellExecute 启动、2,832 条合成记录、4K 合成壁纸、模糊 40、页面 / 主题切换及原生标题栏检查通过。进程完整性 8192；游戏加加仍在运行，SoftwareOnly，GppModuleLoaded=false。
+- backdrop-verification.txt：遮罩 10% / 45% / 72% / 95% 的移动前 / 中 / 后 Alpha 分别为 26 / 115 / 184 / 242，各组三次一致；原生 DWM 背景类型保持 Desktop Acrylic。移动钩子三组进入 0.03–0.37ms、退出 0.27–0.36ms；这是消息处理耗时，不是实际拖动帧率。
+- 相同复杂外观用例的一次首帧测量：缓存页面约 10–19ms；首次历史约 236ms、我的约 275ms、总览约 599ms。首次页面仍有布局成本，数据不代表所有硬件上的帧率，也不保证每页首次加载都比旧版快。
+- artifacts/ui-v0.1.18：完整页面回归通过，93 张 PNG，bindings.log 0 字节；374 张物品图标、298 张卡池图片解码通过。缓存页面已验证无整页动画且不透明度为 1。
+- 本轮未使用屏幕控制。检查只使用隔离目录和合成档案；遮罩像素与原生材质设置检查不代替桌面模糊的人工视觉验收。保留第三方许可证。
+
+下列为历史验证记录。
+
+# 0.1.17 交付验证
+
+日期：2026-10-14（Asia/Shanghai）。修复日间标题栏按钮对比度和拖动延迟。
+
+- 标题栏单独设置主题实色底色及文字色。artifacts/startup-v0.1.17-final-complex/caption-verification.txt 覆盖六种主题的 System / Light / Dark，共 18 组原生设置成功；色值对比度 11.40–13.93:1。当前系统对这些属性的 DwmGet 返回 E_INVALIDARG，改为检查 DwmSet 的成功结果，并另做实际原生窗口视觉检查，没有把不可读取的属性伪装成读取成功。
+- 使用 Computer Use 在 artifacts/preview-v0.1.17 的合成档案窗口检查日间标题栏，确认最小化、最大化、关闭按钮清晰。实际标题栏拖动后截图原点从 (849,354) 变为 (619,505)，调用约 151ms（包含工具开销，不是逐帧延迟指标）。检查后关闭本次隔离预览。
+- 拖动 / 缩放进入和退出通过实际 HWND 消息走 MainWindow 的原生钩子。artifacts/startup-v0.1.17-final-complex/window-move-verification.json 的三组进入处理为 0.59 / 13.05 / 12.65ms，退出为 16.40 / 18.10 / 15.86ms；断言期间使用不透明合成、退出后恢复透明背景、移动中主题刷新不重新启用模糊、重复消息幂等、关闭模糊时不错误开启，以及壁纸对象保持复用。
+- Core xUnit 149 通过 / 0 失败 / 0 跳过；Release 编译 0 警告 / 0 错误。复杂外观、2,832 条合成记录、4K 合成壁纸和模糊 40 的 ShellExecute 启动、页面及主题切换通过。游戏加加运行时保留 SoftwareOnly 和扩展点限制。
+- artifacts/ui-v0.1.17-final：完整页面回归通过，93 张 PNG，bindings.log 0 字节；374 张角色 / 武器图标和 298 张卡池图片解码通过。
+- 初次固定 latest 同步被运行中的旧版占用 Accessibility.dll 阻止，版本目录已完整生成；作者确认关闭后继续同步和最终入口检查。使用新建隔离目录与合成档案，未读取或修改真实 AppData 数据库。保留第三方许可证，不推送远程发布。
+
+下列为历史验证记录。
+
+# 0.1.16 交付验证
+
+日期：2026-10-14（Asia/Shanghai）。接手安装权限、游戏加加兼容、失焦模糊和应用图标修改。
+
+- 作者提供的 0.1.15 日志显示进程完整性 4096，AppData 日志与数据库加载被拒绝；只读检查确认自定义安装目录中的 EXE 继承 Low 标签。安装器现在修正自己维护的应用 / 卸载 EXE 为 Medium，保留 asInvoker 与当前用户安装，不修改真实档案或数据目录权限。
+- 标准 Build.ps1 -Publish -InProcessTests 成功，Release 0 警告 / 0 错误，Core xUnit 149 通过 / 0 失败 / 0 跳过；版本为 0.1.16.0。版本目录与 latest 的 1,120 个文件逐项 SHA256 一致。
+- artifacts/startup-v0.1.16-final-complex、final-empty、final-latest：ShellExecute 启动、页面 / 主题切换通过，含 2,832 条合成记录、4K 合成壁纸和模糊 40，以及空档案。均为完整性 8192；游戏加加保持运行，报告 OverlayDetected=true、ExtensionPointsDisabled=true、SoftwareOnly、GppModuleLoaded=false。历史旧版现场已加载 GPP64.dll 并无响应；测试未结束或改动游戏加加及作者卡死窗口。此结果限定于当前机器 / 当前叠加层版本，不保证阻止所有注入。
+- artifacts/ui-v0.1.16-final：93 张页面 PNG，bindings.log 0 字节；374 张物品图片与 298 张卡池图片完整解码通过。隔离交互预览正常显示，已核对新图标与合成档案界面。
+- artifacts/installer-v0.1.16-final-low：随机独立 AppId，在继承 Low 标签的中文 / 空格目录中安装、覆盖升级、快捷方式、1,118 个运行文件摘要、已安装应用启动与 93 张 UI PNG、卸载全部通过；合成用户文件保持原摘要。已安装应用完整性 8192，游戏加加共存与模块报告同上；测试登记和快捷方式已清理，未覆盖作者正式安装。
+- 应用与关于页图标使用资源/木偶图标.png 的 WPF 正式副本，PNG SHA256 与指定原图一致；ICO 含 16–256 像素的七种尺寸，安装器使用同一 ICO。
+- 背景改用不随输入焦点切换的窗口模糊策略，保留系统 / 实色回退。最终 -VerifyBackdrop 检查未获得实际前台焦点，Computer Use 随后被作者按 Esc 中止；该项不计入通过项，失焦时的实际视觉效果仍待人工验收。离屏截图不作为原生材质正确的证据。
+- 所有数据库、设置、壁纸和导入内容均来自新建隔离目录或合成档案，未读取或修改作者真实 AppData 数据库。发布保留第三方许可证；安装目录、原始资源、日志、数据库和构建输出不进入源码包。CI 的安装回归已增加 Low 目录场景；本轮未推送或触发远程发布。
+
+下列为历史验证记录。
+
 # 0.1.13 交付验证
 
 日期：2026-10-12（Asia/Shanghai）。首次上传 GitHub，配置实际仓库入口。

@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Runtime.CompilerServices;
 using GenshinGachaAnalyzer.Core.Helpers;
 using GenshinGachaAnalyzer.Core.Services;
 using GenshinGachaAnalyzer.WPF.Infrastructure;
@@ -23,12 +24,8 @@ internal static class Program
         DiagnosticLog.Info($"进程完整性级别：{ProcessSecurity.IntegrityLevel()?.ToString() ?? "未知"}；数据目录：{directory}");
         try
         {
-            DiagnosticLog.Info("启动阶段：构造应用");
-            var app = new App();
-            DiagnosticLog.Info("启动阶段：读取 WPF 资源");
-            app.InitializeComponent();
-            DiagnosticLog.Info("启动阶段：进入消息循环");
-            Environment.ExitCode = app.Run();
+            StartupCompatibility.Initialize();
+            RunApplication();
         }
         catch (Exception error)
         {
@@ -37,5 +34,17 @@ internal static class Program
                 "启动未完成", MessageBoxButton.OK, MessageBoxImage.Warning);
             Environment.ExitCode = 1;
         }
+    }
+
+    // 避免 JIT 提前初始化 WPF 渲染依赖，兼容策略必须先执行。
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static void RunApplication()
+    {
+        DiagnosticLog.Info("启动阶段：构造应用");
+        var app = new App();
+        DiagnosticLog.Info("启动阶段：读取 WPF 资源");
+        app.InitializeComponent();
+        DiagnosticLog.Info("启动阶段：进入消息循环");
+        Environment.ExitCode = app.Run();
     }
 }

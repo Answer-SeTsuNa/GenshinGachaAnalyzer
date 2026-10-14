@@ -31,7 +31,7 @@ try {
     $sourceFiles = @(foreach ($sourceRoot in @('GenshinGachaAnalyzer.Core', 'GenshinGachaAnalyzer.WPF', 'GenshinGachaAnalyzer.Tests', 'docs', 'scripts', '.github')) {
         Get-ChildItem -LiteralPath (Join-Path $packageRoot $sourceRoot) -File -Recurse -Force | ForEach-Object {
             $relative = [IO.Path]::GetRelativePath($packageRoot, $_.FullName).Replace('\', '/')
-            if ($relative -notmatch '/(bin|obj|\.vs)/|^scripts/dev/|/Resources/Themes/|\.(db|db-wal|db-shm|log|partial)$') { $relative }
+            if ($relative -notmatch '/(bin|obj|\.vs|TestResults|logs|backups)/|^scripts/dev/|/Resources/Themes/|\.(db|db-wal|db-shm|log|partial|pfx|p12|pem|key|pdb|exe|dll|nupkg|snupkg|user|suo)$|(^|/)(settings\.json|\.env(\..*)?)$') { $relative }
         }
     })
     $sourceFiles += @('.editorconfig', '.gitignore', 'Directory.Build.props', 'GenshinGachaAnalyzer.sln', 'global.json', 'LICENSE', 'NuGet.Config', 'README.md', 'THIRD_PARTY_NOTICES.md', 'AGENTS.md', 'CONTRIBUTING.md', 'SECURITY.md', 'CHANGELOG.md')

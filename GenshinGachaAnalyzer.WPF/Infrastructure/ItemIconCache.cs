@@ -7,12 +7,16 @@ namespace GenshinGachaAnalyzer.WPF.Infrastructure;
 /// <summary>每个物品只解码一次缩略图；冻结后可跨线程共享，避免计时页反复解码原图。</summary>
 public static class ItemIconCache
 {
-    private static readonly ConcurrentDictionary<string, Task<ImageSource?>> Images = new();
-    private static readonly SemaphoreSlim DecodeSlots = new(4);
-    public static Task<ImageSource?> GetAsync(string id) => Images.GetOrAdd(id, key => Task.Run(async () =>
+    private static readonly ConcurrentDictionary<string, Lazy<Task<ImageSource?>>> Images = new();
+    private static readonly SemaphoreSlim DecodeSlots = new(2);
+    public static Task<ImageSource?> GetAsync(string id)
     {
-        await DecodeSlots.WaitAsync(); try { return Load(key); } finally { DecodeSlots.Release(); }
-    }));
+        if (string.IsNullOrEmpty(id) || id.Length > 20 || !id.All(char.IsAsciiDigit)) return Task.FromResult<ImageSource?>(null);
+        return Images.GetOrAdd(id, key => new Lazy<Task<ImageSource?>>(() => Task.Run(async () =>
+        {
+            await DecodeSlots.WaitAsync(); try { return Load(key); } finally { DecodeSlots.Release(); }
+        }))).Value;
+    }
     private static ImageSource? Load(string id)
     {
         string path = Path.Combine(AppContext.BaseDirectory, "Resources", "Items", id + ".png");
@@ -21,7 +25,8 @@ public static class ItemIconCache
         {
             var bitmap = new BitmapImage(); bitmap.BeginInit();
             bitmap.CacheOption = BitmapCacheOption.OnLoad; bitmap.DecodePixelWidth = 160;
-            bitmap.UriSource = new Uri(path); bitmap.EndInit(); bitmap.Freeze(); return bitmap;
+            using var stream = File.OpenRead(path);
+            bitmap.StreamSource = stream; bitmap.EndInit(); bitmap.Freeze(); return bitmap;
         }
         catch (Exception error) when (error is IOException or NotSupportedException or FormatException) { return null; }
     }

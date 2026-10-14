@@ -63,6 +63,11 @@ public sealed class MainViewModel : ObservableObject
     public string DatabasePath => _database.DatabasePath;
     public IReadOnlyList<GachaRecord> CurrentRecords => _records;
     public string ProductVersion => typeof(MainViewModel).Assembly.GetName().Version!.ToString(3);
+    private static readonly System.Net.Http.HttpClient UpdateClient = new(new System.Net.Http.HttpClientHandler { AllowAutoRedirect = false, UseCookies = false });
+    private string _updateStatus = "点击检查 GitHub 最新正式版本。";
+    private string? _updatePageUrl;
+    public string UpdateStatus { get => _updateStatus; private set => Set(ref _updateStatus, value); }
+    public bool HasNewVersion => _updatePageUrl is not null;
     public bool Acrylic { get => _settings.Acrylic; set => SaveAppearance(_settings with { Acrylic = value }, nameof(Acrylic)); }
     public bool SemiTransparent { get => _settings.SemiTransparent; set => SaveAppearance(_settings with { SemiTransparent = value }, nameof(SemiTransparent)); }
     public double OverlayOpacity { get => _settings.OverlayOpacity; set => SaveAppearance(_settings with { OverlayOpacity = value }, nameof(OverlayOpacity)); }
@@ -154,10 +159,13 @@ public sealed class MainViewModel : ObservableObject
     public ICommand UigfLinkCommand { get; }
     public ICommand MigrationCommand { get; }
     public ICommand RepositoryCommand { get; }
+    public ICommand CheckUpdateCommand { get; }
+    public ICommand ReleasesCommand { get; }
+    public ICommand DownloadUpdateCommand { get; }
     public ICommand LicenseCommand { get; }
 
     public MainViewModel(DatabaseService database, UigfService uigf, AnalysisService analysis, GachaLogService gacha,
-        SettingsService settings, IAppDialogs dialogs, string? repositoryUrl)
+        SettingsService settings, IAppDialogs dialogs, string? repositoryUrl, ReleaseUpdateService? updateService = null)
     {
         _database = database; _uigf = uigf; _analysis = analysis; _gacha = gacha; _settingsService = settings; Dialogs = dialogs;
         RepositoryUrl = repositoryUrl;
@@ -200,6 +208,24 @@ public sealed class MainViewModel : ObservableObject
         UigfLinkCommand = new RelayCommand(_ => OpenLink("https://uigf.org/"));
         MigrationCommand = new RelayCommand(_ => SafeOpen(Path.Combine(AppContext.BaseDirectory, "MIGRATION.md")));
         RepositoryCommand = new RelayCommand(_ => { if (RepositoryUrl is not null) OpenLink(RepositoryUrl); }, () => HasRepository);
+        CheckUpdateCommand = new AsyncCommand(async () =>
+        {
+            _updatePageUrl = null; Raise(nameof(HasNewVersion));
+            UpdateStatus = "正在检查 GitHub 最新版本…";
+            try
+            {
+                var release = await (updateService ?? new ReleaseUpdateService(UpdateClient)).CheckAsync(RepositoryUrl!);
+                bool newer = release.IsNewerThan(typeof(MainViewModel).Assembly.GetName().Version!);
+                if (newer) _updatePageUrl = release.PageUrl;
+                UpdateStatus = newer ? $"发现新版本 v{release.Version}，可前往 GitHub 下载。"
+                    : $"当前 v{ProductVersion} 已不低于 GitHub 最新正式版 v{release.Version}。";
+                Raise(nameof(HasNewVersion));
+            }
+            catch (Exception error) when (error is UserFacingException or OperationCanceledException)
+            { UpdateStatus = error is UserFacingException ? error.Message : "检查更新已取消。"; }
+        }, _ => UpdateStatus = "检查更新未完成，请打开 GitHub 发布页查看。", () => HasRepository);
+        ReleasesCommand = new RelayCommand(_ => OpenLink(ReleaseUpdateService.ReleasesUrl(RepositoryUrl!)), () => HasRepository);
+        DownloadUpdateCommand = new RelayCommand(_ => { if (_updatePageUrl is { } url) OpenLink(url); }, () => HasNewVersion);
         LicenseCommand = new RelayCommand(_ => SafeOpen(Path.Combine(AppContext.BaseDirectory, "LICENSE")));
         CurrentPage = new WelcomeViewModel(this);
         (string Style, bool Dark)? chartTheme = null;
@@ -305,13 +331,10 @@ public sealed class MainViewModel : ObservableObject
         if (_pageCache.TryGetValue(section, out var saved)) { CurrentPage = saved; return; }
         if (section == "设置") { var settings = new SettingsViewModel(this); _pageCache[section] = settings; CurrentPage = settings; return; }
         if (_records.Count == 0 && section != "历史" && section != "我的") { CurrentPage = new WelcomeViewModel(this); return; }
-        CurrentPage = new LoadingViewModel(section);
-        // 先提交加载帧，再把统计移出 UI 线程。新点击通过 revision 丢弃过期结果。
-        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
         var snapshot = _records;
         try
         {
-            object page = await Task.Run<object>(() => section switch
+            var construction = Task.Run<object>(() => section switch
             {
                 "历史" => new HistoryViewModel(this, snapshot, Catalog),
                 "角色" => new CollectionViewModel(this, snapshot, Catalog, "角色"),
@@ -319,6 +342,10 @@ public sealed class MainViewModel : ObservableObject
                 "我的" => new PersonalViewModel(this, snapshot),
                 _ => new DashboardViewModel(this, PoolCatalog.MainPools.Select(p => new PoolViewModel(_analysis.Analyze(snapshot, p), snapshot, Catalog)).ToArray())
             });
+            // 短任务保留上一页，避免“加载页 → 目标页”连续闪烁；耗时统计仍在后台执行。
+            if (await Task.WhenAny(construction, Task.Delay(120)) != construction && revision == _navigationRevision)
+                CurrentPage = new LoadingViewModel(section);
+            object page = await construction;
             if (revision != _navigationRevision) return;
             _pageCache[section] = page; CurrentPage = page;
         }

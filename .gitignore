@@ -1,6 +1,27 @@
 **/bin/
 **/obj/
-.vs/
+**/.vs/
+**/TestResults/
+*.suo
+*.sln.docstates
+*.userosscache
+*.sln.ide
+*.slnx.user
+*.VC.db
+*.VC.VC.opendb
+*.nupkg
+*.snupkg
+*.pdb
+*.exe
+*.dll
+# 签名私钥、个人环境与本地认证配置不进入源码。
+*.pfx
+*.p12
+*.key
+*.pem
+.env
+.env.*
+!.env.example
 TestResults/
 artifacts/
 *.user
@@ -10,6 +31,7 @@ artifacts/
 *.partial
 参考/
 资源/
+安装包安装/
 scripts/dev/
 GenshinGachaAnalyzer.WPF/Resources/Themes/
 *.log

@@ -9,6 +9,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenshinGachaAnalyzer.WPF", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenshinGachaAnalyzer.Tests", "GenshinGachaAnalyzer.Tests\GenshinGachaAnalyzer.Tests.csproj", "{87AFFC6E-CB47-44D8-B2D7-4DB8C23EA6EC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "项目约定", "项目约定", "{88DD2311-27A6-43B3-9338-8AD4D7748A50}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		AGENTS.md = AGENTS.md
+		README.md = README.md
+		LICENSE = LICENSE
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

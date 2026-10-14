@@ -34,10 +34,17 @@
      <StackPanel>
       <Image Source="/Resources/AppIcon.png" Width="72" Height="72" HorizontalAlignment="Left"/>
       <TextBlock Text="木偶原神抽卡分析工具" FontSize="23" FontWeight="SemiBold" Margin="0,24,0,12" />
-      <TextBlock Text="{Binding Shell.ProductVersion, StringFormat=v{0}  /  Windows  /  .NET 10 LTS}" Style="{StaticResource MutedText}" FontSize="12" />
+      <TextBlock Text="{Binding Shell.ProductVersion, StringFormat=当前版本：v{0}}" FontSize="15" FontWeight="SemiBold" AutomationProperties.Name="当前软件版本" />
+      <TextBlock Text="Windows / .NET 10 LTS" Style="{StaticResource MutedText}" FontSize="12" Margin="0,6,0,14" />
+      <WrapPanel>
+       <Button Content="检查版本更新" Command="{Binding Shell.CheckUpdateCommand}" Margin="0,0,8,8" AutomationProperties.Name="检查版本更新" />
+       <Button Content="GitHub 发布页 ↗" Command="{Binding Shell.ReleasesCommand}" Style="{StaticResource LinkButton}" Margin="0,0,0,8" />
+      </WrapPanel>
+      <TextBlock Text="{Binding Shell.UpdateStatus}" Style="{StaticResource MutedText}" FontSize="12" AutomationProperties.LiveSetting="Polite" />
+      <Button Content="前往下载新版本 ↗" Command="{Binding Shell.DownloadUpdateCommand}" HorizontalAlignment="Left" Margin="0,10,0,0" Visibility="{Binding Shell.HasNewVersion, Converter={StaticResource Visible}}" />
       <Border Height="1" Background="{DynamicResource Line}" Margin="0,26,0,26" />
       <TextBlock Text="以记录的严谨管理记录，&#10;以外衣的可视化呈现分析。" FontSize="17" LineHeight="29" />
-      <TextBlock Text="数据永久留存，数据自由迁移。&#10;&#10;记录仅保存在您的电脑，不上传、不埋点、无账号体系。只有从游戏获取才连接国服官方接口；您主动点击的外部链接将使用浏览器打开。&#10;&#10;没有手动添加、修改单条抽卡记录的入口。允许备份后整账号清空，便于迁移和重新导入。统计依据已有数据，不显示精确出金概率，不推导武器定轨。" Style="{StaticResource MutedText}" Margin="0,22,0,22" />
+      <TextBlock Text="数据永久留存，数据自由迁移。&#10;&#10;记录仅保存在您的电脑，不上传、不埋点、无账号体系。从游戏获取连接国服官方接口；主动检查更新连接 GitHub，不发送祈愿档案或游戏凭据。外部链接使用浏览器打开。&#10;&#10;没有手动添加、修改单条抽卡记录的入口。允许备份后整账号清空，便于迁移和重新导入。统计依据已有数据，不显示精确出金概率，不推导武器定轨。" Style="{StaticResource MutedText}" Margin="0,22,0,22" />
       <TextBlock Text="UIGF 兼容性" FontSize="15" /><TextBlock Text="支持 v4.2 / v4.1 / v4.0 / v3.0 / v2.4 / v2.3 / v2.2 导入与导出；默认导出 v4.1。仅处理普通原神祈愿。旧版为单账号，v2.x 不含集录祈愿。导出不含来源、分析结果或私有字段。未宣称取得 UIGF 官方认证。" Style="{StaticResource MutedText}" FontSize="14" Margin="0,12,0,16" />
       <Button Content="UIGF-Org  ↗" Command="{Binding Shell.UigfLinkCommand}" Style="{StaticResource LinkButton}" />
       <Button Content="查看本地迁移指南  ↗" Command="{Binding Shell.MigrationCommand}" Style="{StaticResource LinkButton}" />

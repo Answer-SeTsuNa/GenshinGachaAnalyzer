@@ -2,7 +2,7 @@
 
 <img src="GenshinGachaAnalyzer.WPF/Resources/AppIcon.png" width="96" alt="木偶应用图标"/>
 
-**Windows 本地祈愿档案管理器 · 0.1.15**
+**Windows 本地祈愿档案管理器 · 0.1.20**
 
 记录永久留存，使用 UIGF 自由迁移。.NET 10 LTS / WPF / MVVM / LiveCharts2 / SQLite，代码采用 MIT 协议。
 
@@ -12,7 +12,7 @@
 
 也可下载 win-x64.zip 便携版，解压整个目录后运行 GenshinGachaAnalyzer.exe，不能只复制 EXE。两种版本均自带运行环境，无需另装 .NET。支持 Windows 10 2004 及以上的 x64 兼容系统；原生亚克力材质需要 Windows 11 22H2 及以上，并遵循系统的透明效果设置。安装与维护说明见 [INSTALLER.md](docs/INSTALLER.md)。
 
-只有主动获取祈愿时连接国服官方接口。不上传数据，不埋点，不建立在线账号，不支持国际服或云原神。应用首次启动会检查 HoYoPlay 注册表与常见安装目录；仍可手动选择含 YuanShen.exe 的游戏目录。
+主动获取祈愿时连接国服官方接口；主动点击“检查版本更新”时连接 GitHub，仅查询最新正式发布，不发送档案或游戏凭据。不上传祈愿数据，不埋点，不建立在线账号，不支持国际服或云原神。应用首次启动会检查 HoYoPlay 注册表与常见安装目录；仍可手动选择含 YuanShen.exe 的游戏目录。
 
 - 游戏获取：先在国服游戏里打开一次祈愿历史，再点击更新数据。自动按接口实际 UID 切换已有账号或新建账号，游戏保持运行时也能共享只读缓存。
 - URL 获取：顶部 URL 或添加账号入口可粘贴国服官方祈愿链接；凭据仅用于本次获取，不持久化。
@@ -52,7 +52,7 @@
 
 六个主题为木偶、神里绫华、可莉、钟离、芙芙、牛牛，采用角色配色、简约细线与官方元素符号。木偶使用参考官网眼内纹理绘制的正圆齿轮；绫华使用冰图标、可莉火、钟离岩、芙芙水、牛牛雷。木偶齿轮按主题色绘制；其余主题在设置与个人页保留元素图标原色，背景以原图透明轮廓适配主题色。图标离线嵌入，白天 / 夜晚 / 跟随系统、亚克力与透明度设置均保留。
 
-参考 FufuLauncher 的材质分层方式，提供亚克力开关、半透明遮罩开关、背景遮罩与面板不透明度、本地壁纸、壁纸不透明度和背景模糊强度。模糊只作用于壁纸，不模糊文本；图片后台加载并限制解码尺寸。
+参考 FufuLauncher 的材质分层方式，提供系统 Desktop Acrylic、独立背景遮罩、面板不透明度、本地壁纸、壁纸不透明度和壁纸模糊强度。移动窗口时不切换材质或遮罩。系统亚克力适用于 Windows 11 22621 及以上，失焦或系统禁用透明效果时遵循系统回退；壁纸模糊在后台预处理，不模糊文本。图片后台加载并限制解码尺寸，缓存页面直接显示。
 
 旧版的主题祈愿宣传图已移除。默认使用离线元素纹饰，可自行选择本地图片；没有运行时联网下载壁纸。作者提供的资源图已生成 16–256px 应用 ICO 并用于窗口与 EXE。
 
@@ -98,7 +98,7 @@
     ./scripts/Package.ps1
     ./scripts/Verify-Installer.ps1
 
-发布输出 artifacts/publish/v0.1.15-win-x64；打包生成 EXE 安装包、二进制 ZIP、源码 ZIP 和 SHA256SUMS。首次安装包构建会下载并校验固定版本的编译工具，后续使用本地缓存。UI 和安装验证使用合成账号及新的隔离目录，拒绝实际 AppData 数据库；详见 [VERIFICATION.md](docs/VERIFICATION.md)。
+发布输出 artifacts/publish/v0.1.20-win-x64；打包生成 EXE 安装包、二进制 ZIP、源码 ZIP 和 SHA256SUMS。首次安装包构建会下载并校验固定版本的编译工具，后续使用本地缓存。UI 和安装验证使用合成账号及新的隔离目录，拒绝实际 AppData 数据库；详见 [VERIFICATION.md](docs/VERIFICATION.md)。
 
 手动构建：
 
@@ -112,12 +112,20 @@
 
 [发布指南](docs/RELEASE.md) 包含仓库准备、版本、标签和资产操作。.github/workflows/build.yml 自动执行 Windows 编译、测试和打包；推送与版本一致的 v0.1.x 标签后创建 Release。
 
-版本只维护在 Directory.Build.props。本次基线 0.1.15；默认仅递增最后一位：
+版本只维护在 Directory.Build.props。本次基线 0.1.20；默认仅递增最后一位：
 
     ./scripts/Bump-Version.ps1 -Preview
     ./scripts/Bump-Version.ps1
 
-前两位仅由作者决定。应用、UIGF 元信息和打包自动读取版本，避免多处不一致。实际仓库为 [Answer-SeTsuNa/GenshinGachaAnalyzer](https://github.com/Answer-SeTsuNa/GenshinGachaAnalyzer)，已配置 WPF/appsettings.json 的 RepositoryUrl。仓库目前为私有，需要获授权的 GitHub 账号访问。
+前两位仅由作者决定。应用、UIGF 元信息和打包自动读取版本，避免多处不一致。实际仓库为公开的 [Answer-SeTsuNa/GenshinGachaAnalyzer](https://github.com/Answer-SeTsuNa/GenshinGachaAnalyzer)，已配置 WPF/appsettings.json 的 RepositoryUrl。项目代码使用 MIT 协议；游戏素材及第三方组件遵循 [第三方声明](THIRD_PARTY_NOTICES.md)。
+
+### Code signing policy
+
+维护者 / 提交审核 / 发布批准：[@Answer-SeTsuNa](https://github.com/Answer-SeTsuNa)。正式版本通过 GitHub Actions 构建、测试和发布，并为安装包与 ZIP 生成 GitHub 签名构建来源证明。验证方法及 Windows 签名申请状态见 [SIGNING.md](docs/SIGNING.md)。
+
+Windows EXE 签名采用 SignPath Foundation 免费开源服务申请流程，目前尚未获批，不宣称已有可信 Windows 签名。GitHub 构建证明不等同于 Authenticode 签名，不承诺消除 SmartScreen 提示。
+
+隐私政策：本程序不会将任何祈愿档案、游戏凭据或本地设置传到网络。只有用户主动获取记录、检查更新或打开外部链接时才请求对应服务。没有埋点和在线账号体系；详情见本页的数据管理说明。
 
 ## 项目结构与来源
 
@@ -135,10 +143,10 @@
 
 ### 启动兼容与 Windows 提示
 
-WPF 使用默认硬件加速 / 系统回退；壁纸在后台预先模糊，页面动画复用冻结位图，保留亚克力与日夜外观。启动阶段记录在本地 logs/runtime-日期.log。发布检查同时执行 Verify-Startup.ps1（真实选择控件、缓存与切换首帧耗时）和 Verify-Ui.ps1（页面布局）。
+WPF 通常使用默认硬件加速 / 系统回退；检测到游戏加加时，在初始化前限制本进程的旧式扩展点并选择软件渲染。壁纸在后台预先模糊，页面动画复用冻结位图，保留亚克力与日夜外观。启动阶段记录在本地 logs/runtime-日期.log。发布检查同时执行 Verify-Startup.ps1（真实选择控件、缓存与切换首帧耗时）和 Verify-Ui.ps1（页面布局）。
 
-普通 Build / Publish 及固定发布入口均修正生成 EXE 继承工作区 Low 标签的问题，避免正常双击后无法写入 AppData；不提权，不修改用户数据权限。启动验证检查实际进程完整性，覆盖普通 bin/Release 入口。详见 [启动排查](docs/STARTUP_TROUBLESHOOTING.md)。
+普通 Build / Publish、固定发布入口和安装器输出均修正生成 EXE 继承工作区 Low 标签的问题，避免正常双击后无法写入 AppData；不提权，不修改用户数据权限。启动验证检查实际进程完整性，覆盖普通 bin/Release 入口。详见 [启动排查](docs/STARTUP_TROUBLESHOOTING.md)。
 
-已在作者电脑确认游戏加加 GPP64.dll 注入后的启动挂起：退出游戏加加后，同一个 EXE 正常打开。启动检查正常激活窗口，并提供 `-ShellLaunch`；没有宣称已解决第三方注入兼容问题。具体记录和排查方法见 [STARTUP_TROUBLESHOOTING.md](docs/STARTUP_TROUBLESHOOTING.md)。
+旧版已在作者电脑确认游戏加加 GPP64.dll 注入后的启动挂起。0.1.16 增加本进程的叠加层兼容处理；仍需按具体叠加层版本验证，不保证阻止所有注入。启动检查提供 `-ShellLaunch`，记录进程完整性、渲染模式与 GPP 模块状态。具体记录和排查方法见 [STARTUP_TROUBLESHOOTING.md](docs/STARTUP_TROUBLESHOOTING.md)。
 
 当前 EXE 尚未正式签名，Windows SmartScreen 可能显示“Windows 已保护你的电脑”；详见 [发行签名](docs/SIGNING.md)。未宣称消除此提示，未更改系统安全设置。

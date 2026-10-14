@@ -1,4 +1,4 @@
-param([string]$OutputDirectory, [switch]$WithData, [switch]$ComplexAppearance, [switch]$ShellLaunch, [double]$WallpaperBlur = 2.112, [string]$ExecutablePath)
+param([string]$OutputDirectory, [switch]$WithData, [switch]$ComplexAppearance, [switch]$ShellLaunch, [double]$WallpaperBlur = 2.112, [string]$ExecutablePath, [switch]$VerifyBackdrop)
 $ErrorActionPreference = 'Stop'
 $startupRoot = Split-Path -Parent $PSScriptRoot
 [xml]$versionProps = Get-Content (Join-Path $startupRoot 'Directory.Build.props')
@@ -27,6 +27,7 @@ $start.UseShellExecute = [bool]$ShellLaunch
 # ShellExecute 使用与资源管理器相同的启动路径；路径逐项引号，不能依赖仅 CreateProcess 的检查。
 $start.Arguments = '--verify-startup "' + $output + '"'
 if ($WithData) { $start.Arguments += ' "' + (Join-Path $startupRoot 'GenshinGachaAnalyzer.Tests/Fixtures/synthetic-ui-v4.1.json') + '"' }
+if ($VerifyBackdrop) { $start.Arguments += ' --verify-backdrop' }
 if (-not ('GachaStartupLaunch' -as [type])) {
     Add-Type -TypeDefinition @'
 using System.Diagnostics;

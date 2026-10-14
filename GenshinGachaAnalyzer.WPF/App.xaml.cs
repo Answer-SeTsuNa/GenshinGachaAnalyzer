@@ -21,8 +21,9 @@ public partial class App : Application
     private Mutex? _mutex;
     public App()
     {
-        // 由 WPF 根据显卡能力选择加速或回退。全局 SoftwareOnly 会让高 DPI 动画由 CPU 绘制。
-        System.Windows.Media.RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.Default;
+        // 仅检测到游戏加加时绕开其 Direct3D 叠加层钩子，其余环境保留硬件加速。
+        System.Windows.Media.RenderOptions.ProcessRenderMode = StartupCompatibility.OverlayDetected
+            ? System.Windows.Interop.RenderMode.SoftwareOnly : System.Windows.Interop.RenderMode.Default;
     }
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -42,7 +43,7 @@ public partial class App : Application
         DiagnosticLog.Configure(Path.Combine(dataDirectory, "logs"));
         DiagnosticLog.Info("启动 " + typeof(App).Assembly.GetName().Version!.ToString(3));
         var startupWatchdog = startupCheck ? StartupVerifier.Watch(dataDirectory, Dispatcher) : null;
-        DiagnosticLog.Info($"渲染模式：Default；WPF 渲染层级 {System.Windows.Media.RenderCapability.Tier >> 16}；壁纸后台预处理。");
+        DiagnosticLog.Info($"渲染模式：{System.Windows.Media.RenderOptions.ProcessRenderMode}；WPF 渲染层级 {System.Windows.Media.RenderCapability.Tier >> 16}；壁纸后台预处理。");
         DispatcherUnhandledException += (_, args) =>
         {
             args.Handled = true;
@@ -72,7 +73,7 @@ public partial class App : Application
             // 启动检查必须展示并激活真实窗口；此前隐藏任务栏/不激活的检查漏掉了叠加层注入问题。
             if (verify && !startupCheck) { window.ShowInTaskbar = false; window.ShowActivated = false; }
             window.Show(); DiagnosticLog.Info("启动阶段：窗口已显示，初始化本地档案");
-            if (startupCheck && e.Args.Length >= 3)
+            if (startupCheck && e.Args.Length >= 3 && !e.Args[2].StartsWith("--", StringComparison.Ordinal))
             {
                 await Task.Run(database.Initialize);
                 var seed = await new UigfService().PreflightAsync(Path.GetFullPath(e.Args[2]));
@@ -90,6 +91,7 @@ public partial class App : Application
                     return;
                 }
                 await StartupVerifier.RunAsync(window, shell, dataDirectory);
+                if (e.Args.Contains("--verify-backdrop")) await BackdropVerifier.RunAsync(window, dataDirectory);
                 startupWatchdog?.Cancel(); startupWatchdog?.Dispose(); Shutdown(0); return;
             }
             if (verify)

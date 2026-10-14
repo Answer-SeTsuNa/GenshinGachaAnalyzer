@@ -1,4 +1,4 @@
-param([string]$OutputDirectory, [string]$PreviousInstallerPath)
+param([string]$OutputDirectory, [string]$PreviousInstallerPath, [switch]$LowIntegrityDirectory, [switch]$IsolatedRegistration)
 $ErrorActionPreference = 'Stop'
 $verificationRoot = [IO.Path]::GetFullPath((Split-Path -Parent $PSScriptRoot))
 $artifactRoot = Join-Path $verificationRoot 'artifacts'
@@ -9,16 +9,29 @@ $output = [IO.Path]::GetFullPath($OutputDirectory)
 if (!$output.StartsWith($artifactRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase) -or (Test-Path -LiteralPath $output)) {
     throw '安装验证必须使用 artifacts 内的新建隔离目录。'
 }
-$registryPath = 'Software\Microsoft\Windows\CurrentVersion\Uninstall\GenshinGachaAnalyzer_is1'
+$verificationId = if ($IsolatedRegistration) { 'GachaVerify.' + [guid]::NewGuid().ToString('N') } else { 'GenshinGachaAnalyzer' }
+if ($IsolatedRegistration -and $PreviousInstallerPath) { throw '隔离登记不支持使用正式旧安装包。' }
+$registryPath = 'Software\Microsoft\Windows\CurrentVersion\Uninstall\' + $verificationId + '_is1'
 $registry = [Microsoft.Win32.RegistryKey]::OpenBaseKey([Microsoft.Win32.RegistryHive]::CurrentUser, [Microsoft.Win32.RegistryView]::Registry64)
 $existing = $registry.OpenSubKey($registryPath)
 if ($existing) { $existing.Dispose(); $registry.Dispose(); throw '检测到已有正式安装，拒绝覆盖。请在干净测试用户或 CI 中运行安装验证。' }
 $setup = Join-Path $artifactRoot "GenshinGachaAnalyzer-Setup-v$version-win-x64.exe"
 if (!(Test-Path -LiteralPath $setup)) { throw '请先运行 Package.ps1。' }
 [IO.Directory]::CreateDirectory($output) | Out-Null
-# 工作区带有 Low 继承标签；新建测试目录使用普通安装目录的 Medium 环境。
+if ($IsolatedRegistration) {
+    # 单独 AppId 与安装包，绝不覆盖作者已有安装/快捷方式/卸载登记。
+    $compiler = & (Join-Path $PSScriptRoot 'Get-InnoSetup.ps1')
+    $publish = Join-Path $artifactRoot "publish/v$version-win-x64"
+    & $compiler '/Qp' "/DAppVersion=$version" "/DProjectRoot=$verificationRoot" "/DPublishDir=$publish" "/DInstallerAppId=$verificationId" "/O$output" '/Fverification-setup' (Join-Path $PSScriptRoot 'installer/GenshinGachaAnalyzer.iss')
+    if ($LASTEXITCODE -ne 0) { throw '隔离安装包构建失败。' }
+    $setup = Join-Path $output 'verification-setup.exe'
+    & icacls.exe $setup /setintegritylevel Medium | Out-Null
+    if ($LASTEXITCODE -ne 0) { throw '隔离安装器运行标记设置失败。' }
+}
+# 可使用 Low 继承标签复现作者的自定义安装目录。
 # 只设置本次隔离目录，不在安装后修正 EXE，从而真实验证安装器输出。
-& icacls.exe $output /setintegritylevel '(OI)(CI)M' | Out-Null
+$testIntegrity = if ($LowIntegrityDirectory) { '(OI)(CI)L' } else { '(OI)(CI)M' }
+& icacls.exe $output /setintegritylevel $testIntegrity | Out-Null
 if ($LASTEXITCODE -ne 0) { throw '无法准备正常完整性的隔离安装目录。' }
 $installDirectory = Join-Path $output '中文 安装目录'
 $groupName = 'GachaInstallerVerification-' + [guid]::NewGuid().ToString('N')

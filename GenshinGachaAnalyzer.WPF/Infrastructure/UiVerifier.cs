@@ -252,10 +252,12 @@ internal static class UiVerifier
                         await RenderAsync(window, Path.Combine(output, "08-countdown-selected.png"));
                     }
                 }
-                // 缓存页面也必须播放可见的中间帧。
+                // 热缓存直接呈现，避免整页动画拖慢软件渲染。
                 shell.ShowSection("历史"); await shell.NavigationReady;
                 var active = Descendants<Controls.TransitionPresenter>(window).Single().Children.OfType<ContentPresenter>().Single(p => p.Visibility == Visibility.Visible);
-                await ObserveIntermediateAsync(active, UIElement.OpacityProperty, () => window.UpdateLayout());
+                window.UpdateLayout();
+                if (active.Opacity != 1 || active.HasAnimatedProperties)
+                    throw new InvalidOperationException("缓存页面仍在执行整页淡入动画。");
                 await RenderAsync(window, Path.Combine(output, "09-page-transition.png"));
                 shell.ShowDashboard(); await shell.NavigationReady; shell.SelectedDisplayScale = shell.DisplayScales.Single(s => s.Value == "1.5");
                 window.Width = 2800; window.Height = 1600;
@@ -388,10 +390,43 @@ internal static class UiVerifier
                 throw new InvalidOperationException("故障解除后重试未恢复本地档案入口。");
             window.DataContext = shell;
             await VerifyFetchRoutingAsync(window, shell, output);
+            await VerifyUpdatesAsync(window, shell, output);
             listener.Flush();
             File.WriteAllText(Path.Combine(output, "ui-verification.txt"), "WPF 页面渲染、详情区间筛选、五个页签、历史筛选、物品明细、复刻日历历史与清空确认验证完成。全部档案为合成测试资料，请检查 PNG 和 bindings.log。\n");
         }
         finally { PresentationTraceSources.DataBindingSource.Listeners.Remove(listener); }
+    }
+    private static async Task VerifyUpdatesAsync(MainWindow window, MainViewModel originalShell, string output)
+    {
+        string directory = Path.Combine(output, "synthetic-updates"); Directory.CreateDirectory(directory);
+        int requests = 0;
+        using var client = new HttpClient(new SyntheticFetchHandler(() =>
+        {
+            requests++;
+            return requests == 1 ? new(System.Net.HttpStatusCode.OK)
+            { Content = new StringContent("{\"tag_name\":\"v99.0.0\",\"draft\":false,\"prerelease\":false}") }
+                : new(System.Net.HttpStatusCode.NotFound);
+        }));
+        var dialogs = new SyntheticFetchDialogs();
+        const string repository = "https://github.com/Answer-SeTsuNa/GenshinGachaAnalyzer";
+        var target = new MainViewModel(new DatabaseService(Path.Combine(directory, "gacha.db")), new UigfService(),
+            new AnalysisService(new CatalogBannerProvider()), new GachaLogService(client),
+            new SettingsService(Path.Combine(directory, "settings.json")), dialogs, repository, new ReleaseUpdateService(client));
+        if (requests != 0) throw new InvalidOperationException("未点击检查更新就产生网络请求。");
+        target.SettingsCommand.Execute(null); window.DataContext = target;
+        target.CheckUpdateCommand.Execute(null);
+        for (int attempt = 0; target.UpdateStatus.StartsWith("正在") && attempt < 150; attempt++) await Task.Delay(20);
+        if (!target.HasNewVersion || !target.UpdateStatus.Contains("99.0.0")) throw new InvalidOperationException("新版本未显示。");
+        target.DownloadUpdateCommand.Execute(null);
+        if (dialogs.LastOpenedLink != repository + "/releases/tag/v99.0.0") throw new InvalidOperationException("更新下载未指向 GitHub 发布页。");
+        await RenderAsync(window, Path.Combine(output, "13-settings-update.png"));
+        target.CheckUpdateCommand.Execute(null);
+        for (int attempt = 0; target.UpdateStatus.StartsWith("正在") && attempt < 150; attempt++) await Task.Delay(20);
+        if (target.HasNewVersion || !target.UpdateStatus.Contains("未找到")) throw new InvalidOperationException("404 被误报为最新版或仍显示旧下载按钮。");
+        target.ReleasesCommand.Execute(null);
+        if (dialogs.LastOpenedLink != repository + "/releases") throw new InvalidOperationException("GitHub 发布页入口错误。");
+        window.DataContext = originalShell;
+        File.WriteAllText(Path.Combine(output, "update-verification.txt"), "主动检查、新版提示、GitHub 下载入口、404 提示与旧下载状态清理通过；全部响应为合成，不打开真实浏览器。\n");
     }
     private static async Task VerifyFetchRoutingAsync(MainWindow window, MainViewModel originalShell, string output)
     {
@@ -451,6 +486,7 @@ internal static class UiVerifier
     }
     private sealed class SyntheticFetchDialogs : Services.IAppDialogs
     {
+        public string? LastOpenedLink { get; private set; }
         public GachaCredential? ChooseGachaUrl() => GachaLogService.TryParseCredential(
             "https://public-operation-hk4e.mihoyo.com/gacha_info/api/getGachaLog?authkey=SYNTHETIC_TEST_ONLY&region=cn_gf01");
         public string? ChooseImportFile() => null;
@@ -463,7 +499,7 @@ internal static class UiVerifier
         public void ShowWriteResult(WriteReport result) => throw new InvalidOperationException("合成 URL 获取产生意外冲突。");
         public void Explain(string title, string message) => throw new InvalidOperationException("合成 URL 获取出现意外对话框。");
         public void OpenPath(string path) { }
-        public void OpenLink(string url) { }
+        public void OpenLink(string url) { LastOpenedLink = url; }
     }
     private static IEnumerable<T> Descendants<T>(DependencyObject parent) where T : DependencyObject
     {

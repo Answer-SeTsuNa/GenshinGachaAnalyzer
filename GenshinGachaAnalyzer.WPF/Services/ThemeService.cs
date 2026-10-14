@@ -15,9 +15,16 @@ public static class ThemeService
     public static event Action? Changed;
     private static bool _listening;
     private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Window, NativeAppearance> NativeStates = new();
-    private sealed class NativeAppearance { public int Dark = -1; public int Backdrop = -1; }
+    private sealed class NativeAppearance
+    {
+        public int Dark = -1, CaptionColor = -1, TextColor = -1;
+        public bool? Acrylic;
+        public bool Moving;
+        public int Backdrop = -1;
+    }
     public static string StyleKey { get; private set; } = "Gear";
     public static UserSettings Appearance { get; private set; } = new();
+    public static bool SupportsAcrylic => OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621);
     public static void Configure(UserSettings settings) { Appearance = settings; Apply(settings.Theme, settings.StyleKey); }
     public static void Apply(string preference, string? styleKey = null)
     {
@@ -99,18 +106,54 @@ public static class ThemeService
         var state = NativeStates.GetOrCreateValue(window);
         int dark = IsDark ? 1 : 0;
         if (state.Dark != dark && DwmSetWindowAttribute(handle, 20, ref dark, sizeof(int)) == 0) state.Dark = dark;
-        if (window is not Views.MainWindow || !OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22621)) return;
-        int backdrop = Appearance.Acrylic ? 3 : 1; // DWMSBT_TRANSIENTWINDOW：Desktop Acrylic；关闭时用实色回退。
-        window.SetResourceReference(Window.BackgroundProperty, Appearance.Acrylic ? "WindowTint" : "Background");
-        if (state.Backdrop == backdrop) return; // 换角色配色不重新配置系统材质。
-        if (DwmSetWindowAttribute(handle, 38, ref backdrop, sizeof(int)) != 0) return;
-        state.Backdrop = backdrop;
-        int inset = Appearance.Acrylic ? -1 : 0;
+        var background = ((SolidColorBrush)Application.Current.Resources["Background"]).Color;
+        if (OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000))
+        {
+            // 玻璃背景可能透出深色桌面，不能只切换浅色按钮；标题栏固定使用主题底色。
+            int caption = ColorRef(background);
+            int text = ColorRef(((SolidColorBrush)Application.Current.Resources["Text"]).Color);
+            if (state.CaptionColor != caption && DwmSetWindowAttribute(handle, 35, ref caption, sizeof(int)) == 0)
+                state.CaptionColor = caption;
+            if (state.TextColor != text && DwmSetWindowAttribute(handle, 36, ref text, sizeof(int)) == 0)
+                state.TextColor = text;
+        }
+        if (window is not Views.MainWindow) return;
+        bool requested = Appearance.Acrylic && SupportsAcrylic;
+        if (state.Acrylic == requested)
+        {
+            // 实色回退也应随日夜/角色更新，避免合成目标保留上一款主题的颜色。
+            if (!requested && HwndSource.FromHwnd(handle)?.CompositionTarget is { } opaqueTarget)
+                opaqueTarget.BackgroundColor = background;
+            return;
+        }
+        // 参考 FufuLauncher 的 DesktopAcrylicBackdrop + 独立遮罩结构。
+        // WPF 使用同类 DWM Desktop Acrylic，不混用旧式 AccentPolicy，也不在拖动时改实色。
+        int backdrop = requested ? 3 : 1;
+        bool acrylic = false;
+        if (SupportsAcrylic && DwmSetWindowAttribute(handle, 38, ref backdrop, sizeof(int)) == 0)
+        { state.Backdrop = backdrop; acrylic = requested; }
+        state.Acrylic = requested;
+        window.SetResourceReference(Window.BackgroundProperty, acrylic ? "WindowTint" : "Background");
+        int inset = acrylic ? -1 : 0;
         var margin = new Margins { Left = inset, Right = inset, Top = inset, Bottom = inset };
         DwmExtendFrameIntoClientArea(handle, ref margin);
         if (HwndSource.FromHwnd(handle)?.CompositionTarget is { } target)
-            target.BackgroundColor = Appearance.Acrylic ? Colors.Transparent : ((SolidColorBrush)Application.Current.Resources["Background"]).Color;
+            target.BackgroundColor = acrylic ? Colors.Transparent : background;
     }
+    internal static void SetInteractiveMove(Window window, bool moving)
+    {
+        var state = NativeStates.GetOrCreateValue(window);
+        if (state.Moving == moving) return;
+        // 移动不再改变材质或背景颜色，遮罩滑块在启动、静止和拖动时使用同一层。
+        state.Moving = moving;
+    }
+    internal static bool IsInteractiveMove(Window window) => NativeStates.GetOrCreateValue(window).Moving;
+    internal static (int Background, int Text) AppliedCaptionColors(Window window)
+    {
+        var state = NativeStates.GetOrCreateValue(window);
+        return (state.CaptionColor, state.TextColor); // 仅缓存 DwmSetWindowAttribute 成功的值。
+    }
+    private static int ColorRef(Color color) => color.R | color.G << 8 | color.B << 16;
     public static void Stop()
     {
         if (_listening) SystemEvents.UserPreferenceChanged -= SystemChanged;

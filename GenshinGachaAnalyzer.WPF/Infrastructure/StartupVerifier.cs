@@ -48,6 +48,14 @@ internal static class StartupVerifier
         int? integrity = ProcessSecurity.IntegrityLevel();
         if (integrity is null or < 8192) throw new InvalidOperationException("发布版没有以正常完整性权限启动。");
         File.WriteAllText(Path.Combine(output, "process-integrity.txt"), $"{integrity}\n");
+        using (var process = Process.GetCurrentProcess())
+        {
+            bool overlayLoaded = process.Modules.Cast<ProcessModule>().Any(m => string.Equals(m.ModuleName, "GPP64.dll", StringComparison.OrdinalIgnoreCase));
+            File.WriteAllText(Path.Combine(output, "overlay-compatibility.json"), JsonSerializer.Serialize(new {
+                StartupCompatibility.OverlayDetected, StartupCompatibility.ExtensionPointsDisabled,
+                RenderMode = RenderOptions.ProcessRenderMode.ToString(), GppModuleLoaded = overlayLoaded
+            }, new JsonSerializerOptions { WriteIndented = true }));
+        }
         if (shell.HasError) throw new InvalidOperationException("启动档案加载失败：" + shell.Status);
         var watch = Stopwatch.StartNew();
         var timings = new List<object>();
@@ -89,6 +97,7 @@ internal static class StartupVerifier
             var expected = (Color)ColorConverter.ConvertFromString(ThemeService.IsDark ? style.NightAccent : style.Accent);
             if (((SolidColorBrush)Application.Current.Resources["Gold"]).Color != expected)
                 throw new InvalidOperationException("主题选择后界面画刷没有变化。");
+            WindowChromeVerifier.VerifyCaption(window, output);
             await NextFrameAsync();
             timings.Add(new { Theme = style.Key, Mode = mode.Value, FirstFrameMs = themeWatch.Elapsed.TotalMilliseconds });
             shell.OverlayOpacity = shell.OverlayOpacity < .6 ? .72 : .45;
@@ -97,6 +106,7 @@ internal static class StartupVerifier
             if (!ReferenceEquals(source, wallpaper.Source)) throw new InvalidOperationException("换主题重新生成了同一张壁纸。");
             await Task.Delay(60);
         }
+        await WindowChromeVerifier.VerifyMoveAsync(window, wallpaper, output);
         File.WriteAllText(Path.Combine(output, "interaction-timings.json"), JsonSerializer.Serialize(timings, new JsonSerializerOptions { WriteIndented = true }));
         File.WriteAllText(Path.Combine(output, "startup-verification.txt"), $"正常渲染启动与页面/主题切换通过；记录 {shell.CurrentRecords.Count}；用时 {watch.ElapsedMilliseconds}ms。\n");
     }

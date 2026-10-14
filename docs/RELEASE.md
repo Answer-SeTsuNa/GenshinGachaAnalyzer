@@ -1,6 +1,6 @@
 # GitHub 发布指南
 
-当前版本：0.1.15。默认仅增加补丁位，前两位由作者决定。版本源为 Directory.Build.props。
+当前版本：0.1.20。默认仅增加补丁位，前两位由作者决定。版本源为 Directory.Build.props。
 
 ## 创建仓库前
 
@@ -22,27 +22,27 @@
 
 所有命令成功后，artifacts 包含：
 
-- GenshinGachaAnalyzer-Setup-v0.1.15-win-x64.exe：中文安装包，建议用户下载此文件。
-- GenshinGachaAnalyzer-v0.1.15-win-x64.zip：完整自包含应用。
-- GenshinGachaAnalyzer-v0.1.15-source.zip：干净源码，含 GitHub 配置。
-- v0.1.15-SHA256SUMS.txt：安装 EXE 与两个 ZIP 的 SHA256。
+- GenshinGachaAnalyzer-Setup-v0.1.20-win-x64.exe：中文安装包，建议用户下载此文件。
+- GenshinGachaAnalyzer-v0.1.20-win-x64.zip：完整自包含应用。
+- GenshinGachaAnalyzer-v0.1.20-source.zip：干净源码，含 GitHub 配置。
+- v0.1.20-SHA256SUMS.txt：安装 EXE 与两个 ZIP 的 SHA256。
 
 检查解压后的 EXE 版本、应用图标、第三方许可证和完整资源。确认没有个人 DB、authkey、测试输出或参考源码。
 程序和安装包未做代码签名，使用校验摘要确认下载完整性。安装包双击安装；便携版解压完整目录运行，不仅复制 EXE。安装器构建、升级与隔离验证见 [INSTALLER.md](INSTALLER.md)。
 
 ## 上传和自动发布
 
-项目仓库：[Answer-SeTsuNa/GenshinGachaAnalyzer](https://github.com/Answer-SeTsuNa/GenshinGachaAnalyzer)。初次上传使用私有仓库，主分支为 main；维护者使用获授权的账号执行 Git 提交与推送。
+项目仓库：[Answer-SeTsuNa/GenshinGachaAnalyzer](https://github.com/Answer-SeTsuNa/GenshinGachaAnalyzer)，现为公开仓库，主分支为 main；代码使用 MIT，游戏素材不属于该 MIT 授权。维护者使用获授权的账号执行 Git 提交与推送。
 
-准备好 0.1.15 后：
+准备好 0.1.20 后：
 
-    git tag v0.1.15
-    git push origin v0.1.15
+    git tag v0.1.20
+    git push origin v0.1.20
 
 标签必须与 Directory.Build.props 完全一致。工作流在 Windows 上构建、测试、打包，并验证安装、覆盖升级、已安装应用 UI 与卸载；成功后以 CHANGELOG.md 作为发布说明创建 Release 并附加安装 EXE、ZIP 和校验文件。
 普通 push / PR / 手动运行只生成 Actions 制品，不自动创建 Release。
 
-下次修改默认运行 Bump-Version.ps1，得到 0.1.15；同步更新 CHANGELOG 后推送 v0.1.15。
+下次修改默认运行 Bump-Version.ps1，得到 0.1.21；同步更新 CHANGELOG 后推送对应标签。
 维护者自行决定发布时间，不让脚本自动改变 major / minor。项目包体较大，二进制放 Releases，不提交 artifacts。
 
 每次 Build.ps1 -Publish 还会更新固定入口 artifacts/publish/latest-win-x64/GenshinGachaAnalyzer.exe，包含完整运行依赖；版本目录与 ZIP 继续保留。隔离 UI 验证检查对应版本程序，固定入口使用同一批产物。
