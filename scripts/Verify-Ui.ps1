@@ -1,4 +1,4 @@
-param([string]$OutputDirectory, [switch]$Published, [string]$ExecutablePath)
+param([string]$OutputDirectory, [switch]$Published, [string]$ExecutablePath, [switch]$WithOfficialLoginPage, [switch]$LoginOnly, [switch]$CatalogOnlineOnly)
 $ErrorActionPreference = 'Stop'
 $verifyRoot = Split-Path -Parent $PSScriptRoot
 if (-not $OutputDirectory) { $OutputDirectory = Join-Path $verifyRoot ('artifacts/ui-' + (Get-Date -Format 'yyyyMMdd-HHmmss')) }
@@ -17,6 +17,9 @@ $verifyArguments = '--verify-ui "' + $verifyOutput + '" "' + $verifyFixture + '"
 $verifyStart = [Diagnostics.ProcessStartInfo]::new($verifyExecutable)
 $verifyStart.UseShellExecute = $false
 $verifyStart.ArgumentList.Add('--verify-ui'); $verifyStart.ArgumentList.Add($verifyOutput); $verifyStart.ArgumentList.Add($verifyFixture)
+if ($WithOfficialLoginPage) { $verifyStart.ArgumentList.Add('--verify-official-login-page') }
+if ($LoginOnly) { $verifyStart.ArgumentList.Add('--verify-login-only') }
+if ($CatalogOnlineOnly) { $verifyStart.ArgumentList.Add('--verify-catalog-online') }
 $verifyProcess = [Diagnostics.Process]::Start($verifyStart)
 if (!$verifyProcess.WaitForExit(180000)) { $verifyProcess.Kill(); throw "UI 验证超时：$verifyOutput" }
 if ($verifyProcess.ExitCode -ne 0) { throw "UI 验证失败，请检查 $verifyOutput 中的错误文件。" }

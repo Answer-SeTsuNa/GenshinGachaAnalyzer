@@ -10,7 +10,10 @@ using Microsoft.Win32;
 
 namespace GenshinGachaAnalyzer.Core.Services;
 
-public sealed record GachaCredential(IReadOnlyDictionary<string, string> Parameters);
+public sealed record GachaCredential(IReadOnlyDictionary<string, string> Parameters)
+{
+    public string? ExpectedUid { get; init; }
+}
 
 /// <summary>仅 GET 国服官方 API；凭据只存在内存，从不写文件、日志或提示文本。</summary>
 public sealed partial class GachaLogService(HttpClient client)
@@ -186,6 +189,8 @@ public sealed partial class GachaLogService(HttpClient client)
                 if (list.GetArrayLength() == 0) break;
                 var records = ParsePage(list);
                 string uid = records[0].Uid;
+                if (credential.ExpectedUid is { } expectedUid && uid != expectedUid)
+                    throw new UserFacingException("官方返回的 UID 与本次选择的账号不一致，已停止获取，该页未写入。");
                 if (sessionUid is not null && uid != sessionUid)
                     throw new UserFacingException("本次获取过程中接口返回了另一个 UID，已停止获取。该页未写入，此前已保存的数据保留，请重新更新。");
                 sessionUid = uid;

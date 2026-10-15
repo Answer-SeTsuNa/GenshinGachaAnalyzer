@@ -115,12 +115,12 @@ try {
         $fileCount++
     }
     $steps.Add("$fileCount 个运行文件、资源与许可证逐项 SHA256 校验通过。")
-    $linkPath = Join-Path $groupDirectory '木偶原神抽卡分析工具.lnk'
+    $linkPath = Join-Path $groupDirectory '木偶祈愿分析.lnk'
     if (!(Test-Path -LiteralPath $linkPath)) { throw "缺少开始菜单快捷方式：$linkPath" }
     $link = [InstallerShortcutReader]::Read($linkPath)
     $exe = Join-Path $installDirectory 'GenshinGachaAnalyzer.exe'
     if ($link[0] -ne $exe -or $link[1] -ne $installDirectory) { throw "开始菜单快捷方式指向错误。目标：$($link[0])；工作目录：$($link[1])；预期：$exe" }
-    if (!(Test-Path -LiteralPath (Join-Path $groupDirectory '卸载 木偶原神抽卡分析工具.lnk'))) { throw '缺少卸载快捷方式。' }
+    if (!(Test-Path -LiteralPath (Join-Path $groupDirectory '卸载 木偶祈愿分析.lnk'))) { throw '缺少卸载快捷方式。' }
     $steps.Add('开始菜单程序与卸载快捷方式正确。')
     & (Join-Path $PSScriptRoot 'Verify-Startup.ps1') -ExecutablePath $exe -OutputDirectory (Join-Path $output 'startup') -ShellLaunch -WithData -ComplexAppearance
     & (Join-Path $PSScriptRoot 'Verify-Ui.ps1') -ExecutablePath $exe -OutputDirectory (Join-Path $output 'ui')

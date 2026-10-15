@@ -14,12 +14,12 @@ public static class ItemIconCache
         if (string.IsNullOrEmpty(id) || id.Length > 20 || !id.All(char.IsAsciiDigit)) return Task.FromResult<ImageSource?>(null);
         return Images.GetOrAdd(id, key => new Lazy<Task<ImageSource?>>(() => Task.Run(async () =>
         {
-            await DecodeSlots.WaitAsync(); try { return Load(key); } finally { DecodeSlots.Release(); }
+            await DecodeSlots.WaitAsync(); try { return Load(await RuntimeArtworkCache.ResolveAsync("Items", key + ".png") ?? Path.Combine(AppContext.BaseDirectory, "Resources", "Items", key + ".png")); } finally { DecodeSlots.Release(); }
         }))).Value;
     }
-    private static ImageSource? Load(string id)
+    public static void RefreshMissing() { foreach (var entry in Images) if (entry.Value.IsValueCreated && entry.Value.Value.IsCompletedSuccessfully && entry.Value.Value.Result is null) Images.TryRemove(entry.Key, out _); }
+    private static ImageSource? Load(string path)
     {
-        string path = Path.Combine(AppContext.BaseDirectory, "Resources", "Items", id + ".png");
         if (!File.Exists(path)) return null;
         try
         {

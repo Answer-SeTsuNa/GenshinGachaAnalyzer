@@ -17,21 +17,29 @@ public sealed record WishHistoryGroup(string Key, string Name, string Pool, stri
     DateTime To, WishEvent? Event, IReadOnlyList<GachaRecord> Records);
 public sealed record WishCountdown(WishItem Item, IReadOnlyList<WishEvent> Histories, int Days, bool IsActive);
 
-/// <summary>排期沿用参考模块快照，物品可由维护脚本同步官方养成计算器。运行时离线，不修改 UIGF 记录、不预测未来复刻。</summary>
+/// <summary>内置快照离线兜底；经验证的联网数据只更新分析资料，不修改原始祈愿记录。</summary>
 public sealed class WishCatalogService
 {
     public const string SnapshotCommit = "b3aef3dbe0299e512654bb296930b3b6571fc87f";
     public const string SourceUrl = "https://github.com/SnapHutaoRemasteringProject/Snap.Metadata";
-    private readonly Dictionary<string, WishItem> _items;
-    public IReadOnlyList<WishEvent> Events { get; }
-    public DateTimeOffset CoveredThrough { get; }
-    public string CoverageText => $"内置排期截至 {CoveredThrough:yyyy-MM-dd} · 离线快照 · 不预测复刻";
+    private Dictionary<string, WishItem> _items;
+    public IReadOnlyList<WishItem> Items => _items.Values.ToArray();
+    public IReadOnlyList<WishEvent> Events { get; private set; }
+    public DateTimeOffset CoveredThrough => Events.Count == 0 ? DateTimeOffset.MinValue : Events.Max(e => e.To);
+    public DateTimeOffset? UpdatedAt { get; private set; }
+    public string CoverageText => $"排期截至 {CoveredThrough:yyyy-MM-dd} · {(UpdatedAt is null ? "内置资料" : "已缓存在线资料")} · 不预测复刻";
     public WishCatalogService() : this(Read<WishItem>("items.json"), Read<WishEvent>("wish-events.json")) { }
     public WishCatalogService(IEnumerable<WishItem> items, IEnumerable<WishEvent> events)
     {
         _items = items.ToDictionary(i => i.Id);
         Events = events.Where(e => e.Type is "301" or "400" or "302" or "500").OrderBy(e => e.From).ToArray();
-        CoveredThrough = Events.Count == 0 ? DateTimeOffset.MinValue : Events.Max(e => e.To);
+    }
+    public void Apply(CatalogSnapshot snapshot)
+    {
+        WishCatalogUpdateService.Validate(snapshot);
+        if (snapshot.Events.Max(e => e.To) < CoveredThrough) throw new InvalidDataException("卡池资料覆盖范围倒退。");
+        _items = snapshot.Items.ToDictionary(i => i.Id);
+        Events = snapshot.Events.OrderBy(e => e.From).ToArray(); UpdatedAt = snapshot.CheckedAt;
     }
     private static T[] Read<T>(string name)
     {

@@ -18,7 +18,7 @@ public sealed class MainViewModel : ObservableObject
 {
     private readonly DatabaseService _database;
     private readonly UigfService _uigf;
-    private readonly AnalysisService _analysis;
+    private AnalysisService _analysis;
     private readonly GachaLogService _gacha;
     private readonly SettingsService _settingsService;
     private IReadOnlyList<Account> _accounts = [];
@@ -32,6 +32,14 @@ public sealed class MainViewModel : ObservableObject
     private string? _exportPath;
     private CancellationTokenSource? _cancellation;
     public WishCatalogService Catalog { get; } = new();
+    private readonly WishCatalogUpdateService _catalogUpdates;
+    private readonly bool _autoUpdateCatalog;
+    private bool _catalogUpdating;
+    private string _catalogStatus = "内置资料可离线使用；启动后自动检查新卡池。";
+    public string CatalogStatus { get => _catalogStatus; private set => Set(ref _catalogStatus, value); }
+    public string CatalogCoverage => Catalog.CoverageText;
+    public ICommand UpdateCatalogCommand { get; }
+    public Task CatalogUpdateReady { get; private set; } = Task.CompletedTask;
     private string _selectedSection = "总览";
     private CountdownViewModel? _countdown;
     public string SelectedSection { get => _selectedSection; private set { Set(ref _selectedSection, value); Raise(nameof(Sections)); } }
@@ -63,6 +71,9 @@ public sealed class MainViewModel : ObservableObject
     public string DatabasePath => _database.DatabasePath;
     public IReadOnlyList<GachaRecord> CurrentRecords => _records;
     public string ProductVersion => typeof(MainViewModel).Assembly.GetName().Version!.ToString(3);
+    public bool IsStoreDistribution { get; }
+    public string CheckUpdateLabel => IsStoreDistribution ? "在商店中检查更新" : "检查版本更新";
+    public string DistributionNote => IsStoreDistribution ? "商店版 · 应用更新由 Microsoft Store 管理。档案位于用户目录的「木偶祈愿档案」，卸载应用后保留。旧版档案可通过 UIGF 导入迁移。" : "桌面版 · 应用更新来自 GitHub，档案保存在当前用户的数据目录。";
     private static readonly System.Net.Http.HttpClient UpdateClient = new(new System.Net.Http.HttpClientHandler { AllowAutoRedirect = false, UseCookies = false });
     private string _updateStatus = "点击检查 GitHub 最新正式版本。";
     private string? _updatePageUrl;
@@ -145,6 +156,7 @@ public sealed class MainViewModel : ObservableObject
     public ICommand ExportCommand { get; }
     public ICommand FetchCommand { get; }
     public ICommand FetchUrlCommand { get; }
+    public ICommand FetchMiyousheCommand { get; }
     public ICommand AddAccountCommand { get; }
     public ICommand RetryCommand { get; }
     public ICommand CancelCommand { get; }
@@ -165,9 +177,16 @@ public sealed class MainViewModel : ObservableObject
     public ICommand LicenseCommand { get; }
 
     public MainViewModel(DatabaseService database, UigfService uigf, AnalysisService analysis, GachaLogService gacha,
-        SettingsService settings, IAppDialogs dialogs, string? repositoryUrl, ReleaseUpdateService? updateService = null)
+        SettingsService settings, IAppDialogs dialogs, string? repositoryUrl, ReleaseUpdateService? updateService = null,
+        bool autoUpdateCatalog = false, WishCatalogUpdateService? catalogUpdates = null, bool? storeDistribution = null)
     {
         _database = database; _uigf = uigf; _analysis = analysis; _gacha = gacha; _settingsService = settings; Dialogs = dialogs;
+        IsStoreDistribution = storeDistribution ?? AppPaths.HasPackageIdentity;
+        if (IsStoreDistribution) _updateStatus = "应用版本通过 Microsoft Store 更新；卡池资料仍可独立更新。";
+        _autoUpdateCatalog = autoUpdateCatalog;
+        _catalogUpdates = catalogUpdates ?? new WishCatalogUpdateService(UpdateClient, Path.Combine(DataDirectory, "catalog", "snapshot.json"));
+        RuntimeArtworkCache.Configure(DataDirectory, autoUpdateCatalog); RuntimeArtworkCache.Register(Catalog);
+        UpdateCatalogCommand = new AsyncCommand(() => UpdateCatalogAsync(true), ReportError, () => !_catalogUpdating && !IsBusy);
         RepositoryUrl = repositoryUrl;
         DiagnosticLog.Configure(LogDirectory);
         DeveloperLogCommand = new RelayCommand(_ => Dialogs.ShowDiagnosticLog());
@@ -182,6 +201,7 @@ public sealed class MainViewModel : ObservableObject
         ExportCommand = new AsyncCommand(() => RunAsync(ExportAsync), ReportError, () => Ready() && _accounts.Count > 0);
         FetchCommand = new AsyncCommand(() => RunAsync(() => FetchAsync(false)), ReportError, Ready);
         FetchUrlCommand = new AsyncCommand(() => FetchUrlAsync(false), ReportError, Ready);
+        FetchMiyousheCommand = new AsyncCommand(() => FetchMiyousheAsync(false), ReportError, Ready);
         AddAccountCommand = new AsyncCommand(AddAccountAsync, ReportError, Ready);
         RetryCommand = new AsyncCommand(() => RunAsync(() => _databaseReady ? FetchAsync(_retryAddingAccount) : InitializeDatabaseAsync()), ReportError, () => !IsBusy && CanRetry);
         CancelCommand = new RelayCommand(_ => _cancellation?.Cancel(), () => IsBusy);
@@ -211,6 +231,7 @@ public sealed class MainViewModel : ObservableObject
         CheckUpdateCommand = new AsyncCommand(async () =>
         {
             _updatePageUrl = null; Raise(nameof(HasNewVersion));
+            if (IsStoreDistribution) { Dialogs.OpenStoreUpdates(); UpdateStatus = "已打开 Microsoft Store，请在下载与更新页面检查新版。"; return; }
             UpdateStatus = "正在检查 GitHub 最新版本…";
             try
             {
@@ -223,7 +244,7 @@ public sealed class MainViewModel : ObservableObject
             }
             catch (Exception error) when (error is UserFacingException or OperationCanceledException)
             { UpdateStatus = error is UserFacingException ? error.Message : "检查更新已取消。"; }
-        }, _ => UpdateStatus = "检查更新未完成，请打开 GitHub 发布页查看。", () => HasRepository);
+        }, _ => UpdateStatus = IsStoreDistribution ? "未能打开 Microsoft Store，请手动打开商店检查更新。" : "检查更新未完成，请打开 GitHub 发布页查看。", () => IsStoreDistribution || HasRepository);
         ReleasesCommand = new RelayCommand(_ => OpenLink(ReleaseUpdateService.ReleasesUrl(RepositoryUrl!)), () => HasRepository);
         DownloadUpdateCommand = new RelayCommand(_ => { if (_updatePageUrl is { } url) OpenLink(url); }, () => HasNewVersion);
         LicenseCommand = new RelayCommand(_ => SafeOpen(Path.Combine(AppContext.BaseDirectory, "LICENSE")));
@@ -240,6 +261,12 @@ public sealed class MainViewModel : ObservableObject
     }
     public async Task InitializeAsync()
     {
+        var cached = await Task.Run(() => _catalogUpdates.LoadCache(Catalog));
+        if (cached is not null)
+        {
+            ApplyCatalog(cached);
+            CatalogStatus = $"上次检查：{cached.CheckedAt.ToOffset(TimeSpan.FromHours(8)):yyyy-MM-dd HH:mm} · 本地缓存可离线使用。";
+        }
         try
         {
             _settings = _settingsService.Load(); ThemeService.Configure(_settings);
@@ -255,6 +282,37 @@ public sealed class MainViewModel : ObservableObject
         }
         catch (Exception error) { ReportError(error); }
         await RunAsync(InitializeDatabaseAsync);
+        if (_autoUpdateCatalog && _databaseReady && (Catalog.UpdatedAt is null || DateTimeOffset.UtcNow - Catalog.UpdatedAt > TimeSpan.FromHours(6)))
+            CatalogUpdateReady = UpdateCatalogAsync(false);
+    }
+    private void ApplyCatalog(CatalogSnapshot snapshot)
+    {
+        Catalog.Apply(snapshot); _analysis = new AnalysisService(new CatalogBannerProvider(Catalog), Catalog);
+        RuntimeArtworkCache.Register(Catalog); ItemIconCache.RefreshMissing();
+        _countdown = null; _pageCache.Clear(); Raise(nameof(CatalogCoverage));
+    }
+    private async Task UpdateCatalogAsync(bool manual)
+    {
+        if (_catalogUpdating) return;
+        _catalogUpdating = true; CommandManager.InvalidateRequerySuggested();
+        CatalogStatus = "正在检查卡池与角色、武器资料…";
+        try
+        {
+            var snapshot = await _catalogUpdates.DownloadAsync(Catalog, CancellationToken.None);
+            while (IsBusy) await Task.Delay(100); // 写入完成后再刷新分析页面。
+            await NavigationReady;
+            ApplyCatalog(snapshot);
+            if (_databaseReady) { _navigationRevision++; await LoadSelectedAsync(); }
+            CatalogStatus = $"资料检查完成 · 排期截至 {Catalog.CoveredThrough:yyyy-MM-dd} · 无需重装软件。";
+            if (Catalog.CoveredThrough < DateTimeOffset.UtcNow) CatalogStatus += " 上游尚未提供当前排期，未覆盖部分保持未知。";
+            if (manual) Status = CatalogStatus;
+        }
+        catch (Exception error)
+        {
+            CatalogStatus = error is UserFacingException ? error.Message : "卡池资料暂时无法更新，继续使用本地资料。可稍后重试。";
+            if (manual) Status = CatalogStatus;
+        }
+        finally { _catalogUpdating = false; CommandManager.InvalidateRequerySuggested(); }
     }
     private async Task InitializeDatabaseAsync()
     {
@@ -363,6 +421,7 @@ public sealed class MainViewModel : ObservableObject
             case DataSourceChoice.Game: await RunAsync(() => FetchAsync(true)); break;
             case DataSourceChoice.Uigf: await RunAsync(ImportAsync); break;
             case DataSourceChoice.Url: await FetchUrlAsync(true); break;
+            case DataSourceChoice.Miyoushe: await FetchMiyousheAsync(true); break;
         }
     }
     private async Task ImportAsync()
@@ -393,7 +452,13 @@ public sealed class MainViewModel : ObservableObject
         var credential = Dialogs.ChooseGachaUrl();
         if (credential is not null) await RunAsync(() => FetchAsync(addingAccount, credential));
     }
-    private async Task FetchAsync(bool addingAccount, GachaCredential? pastedCredential = null)
+    private async Task FetchMiyousheAsync(bool addingAccount)
+    {
+        var credential = await Dialogs.ChooseMiyousheCredentialAsync();
+        if (credential is null) { Status = "已结束本次米游社登录，已有档案保持不变。"; return; }
+        await RunAsync(() => FetchAsync(addingAccount, credential, "米游社登录授权"));
+    }
+    private async Task FetchAsync(bool addingAccount, GachaCredential? pastedCredential = null, string? sourceLabel = null)
     {
         _retryAddingAccount = addingAccount; CanRetry = false;
         string? gamePath = pastedCredential is null ? _settings.GamePath ?? await Task.Run(GachaLogService.DetectGamePath) : null;
@@ -403,7 +468,7 @@ public sealed class MainViewModel : ObservableObject
             gamePath = ChooseGamePath();
             if (gamePath is null) { Status = "尚未选择游戏路径，可导入 UIGF 离线使用。"; CanRetry = true; return; }
         }
-        Status = pastedCredential is null ? "正在读取本地祈愿缓存…" : "正在使用国服祈愿链接获取…";
+        Status = pastedCredential is null ? "正在读取本地祈愿缓存…" : $"正在使用{sourceLabel ?? "国服祈愿链接"}获取…";
         string? fetchedUid = null;
         try
         {

@@ -45,6 +45,7 @@ internal static class StartupVerifier
 
     public static async Task RunAsync(MainWindow window, MainViewModel shell, string output)
     {
+        File.WriteAllText(Path.Combine(output, "package-identity.txt"), GenshinGachaAnalyzer.Core.Helpers.AppPaths.HasPackageIdentity ? "Packaged\n" : "Unpackaged\n");
         int? integrity = ProcessSecurity.IntegrityLevel();
         if (integrity is null or < 8192) throw new InvalidOperationException("发布版没有以正常完整性权限启动。");
         File.WriteAllText(Path.Combine(output, "process-integrity.txt"), $"{integrity}\n");

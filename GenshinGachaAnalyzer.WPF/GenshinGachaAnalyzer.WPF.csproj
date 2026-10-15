@@ -11,6 +11,8 @@
   <ItemGroup>
     <ProjectReference Include="../GenshinGachaAnalyzer.Core/GenshinGachaAnalyzer.Core.csproj" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.4" />
+    <PackageReference Include="QRCoder" Version="1.8.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4191.47" />
     <Content Include="appsettings.json" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="Resources/Items/*.png" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="Resources/Items/sources.json" CopyToOutputDirectory="PreserveNewest" />
@@ -25,10 +27,15 @@
     <Content Include="../docs/InnoSetup*.LICENSE" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../docs/Snap.*.LICENSE" Link="%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../LICENSE" Link="LICENSE" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/Microsoft.WebView2.LICENSE" Link="Microsoft.WebView2.LICENSE" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/Microsoft.WebView2.NOTICE" Link="Microsoft.WebView2.NOTICE" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/QRCoder.LICENSE" Link="QRCoder.LICENSE" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../docs/MIGRATION.md" Link="MIGRATION.md" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../docs/THEME_SOURCES.md" Link="THEME_SOURCES.md" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../docs/ITEM_ASSETS.md" Link="ITEM_ASSETS.md" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../docs/SIGNING.md" Link="SIGNING.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/STORE.md" Link="STORE.md" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../docs/store/PRIVACY.md" Link="PRIVACY.md" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../docs/STARTUP_TROUBLESHOOTING.md" Link="STARTUP_TROUBLESHOOTING.md" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <!-- EXE 继承工作区 Low 标签会以受限权限启动。每次普通编译/发布都修正应用入口，

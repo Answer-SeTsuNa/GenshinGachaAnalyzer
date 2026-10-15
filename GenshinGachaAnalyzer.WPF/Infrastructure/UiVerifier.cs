@@ -24,6 +24,18 @@ internal static class UiVerifier
         PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
         try
         {
+            if (Environment.GetCommandLineArgs().Contains("--verify-catalog-online"))
+            {
+                await VerifyOnlineCatalogAsync(window, shell, output); listener.Flush();
+                File.WriteAllText(Path.Combine(output, "ui-verification.txt"), "公开资料在线更新与离线缓存验证通过，不使用真实档案。\n");
+                return;
+            }
+            if (Environment.GetCommandLineArgs().Contains("--verify-login-only"))
+            {
+                await VerifyMiyousheLoginAsync(window, output); listener.Flush();
+                File.WriteAllText(Path.Combine(output, "ui-verification.txt"), "米游社登录专项验证通过。\n");
+                return;
+            }
             int decoded = await Task.Run(() =>
             {
                 int count = 0;
@@ -391,10 +403,128 @@ internal static class UiVerifier
             window.DataContext = shell;
             await VerifyFetchRoutingAsync(window, shell, output);
             await VerifyUpdatesAsync(window, shell, output);
+            await VerifyCatalogUpdatesAsync(window, shell, output);
+            await VerifyMiyousheLoginAsync(window, output);
             listener.Flush();
             File.WriteAllText(Path.Combine(output, "ui-verification.txt"), "WPF 页面渲染、详情区间筛选、五个页签、历史筛选、物品明细、复刻日历历史与清空确认验证完成。全部档案为合成测试资料，请检查 PNG 和 bindings.log。\n");
         }
         finally { PresentationTraceSources.DataBindingSource.Listeners.Remove(listener); }
+    }
+    private static async Task VerifyMiyousheLoginAsync(MainWindow owner, string output)
+    {
+        int requests = 0;
+        using var client = new HttpClient(new SyntheticFetchHandler(() =>
+        {
+            requests++;
+            return new(System.Net.HttpStatusCode.OK) { Content = new StringContent(requests switch
+            {
+                1 => "{\"retcode\":0,\"data\":{\"url\":\"https://user.mihoyo.com/?ticket=SYNTHETIC_ONLY\",\"ticket\":\"SYNTHETIC_ONLY\"}}",
+                2 => "{\"retcode\":0,\"data\":{\"status\":\"Confirmed\",\"tokens\":[{\"token_type\":1,\"token\":\"SYNTHETIC_LOGIN_ONLY\"}],\"user_info\":{\"aid\":\"12345678\",\"mid\":\"SYNTHETIC_MID\"}}}",
+                3 => "{\"retcode\":0,\"data\":{\"list\":[{\"game_uid\":\"100000001\",\"nickname\":\"合成测试账号\",\"region\":\"cn_gf01\",\"region_name\":\"天空岛\"}]}}",
+                _ => "{\"retcode\":0,\"data\":{\"authkey\":\"SYNTHETIC_WISH_ONLY\"}}"
+            }) };
+        }));
+        var login = new MiyousheLoginWindow(new MiyousheLoginService(client), Path.Combine(output, "login-browser-cache")) { Owner = owner };
+        try
+        {
+            login.Show(); await RenderAsync(login, Path.Combine(output, "16-login-privacy.png"));
+            if (requests != 0 || login.HasLoginSession) throw new InvalidOperationException("未同意隐私说明前已发出登录请求。");
+            login.ConsentButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            await login.OperationReady.WaitAsync(TimeSpan.FromSeconds(10));
+            if (!login.HasLoginSession || login.RolePicker.Items.Count != 1 || login.RolePanel.Visibility != Visibility.Visible)
+                throw new InvalidOperationException("米游社合成登录未显示账号确认。");
+            await RenderAsync(login, Path.Combine(output, "16-login-account-confirmation.png"));
+            if (login.RoleNickname.Text != "合成测试账号" || login.RoleUid.Text != "UID：100000001" || login.RoleServer.Text != "服务器：天空岛"
+                || login.RolePicker.Visibility != Visibility.Collapsed || login.QrImage.Source is not null
+                || login.StatusText.Text.Contains("JSON", StringComparison.OrdinalIgnoreCase) || login.StatusText.Text.Contains("http"))
+                throw new InvalidOperationException("登录成功页没有清晰显示昵称、UID、服务器，或暴露了开发信息。");
+            login.FetchButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            for (int attempt = 0; login.IsVisible && attempt < 100; attempt++) await Task.Delay(20);
+            if (login.IsVisible || login.HasLoginSession || login.Credential?.ExpectedUid != "100000001" || requests != 4)
+                throw new InvalidOperationException("米游社获取授权或关闭时的临时会话清理失败。");
+            var cancelled = new MiyousheLoginWindow(new MiyousheLoginService(client), Path.Combine(output, "login-browser-cache")) { Owner = owner };
+            cancelled.Show(); cancelled.Close();
+            if (cancelled.Credential is not null || cancelled.HasLoginSession || requests != 4)
+                throw new InvalidOperationException("取消登录仍保存授权或产生额外请求。");
+            if (Environment.GetCommandLineArgs().Contains("--verify-official-login-page"))
+            {
+                var browserLogin = new MiyousheLoginWindow(new MiyousheLoginService(client), Path.Combine(output, "login-browser-cache")) { Owner = owner };
+                try { browserLogin.Show(); await browserLogin.VerifyOfficialAccountPageAsync(output); }
+                finally { browserLogin.Close(); }
+                for (int attempt = 0; browserLogin.IsVisible && attempt < 300; attempt++) await Task.Delay(20);
+                if (browserLogin.IsVisible || browserLogin.HasLoginSession) throw new InvalidOperationException("官方网页登录窗口未正确清理关闭。");
+            }
+            File.WriteAllText(Path.Combine(output, "miyoushe-login-verification.txt"), "隐私说明前不联网、扫码确认、UID 选择、查询授权、取消与临时会话清理通过。仅合成响应，不使用真实登录凭据。\n");
+        }
+        finally { login.Close(); }
+    }
+    private static async Task VerifyOnlineCatalogAsync(MainWindow window, MainViewModel original, string output)
+    {
+        string directory = Path.Combine(output, "online-catalog"); Directory.CreateDirectory(directory);
+        using var client = new HttpClient(new HttpClientHandler { AllowAutoRedirect = false, UseCookies = false });
+        var updater = new WishCatalogUpdateService(client, Path.Combine(directory, "catalog", "snapshot.json"));
+        var target = new MainViewModel(new DatabaseService(Path.Combine(directory, "gacha.db")), new UigfService(), new AnalysisService(new CatalogBannerProvider()),
+            new GachaLogService(client), new SettingsService(Path.Combine(directory, "settings.json")), new SyntheticFetchDialogs(), null, autoUpdateCatalog: true, catalogUpdates: updater);
+        await target.InitializeAsync(); await target.CatalogUpdateReady.WaitAsync(TimeSpan.FromSeconds(70));
+        if (target.Catalog.UpdatedAt is null || !target.CatalogStatus.Contains("检查完成") || target.Catalog.Events.Count < original.Catalog.Events.Count)
+            throw new InvalidOperationException("真实公开资料更新失败：" + target.CatalogStatus);
+        target.SettingsCommand.Execute(null); window.DataContext = target;
+        await RenderAsync(window, Path.Combine(output, "17-online-catalog-settings.png"));
+        var latest = target.Catalog.Events.OrderByDescending(e => e.From).First();
+        RuntimeArtworkCache.Register(target.Catalog);
+        if (latest.BannerFile is not null && latest.BannerUrl is not null)
+        {
+            var artwork = new WishCatalogService(target.Catalog.Items, [latest with { BannerFile = "online-test-current-banner.jpg" }]);
+            RuntimeArtworkCache.Register(artwork);
+            if (await RuntimeArtworkCache.ResolveAsync("Banners", "online-test-current-banner.jpg") is null) throw new InvalidOperationException("当前卡池官方图片不可用。");
+        }
+        // 找一个安装包没有的新图标，验证更新后不需要重新安装即可显示。
+        var newItem = target.Catalog.Items.FirstOrDefault(i => WishCatalogUpdateService.IsOfficialAsset(i.Icon) && !File.Exists(Path.Combine(AppContext.BaseDirectory, "Resources", "Items", i.Id + ".png")));
+        newItem ??= target.Catalog.Items.First(i => WishCatalogUpdateService.IsOfficialAsset(i.Icon)) with { Id = "999990001" };
+        RuntimeArtworkCache.Register(new WishCatalogService([newItem], []));
+        if (await RuntimeArtworkCache.ResolveAsync("Items", newItem.Id + ".png") is null) throw new InvalidOperationException("新增物品官方图片下载失败。");
+        var offline = updater.LoadCache(new WishCatalogService());
+        if (offline is null || offline.Events.Length != target.Catalog.Events.Count) throw new InvalidOperationException("更新资料无法在离线启动时恢复。");
+        File.WriteAllText(Path.Combine(output, "catalog-online-verification.txt"), $"公开数据更新通过：排期 {target.Catalog.Events.Count}，物品 {target.Catalog.Items.Count}；覆盖至 {target.Catalog.CoveredThrough:yyyy-MM-dd}。缓存读取、官方图片加载通过。未发送 UID 或登录信息，未使用真实数据库。\n");
+        window.DataContext = original; RuntimeArtworkCache.Configure(original.DataDirectory, false); RuntimeArtworkCache.Register(original.Catalog);
+    }
+    private static async Task VerifyCatalogUpdatesAsync(MainWindow window, MainViewModel original, string output)
+    {
+        string directory = Path.Combine(output, "synthetic-catalog"); Directory.CreateDirectory(directory);
+        var next = original.Catalog.Events.Last() with { Name = "合成新卡池", Version = "99.0", Order = 1, From = original.Catalog.CoveredThrough.AddDays(1), To = original.Catalog.CoveredThrough.AddDays(21) };
+        string events = System.Text.Json.JsonSerializer.Serialize(original.Catalog.Events.Append(next).Select(e => new
+        { e.Name, e.Version, e.Order, Type = int.Parse(e.Type), e.From, e.To, UpOrangeList = e.UpGold.Select(long.Parse), UpPurpleList = e.UpPurple.Select(long.Parse), Banner = e.BannerUrl, Banner2 = e.BannerAlternate }));
+        int requests = 0;
+        using var client = new HttpClient(new SyntheticFetchHandler(() =>
+        {
+            requests++;
+            return new(System.Net.HttpStatusCode.OK) { Content = new StringContent(requests switch
+            {
+                1 => events,
+                2 => "{\"retcode\":0,\"data\":{\"total\":1,\"list\":[{\"id\":10009999,\"name\":\"合成新角色\",\"avatar_level\":5,\"icon\":\"https://act-webstatic.mihoyo.com/synthetic.png\"}]}}",
+                3 => "{\"retcode\":0,\"data\":{\"total\":1,\"list\":[{\"id\":99999,\"name\":\"合成新武器\",\"weapon_level\":5,\"icon\":\"https://act-webstatic.mihoyo.com/synthetic.png\"}]}}",
+                _ => "invalid-response"
+            }) };
+        }));
+        var updater = new WishCatalogUpdateService(client, Path.Combine(directory, "catalog", "snapshot.json"));
+        var target = new MainViewModel(new DatabaseService(Path.Combine(directory, "gacha.db")), new UigfService(), new AnalysisService(new CatalogBannerProvider()),
+            new GachaLogService(client), new SettingsService(Path.Combine(directory, "settings.json")), new SyntheticFetchDialogs(), null, catalogUpdates: updater);
+        await target.InitializeAsync();
+        if (requests != 0) throw new InvalidOperationException("隔离验证在未授权在线验证时自动联网。");
+        target.UpdateCatalogCommand.Execute(null);
+        for (int i = 0; target.CatalogStatus.StartsWith("正在") && i < 300; i++) await Task.Delay(20);
+        if (requests != 3 || target.Catalog.CoveredThrough != next.To || target.Catalog.FindById("10009999")?.Name != "合成新角色")
+            throw new InvalidOperationException("卡池资料更新未生效：" + target.CatalogStatus);
+        target.ShowSection("历史"); await target.NavigationReady;
+        if (target.CurrentPage is not HistoryViewModel history || !history.Groups.Any(g => g.Name == "合成新卡池")) throw new InvalidOperationException("新卡池未出现在历史页面。");
+        target.SettingsCommand.Execute(null); window.DataContext = target;
+        await RenderAsync(window, Path.Combine(output, "17-catalog-updated-settings.png"));
+        target.UpdateCatalogCommand.Execute(null);
+        for (int i = 0; target.CatalogStatus.StartsWith("正在") && i < 300; i++) await Task.Delay(20);
+        if (!target.CatalogStatus.Contains("继续使用本地") || target.Catalog.CoveredThrough != next.To) throw new InvalidOperationException("更新失败没有保留可用资料。");
+        if (updater.LoadCache(new WishCatalogService())?.Events.Length != target.Catalog.Events.Count) throw new InvalidOperationException("离线缓存恢复失败。");
+        File.WriteAllText(Path.Combine(output, "catalog-update-verification.txt"), "合成新卡池和新物品更新、页面刷新、失败保留和离线缓存恢复通过。不使用真实档案，不连接网络。\n");
+        window.DataContext = original; RuntimeArtworkCache.Configure(original.DataDirectory, false); RuntimeArtworkCache.Register(original.Catalog);
     }
     private static async Task VerifyUpdatesAsync(MainWindow window, MainViewModel originalShell, string output)
     {
@@ -411,7 +541,7 @@ internal static class UiVerifier
         const string repository = "https://github.com/Answer-SeTsuNa/GenshinGachaAnalyzer";
         var target = new MainViewModel(new DatabaseService(Path.Combine(directory, "gacha.db")), new UigfService(),
             new AnalysisService(new CatalogBannerProvider()), new GachaLogService(client),
-            new SettingsService(Path.Combine(directory, "settings.json")), dialogs, repository, new ReleaseUpdateService(client));
+            new SettingsService(Path.Combine(directory, "settings.json")), dialogs, repository, new ReleaseUpdateService(client), storeDistribution: false);
         if (requests != 0) throw new InvalidOperationException("未点击检查更新就产生网络请求。");
         target.SettingsCommand.Execute(null); window.DataContext = target;
         target.CheckUpdateCommand.Execute(null);
@@ -425,8 +555,15 @@ internal static class UiVerifier
         if (target.HasNewVersion || !target.UpdateStatus.Contains("未找到")) throw new InvalidOperationException("404 被误报为最新版或仍显示旧下载按钮。");
         target.ReleasesCommand.Execute(null);
         if (dialogs.LastOpenedLink != repository + "/releases") throw new InvalidOperationException("GitHub 发布页入口错误。");
+        var store = new MainViewModel(new DatabaseService(Path.Combine(directory, "store-test.db")), new UigfService(), new AnalysisService(new CatalogBannerProvider()),
+            new GachaLogService(client), new SettingsService(Path.Combine(directory, "store-settings.json")), dialogs, repository, new ReleaseUpdateService(client), storeDistribution: true);
+        store.CheckUpdateCommand.Execute(null);
+        if (requests != 2 || dialogs.LastOpenedLink != "ms-windows-store://downloadsandupdates" || store.HasNewVersion)
+            throw new InvalidOperationException("商店版仍走 GitHub 更新或没有打开商店更新入口。");
+        store.SettingsCommand.Execute(null); window.DataContext = store;
+        await RenderAsync(window, Path.Combine(output, "13-settings-store-channel.png"));
         window.DataContext = originalShell;
-        File.WriteAllText(Path.Combine(output, "update-verification.txt"), "主动检查、新版提示、GitHub 下载入口、404 提示与旧下载状态清理通过；全部响应为合成，不打开真实浏览器。\n");
+        File.WriteAllText(Path.Combine(output, "update-verification.txt"), "主动检查、新版提示、GitHub 下载入口、404 提示与旧下载状态清理、商店更新渠道分流通过；全部响应为合成，不打开真实浏览器或商店。\n");
     }
     private static async Task VerifyFetchRoutingAsync(MainWindow window, MainViewModel originalShell, string output)
     {

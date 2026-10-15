@@ -39,7 +39,7 @@ public partial class App : Application
         string instanceId = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(dataDirectory + Environment.UserName)))[..20];
         DiagnosticLog.Info("启动阶段：检查单实例");
         _mutex = new Mutex(true, @"Local\GenshinGachaAnalyzer-" + instanceId, out bool created);
-        if (!created) { MessageBox.Show("工具已经运行，请使用现有窗口。", "木偶祈愿档案"); Shutdown(); return; }
+        if (!created) { MessageBox.Show("工具已经运行，请使用现有窗口。", "木偶祈愿分析"); Shutdown(); return; }
         DiagnosticLog.Configure(Path.Combine(dataDirectory, "logs"));
         DiagnosticLog.Info("启动 " + typeof(App).Assembly.GetName().Version!.ToString(3));
         var startupWatchdog = startupCheck ? StartupVerifier.Watch(dataDirectory, Dispatcher) : null;
@@ -67,7 +67,7 @@ public partial class App : Application
             string? repository = ReadRepositoryUrl();
             var database = new DatabaseService(Path.Combine(dataDirectory, "gacha.db"));
             var shell = new MainViewModel(database, new UigfService(), new AnalysisService(new CatalogBannerProvider()),
-                new GachaLogService(_client), new SettingsService(Path.Combine(dataDirectory, "settings.json")), new AppDialogs(), repository);
+                  new GachaLogService(_client), new SettingsService(Path.Combine(dataDirectory, "settings.json")), new AppDialogs(), repository, autoUpdateCatalog: !verify);
             DiagnosticLog.Info("启动阶段：创建窗口");
             var window = new MainWindow(shell); MainWindow = window;
             // 启动检查必须展示并激活真实窗口；此前隐藏任务栏/不激活的检查漏掉了叠加层注入问题。

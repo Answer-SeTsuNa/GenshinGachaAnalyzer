@@ -1,12 +1,13 @@
-<Window x:Class="GenshinGachaAnalyzer.WPF.Views.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:GenshinGachaAnalyzer.WPF.Controls" Title="木偶 · 祈愿记录" Style="{StaticResource AppWindow}" Width="1440" Height="920" MinWidth="1120" MinHeight="620" WindowStartupLocation="CenterScreen" Icon="/Resources/App.ico">
+<Window x:Class="GenshinGachaAnalyzer.WPF.Views.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:GenshinGachaAnalyzer.WPF.Controls" Title="木偶祈愿分析" Style="{StaticResource AppWindow}" Width="1440" Height="920" MinWidth="1120" MinHeight="620" WindowStartupLocation="CenterScreen" Icon="/Resources/App.ico">
  <Grid><controls:ThemeBackdrop/><Grid Margin="24,18,24,14"><Grid.LayoutTransform><ScaleTransform ScaleX="{Binding EffectiveScale}" ScaleY="{Binding EffectiveScale}" /></Grid.LayoutTransform>
   <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
   <Grid Margin="2,0,2,18">
    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-   <StackPanel Orientation="Horizontal" VerticalAlignment="Center"><Image Source="/Resources/AppIcon.png" Width="44" Height="44" Margin="0,0,12,0"/><StackPanel><TextBlock Text="祈愿档案" FontSize="26" FontWeight="SemiBold" /><TextBlock Text="木偶 · 把相遇留在星轨里" Foreground="{DynamicResource Muted}" FontSize="12" Margin="0,3,0,0" /></StackPanel></StackPanel>
+   <StackPanel Orientation="Horizontal" VerticalAlignment="Center"><Image Source="/Resources/AppIcon.png" Width="44" Height="44" Margin="0,0,12,0"/><StackPanel><TextBlock Text="木偶祈愿分析" FontSize="26" FontWeight="SemiBold" /><TextBlock Text="木偶 · 把相遇留在星轨里" Foreground="{DynamicResource Muted}" FontSize="12" Margin="0,3,0,0" /></StackPanel></StackPanel>
    <WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0,0,0">
     <ComboBox ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}" Width="152" IsEnabled="{Binding IsIdle}" AutomationProperties.Name="选择原神 UID" Margin="0,0,12,0"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Display}" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
-    <Button Content="↻  更新数据" Command="{Binding FetchCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,8,0" />
+    <Button Content="登录米游社获取" Command="{Binding FetchMiyousheCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,8,0" ToolTip="默认扫码，也可使用官方账号登录；无需启动游戏，登录信息不上传给开发者" />
+    <Button Content="↻ 从游戏获取" Command="{Binding FetchCommand}" Margin="0,0,8,0" />
     <Button Content="🔗 URL" Command="{Binding FetchUrlCommand}" Margin="0,0,8,0" ToolTip="手动粘贴国服祈愿历史链接"/>
     <Button Content="↓  导入 UIGF" Command="{Binding ImportCommand}" Margin="0,0,8,0" />
     <Button Content="↑  导出 UIGF" Command="{Binding ExportCommand}" Margin="0,0,8,0" />

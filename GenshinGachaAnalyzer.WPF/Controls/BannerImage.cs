@@ -45,7 +45,8 @@ public sealed class BannerImage : Grid
             try
             {
                 lock (Cache) { if (Cache.TryGetValue(file, out var saved)) return saved; }
-                string path = Path.Combine(AppContext.BaseDirectory, "Resources", "Banners", file);
+                string? path = await Infrastructure.RuntimeArtworkCache.ResolveAsync("Banners", file);
+                path ??= Path.Combine(AppContext.BaseDirectory, "Resources", "Banners", file);
                 if (!File.Exists(path)) return null;
                 var image = new BitmapImage(); image.BeginInit(); image.CacheOption = BitmapCacheOption.OnLoad; image.DecodePixelWidth = 1280; image.UriSource = new Uri(path); image.EndInit(); image.Freeze();
                 lock (Cache) { if (!Cache.ContainsKey(file)) { Cache[file] = image; Order.Enqueue(file); while (Order.Count > 12) Cache.Remove(Order.Dequeue()); } }

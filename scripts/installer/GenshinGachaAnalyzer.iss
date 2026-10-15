@@ -2,10 +2,11 @@
 #ifndef AppVersion
   #error 请使用 scripts/Build-Installer.ps1 构建。
 #endif
-#define AppName "木偶原神抽卡分析工具"
+#define AppName "木偶祈愿分析"
 #define AppExe "GenshinGachaAnalyzer.exe"
 #ifndef InstallerAppId
   #define InstallerAppId "GenshinGachaAnalyzer"
+  #define CleanupLegacyShortcuts
 #endif
 
 [Setup]
@@ -53,6 +54,13 @@ Source: "{#PublishDir}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
 Name: "{group}\{#AppName}"; Filename: "{app}\{#AppExe}"; WorkingDir: "{app}"
 Name: "{group}\卸载 {#AppName}"; Filename: "{uninstallexe}"
 Name: "{userdesktop}\{#AppName}"; Filename: "{app}\{#AppExe}"; WorkingDir: "{app}"; Tasks: desktopicon
+
+#ifdef CleanupLegacyShortcuts
+[InstallDelete]
+Type: files; Name: "{group}\木偶原神抽卡分析工具.lnk"
+Type: files; Name: "{group}\卸载 木偶原神抽卡分析工具.lnk"
+Type: files; Name: "{userdesktop}\木偶原神抽卡分析工具.lnk"
+#endif
 
 [Run]
 Filename: "{app}\{#AppExe}"; Description: "启动 {#AppName}"; Flags: nowait postinstall skipifsilent

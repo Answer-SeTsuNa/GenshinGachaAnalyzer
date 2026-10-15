@@ -10,11 +10,13 @@
 gh attestation verify GenshinGachaAnalyzer-Setup-v0.1.20-win-x64.exe --repo Answer-SeTsuNa/GenshinGachaAnalyzer --signer-workflow Answer-SeTsuNa/GenshinGachaAnalyzer/.github/workflows/build.yml
 ```
 
-Windows 可信签名采用 SignPath Foundation 免费开源服务申请流程，尚未取得授权证书。维护者、提交审核人和发布批准人为 GitHub 用户 `Answer-SeTsuNa`。申请联系信息只保存在本地，不提交到公开仓库。
+2026-10-15：SignPath Foundation 免费证书申请被拒，给出的原因是当前项目公开信誉和社区认可证据不足，可在获得更多真实使用与持续维护记录后重新申请。尚未取得授权证书。维护者、提交审核人和发布批准人为 GitHub 用户 `Answer-SeTsuNa`。申请联系信息不提交到公开仓库。
+
+正在准备 Microsoft Store 的 MSIX 分发方式，尚未上架；微软商店签名只适用于经审核的商店包，不会为 GitHub 的现有 EXE 补签。见 STORE.md。
 
 若申请获批，应启用维护者双因素认证，按基金会要求补充服务署名与签名策略，配置审核批准步骤；主程序先签名，安装器打包后再签名，随后重新生成 SHA256 和 GitHub 构建证明。第三方组件保留原作者签名。当前未启用没有证书的虚假签名步骤。
 
-隐私政策：除用户主动请求获取祈愿、检查版本或打开外部链接外，不向网络发送信息；不上传档案、游戏凭据或本地设置，不埋点。GitHub 检查仅请求版本信息；游戏接口只用于用户请求的记录拉取。
+隐私政策见 PRIVACY.md。工具会自动检查公开卡池资料，相关请求不携带 UID 或登录凭据；不上传档案、游戏凭据或本地设置，不埋点。GitHub 检查仅请求版本信息；游戏接口只用于用户请求的记录拉取。
 
 申请入口：[SignPath Foundation](https://signpath.org/apply)，条件：[Code of Conduct](https://signpath.org/terms)。是否批准由基金会决定。
 

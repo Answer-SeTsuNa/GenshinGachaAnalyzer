@@ -51,6 +51,13 @@ public sealed class AppDialogs : IAppDialogs
     }
     public bool ConfirmImport(PreparedImport import) =>
         new ImportPreviewWindow { Owner = Owner, DataContext = new ImportPreviewViewModel(import) }.ShowDialog() == true;
+    public async Task<Core.Services.GachaCredential?> ChooseMiyousheCredentialAsync()
+    {
+        using var client = new System.Net.Http.HttpClient(new System.Net.Http.HttpClientHandler { AllowAutoRedirect = false, UseCookies = false });
+        var dialog = new MiyousheLoginWindow(new Core.Services.MiyousheLoginService(client)) { Owner = Owner };
+        dialog.ShowDialog(); await dialog.OperationReady;
+        return dialog.Credential;
+    }
     public bool ConfirmClearAccount(string uid, int count) =>
         new ClearAccountWindow { Owner = Owner, DataContext = new ClearAccountViewModel(uid, count) }.ShowDialog() == true;
     public IReadOnlyList<string>? SelectExportAccounts(IReadOnlyList<Account> accounts)
@@ -77,4 +84,5 @@ public sealed class AppDialogs : IAppDialogs
         if (!Uri.TryCreate(url, UriKind.Absolute, out var uri) || uri.Scheme != "https") throw new ArgumentException("仅允许 HTTPS 链接。");
         Process.Start(new ProcessStartInfo(uri.AbsoluteUri) { UseShellExecute = true });
     }
+    public void OpenStoreUpdates() => Process.Start(new ProcessStartInfo("ms-windows-store://downloadsandupdates") { UseShellExecute = true });
 }

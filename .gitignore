@@ -14,6 +14,12 @@
 *.pdb
 *.exe
 *.dll
+*.msix
+*.msixupload
+*.msixbundle
+*.appx
+*.appxupload
+*.appxbundle
 # 签名私钥、个人环境与本地认证配置不进入源码。
 *.pfx
 *.p12
