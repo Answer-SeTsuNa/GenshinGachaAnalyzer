@@ -78,4 +78,7 @@ public sealed class PersonalViewModel : Infrastructure.ObservableObject
         catch (Exception error) { Shell.ReportError(error); }
     }
 }
-public sealed record LoadingViewModel(string Name);
+public sealed record LoadingViewModel(string Name)
+{
+    public string Message => Name == "本地档案" ? "正在加载本地档案…" : "✦ 正在整理星轨…";
+}

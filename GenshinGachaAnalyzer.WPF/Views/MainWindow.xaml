@@ -5,7 +5,13 @@
    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
    <StackPanel Orientation="Horizontal" VerticalAlignment="Center"><Image Source="/Resources/AppIcon.png" Width="44" Height="44" Margin="0,0,12,0"/><StackPanel><TextBlock Text="木偶祈愿分析" FontSize="26" FontWeight="SemiBold" /><TextBlock Text="木偶 · 把相遇留在星轨里" Foreground="{DynamicResource Muted}" FontSize="12" Margin="0,3,0,0" /></StackPanel></StackPanel>
    <WrapPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="20,0,0,0">
-    <ComboBox ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}" Width="152" IsEnabled="{Binding IsIdle}" AutomationProperties.Name="选择原神 UID" Margin="0,0,12,0"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Display}" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+    <ComboBox ItemsSource="{Binding Accounts}" SelectedItem="{Binding SelectedAccount}" Width="152" IsEnabled="{Binding IsIdle}" AutomationProperties.Name="选择原神 UID" Margin="0,0,4,0"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Display}" /></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+    <Button Command="{Binding ToggleUidPrivacyCommand}" ToolTip="{Binding UidPrivacyHint}" AutomationProperties.Name="{Binding UidPrivacyHint}" Padding="8,6" Margin="0,0,12,0">
+     <Grid Width="18" Height="18">
+      <Path Data="M 1,9 C 5,2 13,2 17,9 C 13,16 5,16 1,9 Z M 11.5,9 A 2.5,2.5 0 1 1 6.5,9 A 2.5,2.5 0 1 1 11.5,9" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.4" StrokeLineJoin="Round"/>
+      <Path x:Name="UidPrivacySlash" Data="M 2,2 L 16,16" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.8" StrokeStartLineCap="Round" StrokeEndLineCap="Round" Visibility="{Binding HideUid, Converter={StaticResource Visible}}"/>
+     </Grid>
+    </Button>
     <Button Content="登录米游社获取" Command="{Binding FetchMiyousheCommand}" Style="{StaticResource PrimaryButton}" Margin="0,0,8,0" ToolTip="默认扫码，也可使用官方账号登录；无需启动游戏，登录信息不上传给开发者" />
     <Button Content="↻ 从游戏获取" Command="{Binding FetchCommand}" Margin="0,0,8,0" />
     <Button Content="🔗 URL" Command="{Binding FetchUrlCommand}" Margin="0,0,8,0" ToolTip="手动粘贴国服祈愿历史链接"/>

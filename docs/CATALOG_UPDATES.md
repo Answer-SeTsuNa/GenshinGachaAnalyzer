@@ -3,8 +3,9 @@
 0.1.22 起，卡池排期、物品名称 / 星级和新增图片不再依赖应用重新发布。
 
 - 应用启动先读取已验证的本地缓存，再打开档案；距上次成功检查至少 6 小时时，在后台检查公开资料。设置中的“更新卡池资料”可随时主动检查。
-- 排期读取 SnapHutaoRemasteringProject/Snap.Metadata 的 main/Genshin/CHS/GachaEvent.json。参考版胡桃通过 Git 仓库同步同类资料；本工具只获取需要的单个公开文件，不克隆整个仓库。
-- 参考版 FufuLauncher 1.7.0.3 的 GachaAnalysisModel.PoolMetadata 从 yshelper 的 getWishHistory 接口读取卡池，Metadata 模块从官方养成计算器获取角色与武器。本工具沿用已经核对的胡桃排期来源，物品与新增图片使用官方养成计算器实际返回的地址。
+- 0.1.25 起，当期国服卡池直接读取米哈游公开端点 `https://operation-webstatic.mihoyo.com/gacha_info/hk4e/cn_gf01/gacha/list.json`，再按列表中的 gacha_id 读取同目录下的 `{gacha_id}/zh-cn.json`。起止时间按国服 UTC+8 解释；UP 物品按官方名称、类型、星级匹配真实 ID（详情中的 item_id 可能是负数占位符）。官方未提供版本号和期次时显示日期，不推算。
+- 历史排期继续读取 SnapHutaoRemasteringProject/Snap.Metadata 的 main/Genshin/CHS/GachaEvent.json，并保留已缓存历史；官方当期结果优先覆盖重叠区间。两类排期资料源独立回退，一方失效不阻止另一方更新，均失败则保留可用缓存。
+- 参考版 FufuLauncher 1.7.0.3 的 GachaAnalysisModel.PoolMetadata 从 yshelper 的 getWishHistory 接口读取卡池，Metadata 模块从官方养成计算器获取角色与武器。本工具的物品与新增图片仍使用官方养成计算器实际返回的地址。
 - 更新请求不携带 UID、Cookie 或授权信息，使用独立无 Cookie、禁止自动重定向的 HTTP 会话。排期最多 8 MiB，验证时间范围、卡池类型、物品 ID、数量与文件路径后，再原子替换本地 snapshot.json。
 - 同一类型、游戏版本、期次的日期更正替换已有排期，避免同时保留旧日期而重复展示。已有历史中上游未返回的期次继续保留；覆盖范围倒退或异常响应不会覆盖可用缓存。
 - 图片按需从米哈游 / 米游社 / HoYoverse 官方 HTTPS 域名下载，最大 10 MiB；保存来源及 SHA256，拒绝已知占位图。内置图片优先，新增缓存不写入安装目录。

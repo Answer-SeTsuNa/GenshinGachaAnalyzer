@@ -48,7 +48,6 @@
       <TextBlock Text="{Binding Shell.CatalogCoverage}" Style="{StaticResource MutedText}" Margin="0,12,0,8"/>
       <Button Content="更新卡池资料" Command="{Binding Shell.UpdateCatalogCommand}" HorizontalAlignment="Left" Margin="0,0,0,10" AutomationProperties.Name="更新卡池资料"/>
       <TextBlock Text="{Binding Shell.CatalogStatus}" Style="{StaticResource MutedText}" FontSize="12" AutomationProperties.LiveSetting="Polite"/>
-      <TextBlock Text="启动后自动检查（每 6 小时至多一次成功检查）。排期来自胡桃公开元数据，物品与新增图片来自米哈游官方接口；只下载公开资料，不发送 UID 或登录信息。断网继续使用本地资料，上游尚未收录的卡池不会猜测。" Style="{StaticResource MutedText}" FontSize="12" Margin="0,12,0,0"/>
       <Border Height="1" Background="{DynamicResource Line}" Margin="0,26,0,26" />
       <TextBlock Text="以记录的严谨管理记录，&#10;以外衣的可视化呈现分析。" FontSize="17" LineHeight="29" />
       <TextBlock Text="数据永久留存，数据自由迁移。&#10;&#10;记录仅保存在您的电脑，不上传、不埋点、无账号体系。登录米游社时连接官方认证和记录服务，登录凭据仅用于本次获取，不上传给开发者、不写入档案或日志。官方网页登录使用独立隐私会话。检查更新连接 GitHub，不发送账号或档案；外部链接使用浏览器打开。&#10;&#10;没有手动添加、修改单条抽卡记录的入口。允许备份后整账号清空，便于迁移和重新导入。统计依据已有数据，不显示精确出金概率，不推导武器定轨。" Style="{StaticResource MutedText}" Margin="0,22,0,22" />

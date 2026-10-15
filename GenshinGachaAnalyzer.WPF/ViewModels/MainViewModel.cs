@@ -8,10 +8,12 @@ using GenshinGachaAnalyzer.WPF.Services;
 
 namespace GenshinGachaAnalyzer.WPF.ViewModels;
 
-public sealed class AccountOption(string? uid)
+public sealed class AccountOption(string? uid, bool hideUid = false) : ObservableObject
 {
+    private bool _hideUid = hideUid;
+    public bool HideUid { get => _hideUid; set { if (Set(ref _hideUid, value)) Raise(nameof(Display)); } }
     public string? Uid { get; } = uid;
-    public string Display => Uid ?? "+ 添加新账号";
+    public string Display => Uid is null ? "+ 添加新账号" : HideUid ? Uid[..Math.Max(0, Uid.Length - 4)] + "****" : Uid;
     public override string ToString() => Display;
 }
 public sealed class MainViewModel : ObservableObject
@@ -26,8 +28,8 @@ public sealed class MainViewModel : ObservableObject
     private UserSettings _settings = new();
     private AccountOption? _selectedAccount;
     private object? _currentPage;
-    private string _status = "所有记录仅存于此设备。";
-    private bool _isBusy, _databaseReady, _hasError, _canRetry, _refreshing;
+    private string _status = "正在加载本地档案…";
+    private bool _isBusy, _databaseReady, _databaseLoadFailed, _hasError, _canRetry, _refreshing;
     private bool _retryAddingAccount;
     private string? _exportPath;
     private CancellationTokenSource? _cancellation;
@@ -66,7 +68,22 @@ public sealed class MainViewModel : ObservableObject
     public bool HasError { get => _hasError; private set => Set(ref _hasError, value); }
     public bool CanRetry { get => _canRetry; private set => Set(ref _canRetry, value); }
     public string Status { get => _status; private set => Set(ref _status, value); }
-    public string UidText => SelectedAccount?.Display ?? (_databaseReady ? "尚未添加账号" : "档案未加载");
+    public string UidText => SelectedAccount?.Display ?? (_databaseReady ? "尚未添加账号" : _databaseLoadFailed ? "档案未加载" : "正在加载档案…");
+    public bool HideUid
+    {
+        get => _settings.HideUid;
+        set
+        {
+            if (value == _settings.HideUid) return;
+            try { var next = _settings with { HideUid = value }; _settingsService.Save(next); _settings = next; }
+            catch (Exception error) { ReportError(error); Raise(); return; }
+            Raise();
+            foreach (var account in Accounts) account.HideUid = _settings.HideUid;
+            Raise(nameof(UidText)); Raise(nameof(UidPrivacyHint));
+        }
+    }
+    public string UidPrivacyHint => HideUid ? "显示 UID 后四位" : "隐藏 UID 后四位";
+    public ICommand ToggleUidPrivacyCommand { get; }
     public string DataDirectory => Path.GetDirectoryName(_database.DatabasePath)!;
     public string DatabasePath => _database.DatabasePath;
     public IReadOnlyList<GachaRecord> CurrentRecords => _records;
@@ -145,7 +162,7 @@ public sealed class MainViewModel : ObservableObject
     public string ThemeDescription => SelectedStyle.Description;
     public string? ThemeArtwork => null;
     public string UpdatedText => _accounts.FirstOrDefault(a => a.Uid == SelectedAccount?.Uid) is { } a ? $"最近写入 {a.LastUpdated:yyyy-MM-dd HH:mm}" : "本地档案";
-    public string ArchiveText => _databaseReady ? $"{_accounts.Count} 个账号 · 当前账号 {_records.Count:N0} 条记录" : "本地档案尚未加载";
+    public string ArchiveText => _databaseReady ? $"{_accounts.Count} 个账号 · 当前账号 {_records.Count:N0} 条记录" : _databaseLoadFailed ? "本地档案尚未加载" : "正在加载本地档案…";
     public string SourceSummary => _records.Count == 0 ? "暂无记录" : string.Join(" · ", _records.GroupBy(r => r.Source).Select(g => $"{g.Key} {g.Count():N0} 条"));
     public string? RepositoryUrl { get; }
     public bool HasRepository => !string.IsNullOrEmpty(RepositoryUrl);
@@ -190,6 +207,7 @@ public sealed class MainViewModel : ObservableObject
         RepositoryUrl = repositoryUrl;
         DiagnosticLog.Configure(LogDirectory);
         DeveloperLogCommand = new RelayCommand(_ => Dialogs.ShowDiagnosticLog());
+        ToggleUidPrivacyCommand = new RelayCommand(_ => HideUid = !HideUid);
         SelectWallpaperCommand = new RelayCommand(_ =>
         {
             var path = Dialogs.ChooseWallpaperFile();
@@ -239,7 +257,7 @@ public sealed class MainViewModel : ObservableObject
                 bool newer = release.IsNewerThan(typeof(MainViewModel).Assembly.GetName().Version!);
                 if (newer) _updatePageUrl = release.PageUrl;
                 UpdateStatus = newer ? $"发现新版本 v{release.Version}，可前往 GitHub 下载。"
-                    : $"当前 v{ProductVersion} 已不低于 GitHub 最新正式版 v{release.Version}。";
+                    : "已是最新版本";
                 Raise(nameof(HasNewVersion));
             }
             catch (Exception error) when (error is UserFacingException or OperationCanceledException)
@@ -248,7 +266,7 @@ public sealed class MainViewModel : ObservableObject
         ReleasesCommand = new RelayCommand(_ => OpenLink(ReleaseUpdateService.ReleasesUrl(RepositoryUrl!)), () => HasRepository);
         DownloadUpdateCommand = new RelayCommand(_ => { if (_updatePageUrl is { } url) OpenLink(url); }, () => HasNewVersion);
         LicenseCommand = new RelayCommand(_ => SafeOpen(Path.Combine(AppContext.BaseDirectory, "LICENSE")));
-        CurrentPage = new WelcomeViewModel(this);
+        CurrentPage = new LoadingViewModel("本地档案");
         (string Style, bool Dark)? chartTheme = null;
         ThemeService.Changed += () =>
         {
@@ -270,6 +288,7 @@ public sealed class MainViewModel : ObservableObject
         try
         {
             _settings = _settingsService.Load(); ThemeService.Configure(_settings);
+            Raise(nameof(HideUid)); Raise(nameof(UidPrivacyHint));
             // 首次打开即检测安装目录，无需先点击更新；失效的旧路径也重新检测。
             if (_settings.GamePath is null || !GachaLogService.IsGameDirectory(_settings.GamePath))
             {
@@ -316,6 +335,9 @@ public sealed class MainViewModel : ObservableObject
     }
     private async Task InitializeDatabaseAsync()
     {
+        _databaseLoadFailed = false;
+        CurrentPage = new LoadingViewModel("本地档案");
+        Raise(nameof(UidText)); Raise(nameof(ArchiveText));
         Status = "正在检查本地数据库…";
         try
         {
@@ -328,7 +350,7 @@ public sealed class MainViewModel : ObservableObject
             Raise(nameof(UidText)); Raise(nameof(ArchiveText));
             Status = "本地数据已就绪 · 无遥测，无云端同步。"; CanRetry = false;
         }
-        catch { _databaseReady = false; CanRetry = true; CurrentPage = new DatabaseUnavailableViewModel(this); Raise(nameof(UidText)); Raise(nameof(ArchiveText)); throw; }
+        catch { _databaseReady = false; _databaseLoadFailed = true; CanRetry = true; CurrentPage = new DatabaseUnavailableViewModel(this); Raise(nameof(UidText)); Raise(nameof(ArchiveText)); throw; }
     }
     private async Task RunAsync(Func<Task> action)
     {
@@ -356,7 +378,7 @@ public sealed class MainViewModel : ObservableObject
         _refreshing = true;
         try
         {
-            Accounts.Clear(); foreach (var account in _accounts) Accounts.Add(new(account.Uid));
+            Accounts.Clear(); foreach (var account in _accounts) Accounts.Add(new(account.Uid, HideUid));
             Accounts.Add(new(null)); _selectedAccount = Accounts.FirstOrDefault(a => a.Uid == uid && uid is not null) ?? Accounts.FirstOrDefault(a => a.Uid is not null);
             Raise(nameof(SelectedAccount)); Raise(nameof(UidText)); Raise(nameof(UpdatedText));
         }
@@ -379,7 +401,11 @@ public sealed class MainViewModel : ObservableObject
     private async Task NavigateAsync(string section)
     {
         SelectedSection = section; int revision = ++_navigationRevision;
-        if (!_databaseReady && section != "设置") { CurrentPage = new DatabaseUnavailableViewModel(this); return; }
+        if (!_databaseReady && section != "设置")
+        {
+            CurrentPage = _databaseLoadFailed ? new DatabaseUnavailableViewModel(this) : new LoadingViewModel("本地档案");
+            return;
+        }
         if (section == "复刻日历")
         {
             var today = DateOnly.FromDateTime(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime);

@@ -32,7 +32,7 @@ public sealed class WishCatalogUpdateTests : IDisposable
         }));
         var service = new WishCatalogUpdateService(client, CachePath); var catalog = Catalog();
         var snapshot = await service.DownloadAsync(catalog, default); catalog.Apply(snapshot);
-        Assert.Equal(3, requests); Assert.Equal(next.To, catalog.CoveredThrough); Assert.Equal("新卡池", catalog.Events.Last().Name);
+        Assert.Equal(4, requests); Assert.Equal(next.To, catalog.CoveredThrough); Assert.Equal("新卡池", catalog.Events.Last().Name);
         Assert.Equal("合成avatar", catalog.FindById("10000002")!.Name);
         Assert.EndsWith(".jpg", catalog.Events.Last().BannerFile);
         Assert.Single(Directory.GetFiles(_directory));
@@ -47,6 +47,33 @@ public sealed class WishCatalogUpdateTests : IDisposable
         using var client = new HttpClient(new Handler(r => Json(r.Method == HttpMethod.Get ? RemoteEvents(corrected) : OfficialItems(r.RequestUri!.AbsolutePath.Contains("avatar") ? "avatar" : "weapon"))));
         var catalog = Catalog(); catalog.Apply(await new WishCatalogUpdateService(client, CachePath).DownloadAsync(catalog, default));
         Assert.Single(catalog.Events); Assert.Equal(corrected.From, catalog.Events.Single().From);
+    }
+    [Fact]
+    public async Task OfficialScheduleUpdatesEvenWhenCommunitySourceIsUnavailable()
+    {
+        using var client = new HttpClient(new Handler(r =>
+        {
+            if (r.RequestUri!.AbsoluteUri == WishCatalogUpdateService.EventUrl) throw new HttpRequestException();
+            if (r.Method == HttpMethod.Post) return Json(OfficialItems(r.RequestUri.AbsolutePath.Contains("avatar") ? "avatar" : "weapon"));
+            return Json(r.RequestUri.AbsoluteUri == WishCatalogUpdateService.OfficialListUrl ?
+                """{"retcode":0,"data":{"list":[{"gacha_id":"abc123","gacha_type":301,"begin_time":"2026-02-01 18:00:00","end_time":"2026-02-21 14:59:59"}]}}""" :
+                """{"gacha_type":301,"title":"「<color=#FFFFFF>官方</color>卡池」","r5_prob_list":[{"is_up":1,"item_id":-2,"item_name":"合成avatar","item_type":"角色"}],"r4_prob_list":[]}""");
+        }));
+        var snapshot = await new WishCatalogUpdateService(client, CachePath).DownloadAsync(Catalog(), default);
+        var active = Assert.Single(snapshot.Events, e => e.Order == 0);
+        Assert.Equal("10000002", Assert.Single(active.UpGold)); Assert.Equal("「官方卡池」", active.Name);
+        Assert.Equal(TimeSpan.FromHours(8), active.From.Offset); Assert.Contains("官方排期", active.PeriodText);
+        Assert.Contains(snapshot.Events, e => e.Key == Event.Key);
+        Assert.NotNull(new WishCatalogUpdateService(client, CachePath).LoadCache(Catalog()));
+    }
+    [Fact]
+    public void OfficialScheduleRejectsUnknownUpAndPreservesKnownPeriodMetadata()
+    {
+        using var entry = JsonDocument.Parse("""{"gacha_type":301,"begin_time":"2026-01-01 00:00:00","end_time":"2026-01-21 00:00:00"}""");
+        using var detail = JsonDocument.Parse("""{"gacha_type":301,"title":"官方标题","r5_prob_list":[{"is_up":1,"item_name":"合成角色","item_type":"角色","item_id":-1}],"r4_prob_list":[]}""");
+        var result = WishCatalogUpdateService.ParseOfficialEvent(entry.RootElement, detail.RootElement, [Item], [Event]);
+        Assert.Equal(Event.Version, result.Version); Assert.Equal(Event.Order, result.Order);
+        Assert.Throws<InvalidDataException>(() => WishCatalogUpdateService.ParseOfficialEvent(entry.RootElement, detail.RootElement, [], [Event]));
     }
     [Fact]
     public async Task FailedOrIncompleteUpdateKeepsPreviousCacheAndCatalog()

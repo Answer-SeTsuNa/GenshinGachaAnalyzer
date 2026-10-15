@@ -5,7 +5,7 @@ namespace GenshinGachaAnalyzer.Core.Services;
 
 public sealed record UserSettings(string? GamePath = null, string Theme = "System", double UiScale = 0, string StyleKey = "Gear",
     bool Acrylic = true, bool SemiTransparent = true, double OverlayOpacity = .72, double PanelOpacity = .88,
-    double WallpaperOpacity = .65, double WallpaperBlur = 18, string? WallpaperPath = null, bool DeveloperMode = false);
+    double WallpaperOpacity = .65, double WallpaperBlur = 18, string? WallpaperPath = null, bool DeveloperMode = false, bool HideUid = false);
 public sealed class SettingsService(string path)
 {
     public UserSettings Load()

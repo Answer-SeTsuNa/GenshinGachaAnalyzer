@@ -24,6 +24,7 @@
 - 物品底图使用参考项目 Resource/ItemIcon/UI_QUALITY_ORANGE、PURPLE、BLUE.png 原始资源。旧主题祈愿横幅已移除；当前六主题使用眼内齿轮纹饰、官方元素图标与可选本地壁纸，详见 THEME_SOURCES.md。
 - FufuLauncher 1.7.0.3：https://github.com/CodeCubist/FufuLauncher。游戏定位、URL 获取流程核对与亚克力 / 遮罩分层参考。Copyright (c) 2025 Dev. CodeCubist，MIT 全文随附 FufuLauncher.LICENSE。没有迁入注入、签到、账号登录或生成认证凭据功能。
 - 应用图标为作者提供的图标_木偶.png 的多尺寸转换副本。其图片权利不由代码 MIT 协议自动授予。
+- 0.1.24 安装向导侧栏使用作者提供的角色海报裁剪副本，未生成或重绘角色。图片版权归原权利人，不适用项目代码 MIT 许可；裁剪信息及摘要见 scripts/installer/Assets/README.md。
 
 0.1.2 主题使用 HoYoWiki 官方站点的五枚元素透明 PNG（冰 / 火 / 水 / 雷 / 岩）。预览保留原图，背景仅以透明通道适配颜色。素材权利归 miHoYo / HoYoverse，不适用本项目 MIT 授权。原始 URL、离线使用方式及 SHA256 清单见 docs/THEME_SOURCES.md 和 Resources/Elements/sources.json。
 

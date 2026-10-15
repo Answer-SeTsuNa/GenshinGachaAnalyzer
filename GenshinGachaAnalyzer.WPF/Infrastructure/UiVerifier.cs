@@ -84,7 +84,21 @@ internal static class UiVerifier
                 var import = await service.PreflightAsync(minimalFixture);
                 database.Insert(import.Records, import.Accounts);
                 await shell.InitializeAsync();
+                string? originalUid = shell.SelectedAccount?.Uid;
+                shell.ToggleUidPrivacyCommand.Execute(null);
+                if (!shell.HideUid || shell.UidText != originalUid![..^4] + "****"
+                    || shell.Accounts.Where(a => a.Uid is not null).Any(a => !a.Display.EndsWith("****"))
+                    || !new SettingsService(Path.Combine(output, "settings.json")).Load().HideUid)
+                    throw new InvalidOperationException("UID 隐藏或设置保存失败。");
+                await RenderAsync(window, Path.Combine(output, "02-uid-hidden.png"));
+                if (((System.Windows.Shapes.Path)window.FindName("UidPrivacySlash")).Visibility != Visibility.Visible)
+                    throw new InvalidOperationException("隐藏 UID 时眼睛未显示斜杠。");
+                shell.ToggleUidPrivacyCommand.Execute(null);
+                if (shell.SelectedAccount?.Uid != originalUid || shell.UidText != originalUid)
+                    throw new InvalidOperationException("UID 隐藏修改了原始账号或未恢复显示。");
                 await RenderAsync(window, Path.Combine(output, "02-dashboard.png"));
+                if (((System.Windows.Shapes.Path)window.FindName("UidPrivacySlash")).Visibility != Visibility.Collapsed)
+                    throw new InvalidOperationException("显示 UID 时眼睛仍显示斜杠。");
                 foreach (var card in Descendants<Controls.PoolCard>(window))
                 {
                     if (card.DataContext is not PoolViewModel pool) continue;
@@ -372,6 +386,28 @@ internal static class UiVerifier
             shell.SettingsCommand.Execute(null);
             await RenderAsync(window, Path.Combine(output, "07-settings.png"));
             shell.SelectedTheme = shell.Themes[0];
+            // 从首帧到正常初始化完成，加载状态不得误显示为数据库故障。
+            string loadingDirectory = Path.Combine(output, "synthetic-startup-loading");
+            using var loadingClient = new HttpClient();
+            var loadingShell = new MainViewModel(new DatabaseService(Path.Combine(loadingDirectory, "gacha.db")), new UigfService(),
+                new AnalysisService(new CatalogBannerProvider()), new GachaLogService(loadingClient),
+                new SettingsService(Path.Combine(loadingDirectory, "settings.json")), shell.Dialogs, null);
+            bool falseFailurePage = false;
+            loadingShell.PropertyChanged += (_, change) =>
+            {
+                if (change.PropertyName == nameof(MainViewModel.CurrentPage) && loadingShell.CurrentPage is DatabaseUnavailableViewModel)
+                    falseFailurePage = true;
+            };
+            loadingShell.ShowDashboard(); await loadingShell.NavigationReady;
+            if (loadingShell.CurrentPage is not LoadingViewModel || loadingShell.HasError)
+                throw new InvalidOperationException("首次加载前显示了错误页。");
+            window.DataContext = loadingShell;
+            await RenderAsync(window, Path.Combine(output, "00-archive-loading.png"));
+            await loadingShell.InitializeAsync();
+            if (falseFailurePage || loadingShell.HasError || !loadingShell.ImportCommand.CanExecute(null))
+                throw new InvalidOperationException("正常初始化期间曾显示数据库故障。");
+            window.DataContext = shell;
+            File.WriteAllText(Path.Combine(output, "archive-loading-verification.txt"), "首帧、初始化前导航及初始化全程不显示虚假数据库故障；成功后开放档案入口。\n");
             // 合成故障库：加载失败必须显示专门页面，禁止把错误渲染成零账号引导。
             string failureDirectory = Path.Combine(output, "synthetic-database-failure");
             Directory.CreateDirectory(failureDirectory);
@@ -513,7 +549,7 @@ internal static class UiVerifier
         if (requests != 0) throw new InvalidOperationException("隔离验证在未授权在线验证时自动联网。");
         target.UpdateCatalogCommand.Execute(null);
         for (int i = 0; target.CatalogStatus.StartsWith("正在") && i < 300; i++) await Task.Delay(20);
-        if (requests != 3 || target.Catalog.CoveredThrough != next.To || target.Catalog.FindById("10009999")?.Name != "合成新角色")
+        if (requests != 4 || target.Catalog.CoveredThrough != next.To || target.Catalog.FindById("10009999")?.Name != "合成新角色")
             throw new InvalidOperationException("卡池资料更新未生效：" + target.CatalogStatus);
         target.ShowSection("历史"); await target.NavigationReady;
         if (target.CurrentPage is not HistoryViewModel history || !history.Groups.Any(g => g.Name == "合成新卡池")) throw new InvalidOperationException("新卡池未出现在历史页面。");
@@ -533,6 +569,8 @@ internal static class UiVerifier
         using var client = new HttpClient(new SyntheticFetchHandler(() =>
         {
             requests++;
+            if (requests == 3) return new(System.Net.HttpStatusCode.OK)
+            { Content = new StringContent("{\"tag_name\":\"v0.0.1\",\"draft\":false,\"prerelease\":false}") };
             return requests == 1 ? new(System.Net.HttpStatusCode.OK)
             { Content = new StringContent("{\"tag_name\":\"v99.0.0\",\"draft\":false,\"prerelease\":false}") }
                 : new(System.Net.HttpStatusCode.NotFound);
@@ -553,12 +591,16 @@ internal static class UiVerifier
         target.CheckUpdateCommand.Execute(null);
         for (int attempt = 0; target.UpdateStatus.StartsWith("正在") && attempt < 150; attempt++) await Task.Delay(20);
         if (target.HasNewVersion || !target.UpdateStatus.Contains("未找到")) throw new InvalidOperationException("404 被误报为最新版或仍显示旧下载按钮。");
+        target.CheckUpdateCommand.Execute(null);
+        for (int attempt = 0; target.UpdateStatus.StartsWith("正在") && attempt < 150; attempt++) await Task.Delay(20);
+        if (target.HasNewVersion || target.UpdateStatus != "已是最新版本") throw new InvalidOperationException("最新版提示文案不正确。");
+        await RenderAsync(window, Path.Combine(output, "13-settings-latest.png"));
         target.ReleasesCommand.Execute(null);
         if (dialogs.LastOpenedLink != repository + "/releases") throw new InvalidOperationException("GitHub 发布页入口错误。");
         var store = new MainViewModel(new DatabaseService(Path.Combine(directory, "store-test.db")), new UigfService(), new AnalysisService(new CatalogBannerProvider()),
             new GachaLogService(client), new SettingsService(Path.Combine(directory, "store-settings.json")), dialogs, repository, new ReleaseUpdateService(client), storeDistribution: true);
         store.CheckUpdateCommand.Execute(null);
-        if (requests != 2 || dialogs.LastOpenedLink != "ms-windows-store://downloadsandupdates" || store.HasNewVersion)
+        if (requests != 3 || dialogs.LastOpenedLink != "ms-windows-store://downloadsandupdates" || store.HasNewVersion)
             throw new InvalidOperationException("商店版仍走 GitHub 更新或没有打开商店更新入口。");
         store.SettingsCommand.Execute(null); window.DataContext = store;
         await RenderAsync(window, Path.Combine(output, "13-settings-store-channel.png"));

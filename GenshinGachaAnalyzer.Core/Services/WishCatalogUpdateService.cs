@@ -12,6 +12,8 @@ public sealed record CatalogSnapshot(DateTimeOffset CheckedAt, WishItem[] Items,
 public sealed class WishCatalogUpdateService(HttpClient client, string cachePath)
 {
     public const string EventUrl = "https://raw.githubusercontent.com/SnapHutaoRemasteringProject/Snap.Metadata/main/Genshin/CHS/GachaEvent.json";
+    public const string OfficialBaseUrl = "https://operation-webstatic.mihoyo.com/gacha_info/hk4e/cn_gf01";
+    public const string OfficialListUrl = OfficialBaseUrl + "/gacha/list.json";
     private const int MaxBytes = 8 * 1024 * 1024;
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
     public CatalogSnapshot? LoadCache(WishCatalogService catalog)
@@ -30,19 +32,55 @@ public sealed class WishCatalogUpdateService(HttpClient client, string cachePath
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(token); timeout.CancelAfter(TimeSpan.FromSeconds(45));
         try
         {
-            using var response = await ReadAsync(new(HttpMethod.Get, EventUrl), timeout.Token);
-            var events = ParseEvents(response.RootElement);
-            if (events.Length < catalog.Events.Count / 2 || events.Max(e => e.To) < catalog.CoveredThrough)
-                throw new InvalidDataException("在线排期不完整或覆盖范围倒退。");
+            WishEvent[] events = [];
+            using (var historyTimeout = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token))
+            {
+                historyTimeout.CancelAfter(TimeSpan.FromSeconds(8));
+                try
+                {
+                    using var response = await ReadAsync(new(HttpMethod.Get, EventUrl), historyTimeout.Token);
+                    events = ParseEvents(response.RootElement);
+                    if (events.Length < catalog.Events.Count / 2 || events.Max(e => e.To) < catalog.CoveredThrough)
+                        events = [];
+                }
+                catch (Exception error) when (RecoverableSourceError(error) && !timeout.IsCancellationRequested) { }
+            }
             var items = catalog.Items.ToDictionary(i => i.Id);
             foreach (string kind in new[] { "avatar", "weapon" })
                 foreach (var item in await ReadItemsAsync(kind, timeout.Token)) items[item.Id] = item;
             // 保留上游尚未包含的已有历史，原始数据库和 UIGF 导出完全不变。
-            static (string, string, int) Identity(WishEvent e) => (e.Type, e.Version, e.Order);
+            static string Identity(WishEvent e) => e.Order == 0 ? e.Key : $"{e.Type}:{e.Version}:{e.Order}";
             var previous = catalog.Events.GroupBy(Identity).ToDictionary(g => g.Key, g => g.Last());
             var merged = catalog.Events.Concat(events.Select(e => e.BannerFile is null && previous.TryGetValue(Identity(e), out var old) ? e with { BannerFile = old.BannerFile } : e))
                 .GroupBy(Identity).Select(g => g.Last()).Select(e => e with
-                { BannerUrl = IsOfficialAsset(e.BannerUrl) ? e.BannerUrl : null, BannerAlternate = IsOfficialAsset(e.BannerAlternate) ? e.BannerAlternate : null }).ToArray();
+                { BannerUrl = IsOfficialAsset(e.BannerUrl) ? e.BannerUrl : null, BannerAlternate = IsOfficialAsset(e.BannerAlternate) ? e.BannerAlternate : null }).Reverse().DistinctBy(e => e.Key).Reverse().ToArray();
+            bool officialSucceeded = false;
+            using (var officialTimeout = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token))
+            {
+                officialTimeout.CancelAfter(TimeSpan.FromSeconds(15));
+                try
+                {
+                    using var list = await ReadAsync(new(HttpMethod.Get, OfficialListUrl), officialTimeout.Token);
+                    if (list.RootElement.GetProperty("retcode").GetInt32() != 0) throw new InvalidDataException();
+                    var active = new List<WishEvent>();
+                    foreach (var entry in list.RootElement.GetProperty("data").GetProperty("list").EnumerateArray())
+                    {
+                        if (entry.GetProperty("gacha_type").ToString() is not ("301" or "400" or "302" or "500")) continue;
+                        string id = entry.GetProperty("gacha_id").GetString()!;
+                        if (id.Length is < 1 or > 80 || !id.All(char.IsAsciiHexDigit)) throw new InvalidDataException();
+                        using var detail = await ReadAsync(new(HttpMethod.Get, $"{OfficialBaseUrl}/{id}/zh-cn.json"), officialTimeout.Token);
+                        active.Add(ParseOfficialEvent(entry, detail.RootElement, items.Values, merged));
+                        if (active.Count > 10) throw new InvalidDataException();
+                    }
+                    if (active.Count == 0) throw new InvalidDataException();
+                    Validate(new(DateTimeOffset.UtcNow, items.Values.ToArray(), active.ToArray()));
+                    merged = merged.Where(e => !active.Any(a => a.Type == e.Type && a.From < e.To && e.From < a.To))
+                        .Concat(active).ToArray();
+                    officialSucceeded = true;
+                }
+                catch (Exception error) when (RecoverableSourceError(error) && !timeout.IsCancellationRequested) { }
+            }
+            if (!officialSucceeded && events.Length == 0) throw new InvalidDataException("排期资料源均不可用。");
             var snapshot = new CatalogSnapshot(DateTimeOffset.UtcNow, items.Values.ToArray(), merged);
             Validate(snapshot);
             Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(cachePath))!);
@@ -58,6 +96,31 @@ public sealed class WishCatalogUpdateService(HttpClient client, string cachePath
         catch (OperationCanceledException) when (!token.IsCancellationRequested) { throw new UserFacingException("卡池资料更新超时，继续使用本地资料。可稍后重试。"); }
         catch (Exception error) when (error is HttpRequestException or JsonException or InvalidDataException or KeyNotFoundException or InvalidOperationException or FormatException or ArgumentException)
         { throw new UserFacingException("暂时无法更新卡池资料，继续使用本地资料。请稍后重试。"); }
+    }
+    private static bool RecoverableSourceError(Exception error) => error is HttpRequestException or JsonException or InvalidDataException
+        or KeyNotFoundException or InvalidOperationException or FormatException or ArgumentException or OperationCanceledException;
+
+    public static WishEvent ParseOfficialEvent(JsonElement entry, JsonElement detail, IEnumerable<WishItem> items, IEnumerable<WishEvent> previous)
+    {
+        string type = entry.GetProperty("gacha_type").ToString();
+        if (detail.GetProperty("gacha_type").ToString() != type) throw new InvalidDataException();
+        DateTimeOffset Time(string field) => new(DateTime.ParseExact(entry.GetProperty(field).GetString()!, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture), TimeSpan.FromHours(8));
+        var from = Time("begin_time"); var to = Time("end_time");
+        // 官方详情 item_id 可能是负数占位符，按官方名称、类型和星级匹配真实物品 ID。
+        string[] Up(string field, string rank) => detail.GetProperty(field).EnumerateArray()
+            .Where(i => i.GetProperty("is_up").ToString() == "1").Select(i =>
+            {
+                var matches = items.Where(item => item.Name == i.GetProperty("item_name").GetString()
+                    && item.Kind == i.GetProperty("item_type").GetString() && item.Rank == rank).ToArray();
+                return matches.Length == 1 ? matches[0].Id : throw new InvalidDataException("官方 UP 物品无法唯一匹配。");
+            }).Distinct().ToArray();
+        var gold = Up("r5_prob_list", "5"); var purple = Up("r4_prob_list", "4");
+        if (type != "500" && gold.Length == 0) throw new InvalidDataException();
+        var known = previous.FirstOrDefault(e => e.Type == type && (e.From - from).Duration() < TimeSpan.FromMinutes(15)
+            && (e.To - to).Duration() < TimeSpan.FromMinutes(15));
+        string name = System.Text.RegularExpressions.Regex.Replace(detail.GetProperty("title").GetString()!, "<[^>]+>", "");
+        return new(name, known?.Version ?? "官方排期", known?.Order ?? 0, type, from, to, gold, purple,
+            known?.BannerFile, known?.BannerUrl, known?.BannerAlternate);
     }
     public static WishEvent[] ParseEvents(JsonElement root)
     {
@@ -132,13 +195,13 @@ public sealed class WishCatalogUpdateService(HttpClient client, string cachePath
             || snapshot.Items.Any(i => i is null || !Id(i.Id) || !Text(i.Name) || i.Kind is not ("角色" or "武器") || i.Rank is not ("1" or "2" or "3" or "4" or "5")
                 || i.Icon is null || i.Icon.Length > 2048 || i.Icon.Contains("://") && !IsOfficialAsset(i.Icon))
             || snapshot.Items.DistinctBy(i => i.Id).Count() != snapshot.Items.Length
-            || snapshot.Events.Any(e => e is null || !Text(e.Name) || !Text(e.Version) || e.Type is not ("301" or "400" or "302" or "500") || e.Order is < 1 or > 10
+            || snapshot.Events.Any(e => e is null || !Text(e.Name) || !Text(e.Version) || e.Type is not ("301" or "400" or "302" or "500") || e.Order is < 0 or > 10 || e.Order == 0 && e.Version != "官方排期"
                 || e.From.Year < 2020 || e.To.Year > DateTime.UtcNow.Year + 2 || e.From >= e.To || (e.To - e.From).TotalDays > 100
                 || e.UpGold is null || e.UpPurple is null || e.UpGold.Length > 100 || e.UpPurple.Length > 100 || e.UpGold.Concat(e.UpPurple).Any(i => !Id(i))
                 || e.BannerFile is not null && (e.BannerFile != Path.GetFileName(e.BannerFile) || e.BannerFile.Contains('/') || e.BannerFile.Contains('\\') || e.BannerFile.Length > 100)
                 || e.BannerUrl is not null && !IsOfficialAsset(e.BannerUrl) || e.BannerAlternate is not null && !IsOfficialAsset(e.BannerAlternate))
             || snapshot.Events.DistinctBy(e => e.Key).Count() != snapshot.Events.Length
-            || snapshot.Events.DistinctBy(e => (e.Type, e.Version, e.Order)).Count() != snapshot.Events.Length)
+            || snapshot.Events.Where(e => e.Order != 0).DistinctBy(e => (e.Type, e.Version, e.Order)).Count() != snapshot.Events.Count(e => e.Order != 0))
             throw new InvalidDataException("卡池资料格式异常。");
     }
 }

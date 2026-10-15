@@ -27,7 +27,7 @@
    <DataTemplate DataType="{x:Type vm:CollectionViewModel}"><views:CollectionView /></DataTemplate>
    <DataTemplate DataType="{x:Type vm:CountdownViewModel}"><views:CountdownView /></DataTemplate>
    <DataTemplate DataType="{x:Type vm:PersonalViewModel}"><views:PersonalView/></DataTemplate>
-   <DataTemplate DataType="{x:Type vm:LoadingViewModel}"><Grid><StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"><TextBlock Text="✦ 正在整理星轨…" FontSize="22" Foreground="{DynamicResource Gold}"/><ProgressBar IsIndeterminate="True" Width="260" Margin="0,20,0,0"/></StackPanel></Grid></DataTemplate>
+   <DataTemplate DataType="{x:Type vm:LoadingViewModel}"><Grid><StackPanel HorizontalAlignment="Center" VerticalAlignment="Center"><TextBlock Text="{Binding Message}" FontSize="22" Foreground="{DynamicResource Gold}"/><ProgressBar IsIndeterminate="True" Width="260" Margin="0,20,0,0"/></StackPanel></Grid></DataTemplate>
   </ResourceDictionary>
  </Application.Resources>
 </Application>

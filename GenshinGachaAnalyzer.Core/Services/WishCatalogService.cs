@@ -9,7 +9,7 @@ public sealed record WishEvent(string Name, string Version, int Order, string Ty
     DateTimeOffset To, string[] UpGold, string[] UpPurple, string? BannerFile = null, string? BannerUrl = null, string? BannerAlternate = null)
 {
     public string Key => $"{Type}:{From:O}";
-    public string PeriodText => $"{Version} · 第 {Order} 期";
+    public string PeriodText => Order == 0 ? $"{From:yyyy.MM.dd} – {To:MM.dd} · 官方排期" : $"{Version} · 第 {Order} 期";
 }
 public sealed record ItemSummary(WishItem Item, int Count, DateTime FirstTime, DateTime LastTime,
     IReadOnlyList<GachaRecord> Records);
