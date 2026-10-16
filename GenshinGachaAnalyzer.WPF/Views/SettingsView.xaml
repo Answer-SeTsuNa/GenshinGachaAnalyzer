@@ -47,7 +47,8 @@
        <TextBlock Text="{Binding Shell.DownloadVersionText}" FontWeight="SemiBold"/>
        <ItemsControl ItemsSource="{Binding Shell.DownloadPackages}">
         <ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,10,0,0">
-         <TextBlock Text="{Binding Label}" Style="{StaticResource MutedText}" FontSize="12"/>
+         <TextBlock Text="{Binding Label}" FontWeight="SemiBold" FontSize="12"/>
+         <TextBlock Text="{Binding Description}" Style="{StaticResource MutedText}" FontSize="12" Margin="0,5,0,0"/>
          <ItemsControl ItemsSource="{Binding Links}">
           <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate><DataTemplate>
@@ -57,7 +58,15 @@
         </StackPanel></DataTemplate></ItemsControl.ItemTemplate>
        </ItemsControl>
        <TextBlock Text="公益代理由第三方提供；连接失败时可切换渠道。" Style="{StaticResource MutedText}" FontSize="12" Margin="0,10,0,0"/>
+       <TextBlock Text="两种版本功能相同，均无需另外安装运行环境。便携版不能在压缩包里直接运行，也不能只复制一个 EXE。记录保存在这台电脑的用户数据目录，搬走程序文件夹不会带走记录。" Style="{StaticResource MutedText}" FontSize="12" Margin="0,10,0,0"/>
       </StackPanel>
+      <Expander Header="微软商店安装指南" Margin="0,16,0,0" AutomationProperties.Name="微软商店安装指南">
+       <StackPanel Margin="0,10,0,0">
+        <TextBlock Text="截至 2026-10-16，商店版已通过认证，等待发布，暂未开放下载。现在请使用安装版或便携版。" Style="{StaticResource MutedText}" FontSize="12"/>
+        <TextBlock Text="正式上架后：&#10;1. 打开 Windows 开始菜单，搜索并打开 Microsoft Store（微软商店）。&#10;2. 在商店里搜索「木偶祈愿分析」，确认发布者为「答元耐一」。&#10;3. 点击「获取」或「安装」，完成后点击「打开」。如提示登录，请在微软窗口内登录。" Style="{StaticResource MutedText}" FontSize="12" Margin="0,10,0,0"/>
+        <TextBlock Text="商店版通过微软商店更新。桌面版的已有记录不会自动同步到商店版：请先在原版「导出」全部账号，再在商店版「导入 UIGF」，核对 UID 和记录数量。" Style="{StaticResource MutedText}" FontSize="12" Margin="0,10,0,0"/>
+       </StackPanel>
+      </Expander>
       <Border Height="1" Background="{DynamicResource Line}" Margin="0,26,0,26" />
       <TextBlock Text="卡池与物品资料" FontSize="18" FontWeight="SemiBold"/>
       <TextBlock Text="{Binding Shell.CatalogCoverage}" Style="{StaticResource MutedText}" Margin="0,12,0,8"/>

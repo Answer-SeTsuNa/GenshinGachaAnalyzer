@@ -4,7 +4,7 @@
 
 **Windows 本地祈愿档案管理器**
 
-Microsoft Store 版本正在准备，尚未上架或取得商店签名。商店版使用用户目录中的“木偶祈愿档案”保存记录，旧桌面版目录保持原样，通过 UIGF 导出 / 导入迁移；商店版应用更新由 Microsoft Store 管理。流程见 [商店分发说明](docs/STORE.md)，数据处理见 [隐私政策](docs/store/PRIVACY.md)。
+截至 2026-10-16，Microsoft Store 版已通过认证、等待发布，暂未开放下载。当前请使用安装版或便携版。[下载与商店安装指南](docs/DOWNLOADS.md) · [商店分发说明](docs/STORE.md) · [隐私政策](docs/store/PRIVACY.md)。
 
 记录永久留存，使用 UIGF 自由迁移。.NET 10 LTS / WPF / MVVM / LiveCharts2 / SQLite，代码采用 MIT 协议。
 
@@ -12,9 +12,13 @@ Microsoft Store 版本正在准备，尚未上架或取得商店签名。商店�
 
 [打开最新发布页](https://github.com/Answer-SeTsuNa/GenshinGachaAnalyzer/releases/latest)，可选择安装版或便携版的公益代理 1、公益代理 2、GitHub 直连。新版本的下载链接由发布流程自动生成，无需逐次填写；软件设置页也提供这些渠道。
 
-从仓库 Releases 下载 `GenshinGachaAnalyzer-Setup-v版本号-win-x64.exe`，双击中文安装向导，可选择安装目录和桌面快捷方式；安装后从桌面或开始菜单启动。默认只为当前用户安装，无需管理员权限；新版安装包覆盖升级，Windows 设置中可卸载，祈愿档案和设置会保留。
+**第一次使用，推荐安装版。** 下载名称包含 `Setup` 的 `.exe` 文件，双击后按中文提示点击“下一步”，安装完成后从桌面或开始菜单打开“木偶祈愿分析”。无需管理员权限；升级时先关闭软件，再安装新版，祈愿档案和设置会保留。
 
-也可下载 win-x64.zip 便携版，解压整个目录后运行 GenshinGachaAnalyzer.exe，不能只复制 EXE。两种版本均自带运行环境，无需另装 .NET。支持 Windows 10 2004 及以上的 x64 兼容系统；原生亚克力材质需要 Windows 11 22H2 及以上，并遵循系统的透明效果设置。安装与维护说明见 [INSTALLER.md](docs/INSTALLER.md)。
+**便携版就是免安装版，需要先解压。** 下载 `win-x64.zip`，右键选择“全部解压”，打开解压文件夹里的 **GenshinGachaAnalyzer.exe**；请保留全部文件，不能在压缩包里直接运行，也不能只复制一个 EXE。记录保存在当前电脑的用户数据目录，复制程序文件夹不会把记录带到另一台电脑；换电脑请先导出再导入。含 `source` 的源码包供开发者使用。
+
+**微软商店安装步骤（正式上架后）**：开始菜单打开 Microsoft Store → 搜索“木偶祈愿分析” → 确认发布者“答元耐一” → 点击“获取 / 安装” → 完成后点击“打开”。[商店页面](https://apps.microsoft.com/detail/9P34RSKFWZGJ?hl=zh-CN&gl=CN)当前尚未开放下载。商店版与桌面版档案独立，切换前请先导出全部账号，再到新版导入 UIGF。
+
+安装版与便携版功能相同，均自带运行环境，无需另装 .NET。支持 Windows 10 2004 及以上的 x64 兼容系统；原生亚克力需要 Windows 11 22H2 及以上。更详细的分步操作见[下载与安装指南](docs/DOWNLOADS.md)，维护说明见 [INSTALLER.md](docs/INSTALLER.md)。
 
 主动获取祈愿时连接国服官方接口；选择“登录米游社获取”时，由米哈游官方服务验证账号，本工具仅在本次获取期间使用临时凭据，不上传给开发者、不写入档案、设置或诊断日志，不默认记住登录。官方网页登录及其验证码遵循官方相关政策。检查版本时连接 GitHub，仅查询正式发布，不发送账号或档案。不埋点，不建立本工具的在线账号体系，不支持国际服或云原神。
 

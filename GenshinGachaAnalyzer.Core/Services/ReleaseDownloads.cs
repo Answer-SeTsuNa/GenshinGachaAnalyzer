@@ -7,6 +7,7 @@ namespace GenshinGachaAnalyzer.Core.Services;
 public sealed record ReleaseDownloadLink(string Name, string Url);
 public sealed record ReleaseDownload(string Label, string FileName, string Url)
 {
+    public string Description { get; init; } = "";
     public IReadOnlyList<ReleaseDownloadLink> Links => ReleaseDownloads.Links(Url);
 }
 
@@ -24,7 +25,12 @@ public static class ReleaseDownloads
         string assetRoot = repository + "/releases/download/" + tag + "/";
         string installer = $"GenshinGachaAnalyzer-Setup-v{version}-win-x64.exe";
         string portable = $"GenshinGachaAnalyzer-v{version}-win-x64.zip";
-        return [new("安装版", installer, assetRoot + installer), new("便携版", portable, assetRoot + portable)];
+        return [
+            new("安装版 · 推荐新手", installer, assetRoot + installer)
+            { Description = "下载后双击安装文件，按提示点击「下一步」。安装后从桌面或开始菜单打开。" },
+            new("便携版 · 解压后使用", portable, assetRoot + portable)
+            { Description = "下载后右键压缩包，选择「全部解压」，再打开文件夹中的 GenshinGachaAnalyzer.exe。请保留整个文件夹。" }
+        ];
     }
 
     public static IReadOnlyList<ReleaseDownloadLink> Links(string assetUrl)

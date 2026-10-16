@@ -608,6 +608,12 @@ internal static class UiVerifier
         for (int attempt = 0; target.UpdateStatus.StartsWith("正在") && attempt < 150; attempt++) await Task.Delay(20);
         if (target.HasNewVersion || target.UpdateStatus != "已是最新版本") throw new InvalidOperationException("最新版提示文案不正确。");
         await RenderAsync(window, Path.Combine(output, "13-settings-latest.png"));
+        var installGuide = Descendants<Expander>(window).Single(control => control.Header?.ToString() == "微软商店安装指南");
+        installGuide.IsExpanded = true;
+        installGuide.BringIntoView();
+        await RenderAsync(window, Path.Combine(output, "13-settings-install-guide.png"));
+        installGuide.IsExpanded = false;
+        Descendants<ScrollViewer>(window).First(view => view.Content is StackPanel).ScrollToHome();
         target.ReleasesCommand.Execute(null);
         if (dialogs.LastOpenedLink != repository + "/releases") throw new InvalidOperationException("GitHub 发布页入口错误。");
         var store = new MainViewModel(new DatabaseService(Path.Combine(directory, "store-test.db")), new UigfService(), new AnalysisService(new CatalogBannerProvider()),
