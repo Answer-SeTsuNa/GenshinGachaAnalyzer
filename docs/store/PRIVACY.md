@@ -26,7 +26,7 @@
 
 应用启动后会检查公开卡池资料，距上次成功检查至少 6 小时才自动再次检查；设置中也可手动检查。卡池排期来自 Snap.Metadata 公开仓库，物品资料和新增图片来自米哈游官方养成计算器及官方资源地址。这类请求不携带 UID、Cookie 或登录凭据。
 
-桌面版主动检查应用版本时连接 GitHub；商店版由 Microsoft Store 管理应用更新。打开外部链接时使用相应系统应用。网络服务会因正常连接获知 IP 地址和必要的 HTTP 请求信息，其自身的数据处理遵循相应服务政策：
+桌面版主动检查应用版本时连接 GitHub；商店版由 Microsoft Store 管理应用更新。用户主动点击公益加速下载时，系统浏览器访问 GH-Proxy（gh-proxy.org）或 ghproxy.net，代理仅取得公开的 GitHub 安装包或便携包下载地址，不附带 UID、登录凭据、祈愿档案或本地日志。打开外部链接时使用相应系统应用。网络服务会因正常连接获知 IP 地址和必要的 HTTP 请求信息，其自身的数据处理遵循相应服务政策：
 
 - [GitHub 隐私声明](https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement)
 - [Microsoft 隐私声明](https://privacy.microsoft.com/privacystatement)

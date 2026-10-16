@@ -6,6 +6,7 @@ namespace GenshinGachaAnalyzer.Core.Services;
 
 public sealed record ReleaseUpdate(Version Version, string PageUrl)
 {
+    public IReadOnlyList<ReleaseDownload> Downloads { get; init; } = [];
     public bool IsNewerThan(Version current) => Normalize(Version) > Normalize(current);
     private static Version Normalize(Version value) => new(value.Major, value.Minor, Math.Max(0, value.Build), Math.Max(0, value.Revision));
 }
@@ -37,7 +38,15 @@ public sealed class ReleaseUpdateService(HttpClient client)
             if (root.GetProperty("draft").GetBoolean() || root.GetProperty("prerelease").GetBoolean()
                 || !Version.TryParse(tag?.Trim().TrimStart('v', 'V'), out var version))
                 throw new UserFacingException("GitHub 返回的正式版本号无法识别，请打开发布页查看。");
-            return new(version, repository.AbsoluteUri.TrimEnd('/') + "/releases/tag/" + Uri.EscapeDataString(tag!));
+            var expected = ReleaseDownloads.ForTag(repository.AbsoluteUri, tag!);
+            var downloads = new List<ReleaseDownload>();
+            if (root.TryGetProperty("assets", out var assets) && assets.ValueKind == JsonValueKind.Array)
+                foreach (var file in expected)
+                    if (assets.EnumerateArray().Any(asset => asset.TryGetProperty("name", out var name) && name.GetString() == file.FileName
+                        && asset.TryGetProperty("browser_download_url", out var url) && url.GetString() == file.Url
+                        && asset.TryGetProperty("size", out var size) && size.TryGetInt64(out long bytes) && bytes > 0
+                        && asset.TryGetProperty("state", out var state) && state.GetString() == "uploaded")) downloads.Add(file);
+            return new(version, repository.AbsoluteUri.TrimEnd('/') + "/releases/tag/" + Uri.EscapeDataString(tag!)) { Downloads = downloads };
         }
         catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
         { throw new UserFacingException("检查更新超时，请检查网络后重试，或打开 GitHub 发布页查看。"); }

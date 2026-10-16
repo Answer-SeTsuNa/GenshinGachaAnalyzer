@@ -572,7 +572,12 @@ internal static class UiVerifier
             if (requests == 3) return new(System.Net.HttpStatusCode.OK)
             { Content = new StringContent("{\"tag_name\":\"v0.0.1\",\"draft\":false,\"prerelease\":false}") };
             return requests == 1 ? new(System.Net.HttpStatusCode.OK)
-            { Content = new StringContent("{\"tag_name\":\"v99.0.0\",\"draft\":false,\"prerelease\":false}") }
+            { Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+                {
+                    tag_name = "v99.0.0", draft = false, prerelease = false,
+                    assets = ReleaseDownloads.ForTag("https://github.com/Answer-SeTsuNa/GenshinGachaAnalyzer", "v99.0.0")
+                        .Select(file => new { name = file.FileName, browser_download_url = file.Url, size = 123, state = "uploaded" })
+                })) }
                 : new(System.Net.HttpStatusCode.NotFound);
         }));
         var dialogs = new SyntheticFetchDialogs();
@@ -587,10 +592,18 @@ internal static class UiVerifier
         if (!target.HasNewVersion || !target.UpdateStatus.Contains("99.0.0")) throw new InvalidOperationException("新版本未显示。");
         target.DownloadUpdateCommand.Execute(null);
         if (dialogs.LastOpenedLink != repository + "/releases/tag/v99.0.0") throw new InvalidOperationException("更新下载未指向 GitHub 发布页。");
+        if (target.DownloadPackages.Count != 2 || target.DownloadVersionText != "下载 v99.0.0") throw new InvalidOperationException("新版下载渠道没有跟随版本刷新。");
+        foreach (var package in target.DownloadPackages)
+            foreach (var link in package.Links)
+            {
+                target.OpenReleaseDownloadCommand.Execute(link);
+                if (dialogs.LastOpenedLink != link.Url || !link.Url.Contains("v99.0.0")) throw new InvalidOperationException("下载渠道没有打开对应新版文件。");
+            }
         await RenderAsync(window, Path.Combine(output, "13-settings-update.png"));
         target.CheckUpdateCommand.Execute(null);
         for (int attempt = 0; target.UpdateStatus.StartsWith("正在") && attempt < 150; attempt++) await Task.Delay(20);
         if (target.HasNewVersion || !target.UpdateStatus.Contains("未找到")) throw new InvalidOperationException("404 被误报为最新版或仍显示旧下载按钮。");
+        if (target.DownloadPackages.Count != 2 || target.DownloadPackages.Any(file => file.Url.Contains("v99.0.0"))) throw new InvalidOperationException("检查失败后仍保留旧版下载渠道。");
         target.CheckUpdateCommand.Execute(null);
         for (int attempt = 0; target.UpdateStatus.StartsWith("正在") && attempt < 150; attempt++) await Task.Delay(20);
         if (target.HasNewVersion || target.UpdateStatus != "已是最新版本") throw new InvalidOperationException("最新版提示文案不正确。");
@@ -600,12 +613,12 @@ internal static class UiVerifier
         var store = new MainViewModel(new DatabaseService(Path.Combine(directory, "store-test.db")), new UigfService(), new AnalysisService(new CatalogBannerProvider()),
             new GachaLogService(client), new SettingsService(Path.Combine(directory, "store-settings.json")), dialogs, repository, new ReleaseUpdateService(client), storeDistribution: true);
         store.CheckUpdateCommand.Execute(null);
-        if (requests != 3 || dialogs.LastOpenedLink != "ms-windows-store://downloadsandupdates" || store.HasNewVersion)
+        if (requests != 3 || dialogs.LastOpenedLink != "ms-windows-store://downloadsandupdates" || store.HasNewVersion || store.DownloadPackages.Count != 0)
             throw new InvalidOperationException("商店版仍走 GitHub 更新或没有打开商店更新入口。");
         store.SettingsCommand.Execute(null); window.DataContext = store;
         await RenderAsync(window, Path.Combine(output, "13-settings-store-channel.png"));
         window.DataContext = originalShell;
-        File.WriteAllText(Path.Combine(output, "update-verification.txt"), "主动检查、新版提示、GitHub 下载入口、404 提示与旧下载状态清理、商店更新渠道分流通过；全部响应为合成，不打开真实浏览器或商店。\n");
+        File.WriteAllText(Path.Combine(output, "update-verification.txt"), "主动检查、新版提示、安装/便携两种包及各三个下载渠道、版本自动刷新、404 后回退当前版本、商店渠道分流通过；全部响应为合成，不打开真实浏览器或商店。\n");
     }
     private static async Task VerifyFetchRoutingAsync(MainWindow window, MainViewModel originalShell, string output)
     {

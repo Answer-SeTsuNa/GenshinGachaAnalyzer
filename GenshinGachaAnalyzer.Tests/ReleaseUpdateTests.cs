@@ -54,6 +54,53 @@ public sealed class ReleaseUpdateTests
     [InlineData("https://github.com/owner/repo?token=secret")]
     public void RejectsUnexpectedRepositoryAddress(string url) => Assert.Throws<UserFacingException>(() => ReleaseUpdateService.ReleasesUrl(url));
 
+    [Fact]
+    public async Task DownloadAssetsMustMatchRepositoryTagNameAndUploadedState()
+    {
+        var expected = ReleaseDownloads.ForTag(Repository, "v0.1.27");
+        using var client = new HttpClient(new Handler(_ => new(HttpStatusCode.OK)
+        {
+            Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                tag_name = "v0.1.27", draft = false, prerelease = false,
+                assets = new[]
+                {
+                    new { name = expected[0].FileName, browser_download_url = expected[0].Url, size = 123L, state = "uploaded" },
+                    new { name = expected[1].FileName, browser_download_url = "https://other.example/payload.zip", size = 123L, state = "uploaded" },
+                    new { name = expected[1].FileName, browser_download_url = expected[1].Url, size = 123L, state = "new" },
+                    new { name = expected[1].FileName, browser_download_url = expected[1].Url, size = 0L, state = "uploaded" }
+                }
+            }))
+        }));
+        var release = await new ReleaseUpdateService(client).CheckAsync(Repository);
+        Assert.Equal(expected[0], Assert.Single(release.Downloads));
+    }
+
+    [Theory]
+    [InlineData("https://github.com/owner/repo/releases/download/v0.1.27/GenshinGachaAnalyzer-Setup-v0.1.27-win-x64.exe?token=private")]
+    [InlineData("https://user:password@github.com/owner/repo/releases/download/v0.1.27/GenshinGachaAnalyzer-Setup-v0.1.27-win-x64.exe")]
+    [InlineData("https://github.com.evil.example/owner/repo/releases/download/v0.1.27/GenshinGachaAnalyzer-Setup-v0.1.27-win-x64.exe")]
+    [InlineData("http://github.com/owner/repo/releases/download/v0.1.27/GenshinGachaAnalyzer-Setup-v0.1.27-win-x64.exe")]
+    [InlineData("https://github.com/owner/repo/releases/tag/v0.1.27")]
+    public void NeverPassesCredentialsOrNonReleaseAddressesToProxy(string url)
+        => Assert.Throws<UserFacingException>(() => ReleaseDownloads.Links(url));
+
+    [Fact]
+    public void DownloadChannelsAutomaticallyFollowReleaseVersion()
+    {
+        var older = ReleaseDownloads.ForTag(Repository, "v0.1.27");
+        var newer = ReleaseDownloads.ForTag(Repository, "v0.1.28");
+        Assert.Equal(2, newer.Count);
+        Assert.All(newer, file =>
+        {
+            Assert.Contains("/v0.1.28/", file.Url);
+            Assert.DoesNotContain("0.1.27", file.Url);
+            Assert.Equal(3, file.Links.Count);
+            Assert.All(file.Links, link => Assert.EndsWith(file.Url, link.Url));
+        });
+        Assert.NotEqual(older[0].Url, newer[0].Url);
+    }
+
     private sealed class Handler(Func<HttpRequestMessage, HttpResponseMessage> respond) : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) => Task.FromResult(respond(request));

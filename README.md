@@ -2,13 +2,15 @@
 
 <img src="GenshinGachaAnalyzer.WPF/Resources/AppIcon.png" width="96" alt="木偶应用图标"/>
 
-**Windows 本地祈愿档案管理器 · 0.1.23**
+**Windows 本地祈愿档案管理器**
 
 Microsoft Store 版本正在准备，尚未上架或取得商店签名。商店版使用用户目录中的“木偶祈愿档案”保存记录，旧桌面版目录保持原样，通过 UIGF 导出 / 导入迁移；商店版应用更新由 Microsoft Store 管理。流程见 [商店分发说明](docs/STORE.md)，数据处理见 [隐私政策](docs/store/PRIVACY.md)。
 
 记录永久留存，使用 UIGF 自由迁移。.NET 10 LTS / WPF / MVVM / LiveCharts2 / SQLite，代码采用 MIT 协议。
 
 ## 获取与运行
+
+[打开最新发布页](https://github.com/Answer-SeTsuNa/GenshinGachaAnalyzer/releases/latest)，可选择安装版或便携版的公益代理 1、公益代理 2、GitHub 直连。新版本的下载链接由发布流程自动生成，无需逐次填写；软件设置页也提供这些渠道。
 
 从仓库 Releases 下载 `GenshinGachaAnalyzer-Setup-v版本号-win-x64.exe`，双击中文安装向导，可选择安装目录和桌面快捷方式；安装后从桌面或开始菜单启动。默认只为当前用户安装，无需管理员权限；新版安装包覆盖升级，Windows 设置中可卸载，祈愿档案和设置会保留。
 

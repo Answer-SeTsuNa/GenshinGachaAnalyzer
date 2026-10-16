@@ -96,6 +96,9 @@ public sealed class MainViewModel : ObservableObject
     private string? _updatePageUrl;
     public string UpdateStatus { get => _updateStatus; private set => Set(ref _updateStatus, value); }
     public bool HasNewVersion => _updatePageUrl is not null;
+    public ObservableCollection<ReleaseDownload> DownloadPackages { get; } = [];
+    private string _downloadVersionText = "";
+    public string DownloadVersionText { get => _downloadVersionText; private set => Set(ref _downloadVersionText, value); }
     public bool Acrylic { get => _settings.Acrylic; set => SaveAppearance(_settings with { Acrylic = value }, nameof(Acrylic)); }
     public bool SemiTransparent { get => _settings.SemiTransparent; set => SaveAppearance(_settings with { SemiTransparent = value }, nameof(SemiTransparent)); }
     public double OverlayOpacity { get => _settings.OverlayOpacity; set => SaveAppearance(_settings with { OverlayOpacity = value }, nameof(OverlayOpacity)); }
@@ -191,6 +194,7 @@ public sealed class MainViewModel : ObservableObject
     public ICommand CheckUpdateCommand { get; }
     public ICommand ReleasesCommand { get; }
     public ICommand DownloadUpdateCommand { get; }
+    public ICommand OpenReleaseDownloadCommand { get; }
     public ICommand LicenseCommand { get; }
 
     public MainViewModel(DatabaseService database, UigfService uigf, AnalysisService analysis, GachaLogService gacha,
@@ -205,6 +209,7 @@ public sealed class MainViewModel : ObservableObject
         RuntimeArtworkCache.Configure(DataDirectory, autoUpdateCatalog); RuntimeArtworkCache.Register(Catalog);
         UpdateCatalogCommand = new AsyncCommand(() => UpdateCatalogAsync(true), ReportError, () => !_catalogUpdating && !IsBusy);
         RepositoryUrl = repositoryUrl;
+        ResetReleaseDownloads();
         DiagnosticLog.Configure(LogDirectory);
         DeveloperLogCommand = new RelayCommand(_ => Dialogs.ShowDiagnosticLog());
         ToggleUidPrivacyCommand = new RelayCommand(_ => HideUid = !HideUid);
@@ -248,7 +253,7 @@ public sealed class MainViewModel : ObservableObject
         RepositoryCommand = new RelayCommand(_ => { if (RepositoryUrl is not null) OpenLink(RepositoryUrl); }, () => HasRepository);
         CheckUpdateCommand = new AsyncCommand(async () =>
         {
-            _updatePageUrl = null; Raise(nameof(HasNewVersion));
+            _updatePageUrl = null; Raise(nameof(HasNewVersion)); ResetReleaseDownloads();
             if (IsStoreDistribution) { Dialogs.OpenStoreUpdates(); UpdateStatus = "已打开 Microsoft Store，请在下载与更新页面检查新版。"; return; }
             UpdateStatus = "正在检查 GitHub 最新版本…";
             try
@@ -256,7 +261,12 @@ public sealed class MainViewModel : ObservableObject
                 var release = await (updateService ?? new ReleaseUpdateService(UpdateClient)).CheckAsync(RepositoryUrl!);
                 bool newer = release.IsNewerThan(typeof(MainViewModel).Assembly.GetName().Version!);
                 if (newer) _updatePageUrl = release.PageUrl;
-                UpdateStatus = newer ? $"发现新版本 v{release.Version}，可前往 GitHub 下载。"
+                if (release.Downloads.Count > 0 && release.Version >= Version.Parse(ProductVersion))
+                {
+                    DownloadPackages.Clear(); foreach (var download in release.Downloads) DownloadPackages.Add(download);
+                    DownloadVersionText = $"下载 v{release.Version.ToString(3)}";
+                }
+                UpdateStatus = newer ? $"发现新版本 v{release.Version}，可选择下方下载渠道。"
                     : "已是最新版本";
                 Raise(nameof(HasNewVersion));
             }
@@ -265,6 +275,10 @@ public sealed class MainViewModel : ObservableObject
         }, _ => UpdateStatus = IsStoreDistribution ? "未能打开 Microsoft Store，请手动打开商店检查更新。" : "检查更新未完成，请打开 GitHub 发布页查看。", () => IsStoreDistribution || HasRepository);
         ReleasesCommand = new RelayCommand(_ => OpenLink(ReleaseUpdateService.ReleasesUrl(RepositoryUrl!)), () => HasRepository);
         DownloadUpdateCommand = new RelayCommand(_ => { if (_updatePageUrl is { } url) OpenLink(url); }, () => HasNewVersion);
+        OpenReleaseDownloadCommand = new RelayCommand(p =>
+        {
+            if (p is ReleaseDownloadLink link && DownloadPackages.SelectMany(package => package.Links).Contains(link)) OpenLink(link.Url);
+        }, () => !IsStoreDistribution);
         LicenseCommand = new RelayCommand(_ => SafeOpen(Path.Combine(AppContext.BaseDirectory, "LICENSE")));
         CurrentPage = new LoadingViewModel("本地档案");
         (string Style, bool Dark)? chartTheme = null;
@@ -541,6 +555,13 @@ public sealed class MainViewModel : ObservableObject
             Raise(nameof(GamePath)); Status = "国服游戏路径已保存。"; return path;
         }
         catch (Exception error) { ReportError(error); return null; }
+    }
+    private void ResetReleaseDownloads()
+    {
+        DownloadPackages.Clear();
+        if (IsStoreDistribution || !HasRepository) return;
+        foreach (var package in ReleaseDownloads.ForTag(RepositoryUrl!, "v" + ProductVersion)) DownloadPackages.Add(package);
+        DownloadVersionText = $"下载当前版本 v{ProductVersion}";
     }
     private void SafeOpen(string path) { try { Dialogs.OpenPath(path); } catch (Exception error) { ReportError(error); } }
     private void OpenLink(string url) { try { Dialogs.OpenLink(url); } catch (Exception error) { ReportError(error); } }

@@ -91,5 +91,6 @@ jobs:
           $version = $props.Project.PropertyGroup.Version
           if ($env:RELEASE_TAG -ne "v$version") { throw 'Tag must match Directory.Build.props Version.' }
           $assets = @(Get-ChildItem release-assets -File | ForEach-Object FullName)
-          gh release create $env:RELEASE_TAG @assets --verify-tag --title "木偶祈愿分析 $version" --notes-file CHANGELOG.md
+          ./scripts/New-ReleaseNotes.ps1 -Version $version -OutputFile release-notes.md
+          gh release create $env:RELEASE_TAG @assets --verify-tag --title "木偶祈愿分析 $version" --notes-file release-notes.md
           if ($LASTEXITCODE -ne 0) { throw 'GitHub release creation failed.' }

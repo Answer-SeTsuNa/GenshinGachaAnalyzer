@@ -42,7 +42,22 @@
       </WrapPanel>
       <TextBlock Text="{Binding Shell.UpdateStatus}" Style="{StaticResource MutedText}" FontSize="12" AutomationProperties.LiveSetting="Polite" />
       <TextBlock Text="{Binding Shell.DistributionNote}" Style="{StaticResource MutedText}" FontSize="12" Margin="0,10,0,0"/>
-      <Button Content="前往下载新版本 ↗" Command="{Binding Shell.DownloadUpdateCommand}" HorizontalAlignment="Left" Margin="0,10,0,0" Visibility="{Binding Shell.HasNewVersion, Converter={StaticResource Visible}}" />
+      <Button Content="查看新版发布说明 ↗" Command="{Binding Shell.DownloadUpdateCommand}" HorizontalAlignment="Left" Margin="0,10,0,0" Visibility="{Binding Shell.HasNewVersion, Converter={StaticResource Visible}}" />
+      <StackPanel Margin="0,14,0,0" Visibility="{Binding Shell.IsStoreDistribution, Converter={StaticResource Visible}, ConverterParameter=Invert}">
+       <TextBlock Text="{Binding Shell.DownloadVersionText}" FontWeight="SemiBold"/>
+       <ItemsControl ItemsSource="{Binding Shell.DownloadPackages}">
+        <ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,10,0,0">
+         <TextBlock Text="{Binding Label}" Style="{StaticResource MutedText}" FontSize="12"/>
+         <ItemsControl ItemsSource="{Binding Links}">
+          <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate><DataTemplate>
+           <Button Content="{Binding Name}" Command="{Binding DataContext.Shell.OpenReleaseDownloadCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}" Margin="0,6,8,0" Padding="10,7" FontSize="12"/>
+          </DataTemplate></ItemsControl.ItemTemplate>
+         </ItemsControl>
+        </StackPanel></DataTemplate></ItemsControl.ItemTemplate>
+       </ItemsControl>
+       <TextBlock Text="公益代理由第三方提供；连接失败时可切换渠道。" Style="{StaticResource MutedText}" FontSize="12" Margin="0,10,0,0"/>
+      </StackPanel>
       <Border Height="1" Background="{DynamicResource Line}" Margin="0,26,0,26" />
       <TextBlock Text="卡池与物品资料" FontSize="18" FontWeight="SemiBold"/>
       <TextBlock Text="{Binding Shell.CatalogCoverage}" Style="{StaticResource MutedText}" Margin="0,12,0,8"/>
