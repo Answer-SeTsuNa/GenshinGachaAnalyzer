@@ -4,7 +4,7 @@
 
 **Windows 本地祈愿档案管理器**
 
-截至 2026-10-16，Microsoft Store 版已通过认证、等待发布，暂未开放下载。当前请使用安装版或便携版。[下载与商店安装指南](docs/DOWNLOADS.md) · [商店分发说明](docs/STORE.md) · [隐私政策](docs/store/PRIVACY.md)。
+Microsoft Store 版需经过审核并正式发布后才能下载，是否开放请以实际商店页面为准；暂时无法安装时请选择安装版或便携版。[下载与商店安装指南](docs/DOWNLOADS.md) · [商店分发说明](docs/STORE.md) · [隐私政策](docs/store/PRIVACY.md)。
 
 记录永久留存，使用 UIGF 自由迁移。.NET 10 LTS / WPF / MVVM / LiveCharts2 / SQLite，代码采用 MIT 协议。
 
@@ -16,7 +16,7 @@
 
 **便携版就是免安装版，需要先解压。** 下载 `win-x64.zip`，右键选择“全部解压”，打开解压文件夹里的 **GenshinGachaAnalyzer.exe**；请保留全部文件，不能在压缩包里直接运行，也不能只复制一个 EXE。记录保存在当前电脑的用户数据目录，复制程序文件夹不会把记录带到另一台电脑；换电脑请先导出再导入。含 `source` 的源码包供开发者使用。
 
-**微软商店安装步骤（正式上架后）**：开始菜单打开 Microsoft Store → 搜索“木偶祈愿分析” → 确认发布者“答元耐一” → 点击“获取 / 安装” → 完成后点击“打开”。[商店页面](https://apps.microsoft.com/detail/9P34RSKFWZGJ?hl=zh-CN&gl=CN)当前尚未开放下载。商店版与桌面版档案独立，切换前请先导出全部账号，再到新版导入 UIGF。
+**微软商店安装步骤（正式上架后）**：开始菜单打开 Microsoft Store → 搜索“木偶祈愿分析” → 确认发布者“答元耐一” → 点击“获取 / 安装” → 完成后点击“打开”。[商店页面](https://apps.microsoft.com/detail/9P34RSKFWZGJ?hl=zh-CN&gl=CN)是否开放请以页面为准。商店版与桌面版档案独立，切换前请先导出全部账号，再到新版导入 UIGF。
 
 安装版与便携版功能相同，均自带运行环境，无需另装 .NET。支持 Windows 10 2004 及以上的 x64 兼容系统；原生亚克力需要 Windows 11 22H2 及以上。更详细的分步操作见[下载与安装指南](docs/DOWNLOADS.md)，维护说明见 [INSTALLER.md](docs/INSTALLER.md)。
 
@@ -107,7 +107,7 @@
     ./scripts/Package.ps1
     ./scripts/Verify-Installer.ps1
 
-发布输出 artifacts/publish/v0.1.22-win-x64；打包生成 EXE 安装包、二进制 ZIP、源码 ZIP 和 SHA256SUMS。首次安装包构建会下载并校验固定版本的编译工具，后续使用本地缓存。UI 和安装验证使用合成账号及新的隔离目录，拒绝实际 AppData 数据库；详见 [VERIFICATION.md](docs/VERIFICATION.md)。
+发布输出 artifacts/publish/v版本号-win-x64；打包生成 EXE 安装包、二进制 ZIP、源码 ZIP 和 SHA256SUMS。首次安装包构建会下载并校验固定版本的编译工具，后续使用本地缓存。UI 和安装验证使用合成账号及新的隔离目录，拒绝实际 AppData 数据库；详见 [VERIFICATION.md](docs/VERIFICATION.md)。
 
 手动构建：
 
@@ -119,7 +119,7 @@
 
 ## GitHub 发布
 
-[发布指南](docs/RELEASE.md) 包含仓库准备、版本、标签和资产操作。.github/workflows/build.yml 自动执行 Windows 编译、测试和打包；推送与版本一致的 v0.1.x 标签后创建 Release。
+[发布指南](docs/RELEASE.md) 包含仓库准备、版本、标签和资产操作。.github/workflows/build.yml 自动执行 Windows 编译、测试和打包；推送与版本一致的 v主版本.次版本.补丁号 标签后创建 Release。
 
 版本只维护在 Directory.Build.props。本次基线 0.1.22；默认仅递增最后一位：
 

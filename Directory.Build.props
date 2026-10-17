@@ -3,7 +3,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>
-    <Version>0.1.28</Version>
+    <Version>0.2.1</Version>
     <Company>木偶</Company>
     <Product>木偶祈愿分析</Product>
     <Copyright>Copyright © 2026 木偶</Copyright>
